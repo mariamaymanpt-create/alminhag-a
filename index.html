@@ -3,51 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المنهاج من ميراث النبوة</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>منصة المنهاج من ميراث النبوة</title>
     <style>
-        * {
-            box-sizing: border-box;
+        :root {
+            --primary-green: #115e47;
+            --accent-orange: #d97706;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             margin: 0;
             padding: 0;
-            font-family: 'Cairo', sans-serif;
-        }
-        body {
-            background-color: #f4f7f6;
-            color: #333;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
         }
-        header {
-            background-color: #1b4d3e;
+
+        /* الهيدر العلوي */
+        .top-header {
+            background-color: var(--primary-green);
             color: white;
-            padding: 15px 30px;
+            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        header h1 {
-            font-size: 1.2rem;
+
+        .header-badge {
+            background-color: #0e4c3a;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .header-title {
+            font-size: 1.05rem;
+            font-weight: bold;
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        .nav-btn {
-            background-color: #2e7d63;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background 0.3s;
-        }
-        .nav-btn:hover {
-            background-color: #24634f;
-        }
-        main {
+
+        /* حاوية المحتوى الرئيسي */
+        .main-container {
             flex: 1;
             display: flex;
             justify-content: center;
@@ -55,369 +62,602 @@
             padding: 20px;
         }
 
-        .master-container {
-            background: white;
-            padding: 40px 30px;
+        .content-box {
+            background-color: var(--card-bg);
             border-radius: 20px;
-            box-shadow: 0 4px 25px rgba(0,0,0,0.06);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
             width: 100%;
-            max-width: 700px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 420px;
-            justify-content: center;
-            position: relative;
+            max-width: 480px;
+            padding: 35px 25px;
+            text-align: center;
+            box-sizing: border-box;
         }
 
-        .home-content {
-            text-align: center;
-            width: 100%;
+        h1 {
+            color: var(--primary-green);
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+            line-height: 1.4;
         }
-        .home-content h2 {
-            color: #1b4d3e;
-            font-size: 1.7rem;
-            margin-bottom: 15px;
-        }
-        .home-content p {
-            color: #555;
-            font-size: 0.95rem;
-            margin-bottom: 30px;
+
+        p.description {
+            color: var(--text-muted);
+            font-size: 0.9rem;
             line-height: 1.6;
+            margin-bottom: 25px;
         }
-        .btn-group {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+
+        /* الأزرار الرئيسية */
+        .action-btn {
             width: 100%;
-            max-width: 450px;
-            margin: 0 auto;
-        }
-        .main-btn {
-            background-color: #1b4d3e;
-            color: white;
+            padding: 14px 20px;
             border: none;
-            padding: 14px;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: 600;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: bold;
             cursor: pointer;
-            transition: opacity 0.3s;
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 10px;
-        }
-        .main-btn.secondary {
-            background-color: #d67b22;
-        }
-        .main-btn:hover {
-            opacity: 0.9;
+            margin-bottom: 15px;
+            transition: transform 0.1s ease, opacity 0.2s;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.04);
         }
 
-        .chapters-menu {
+        .action-btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-chapters {
+            background-color: var(--primary-green);
+        }
+
+        .btn-exams {
+            background-color: var(--accent-orange);
+        }
+
+        /* واجهة الأبواب والاختبارات الفرعية */
+        .sub-menu-view, .quiz-view {
             display: none;
-            flex-direction: column;
             width: 100%;
+            text-align: right;
         }
-        .chapters-header-title {
-            color: #1b4d3e;
-            font-size: 1.5rem;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .chapters-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            width: 100%;
-        }
-        .chapter-item-btn {
-            background: white;
-            border: 2px solid #1b4d3e;
-            color: #1b4d3e;
-            padding: 15px 20px;
+
+        .sub-btn {
+            background-color: #f1f5f9;
+            color: var(--primary-green);
+            border: 2px solid var(--primary-green);
             border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 700;
+            padding: 14px 16px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            width: 100%;
+            margin-bottom: 12px;
             cursor: pointer;
             text-align: right;
-            transition: all 0.3s;
+            transition: all 0.2s;
+            line-height: 1.5;
         }
-        .chapter-item-btn:hover {
-            background-color: #1b4d3e;
+
+        .sub-btn:hover {
+            background-color: var(--primary-green);
             color: white;
         }
+
         .back-link {
-            text-align: right;
-            margin-bottom: 15px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
             font-size: 0.9rem;
-            color: #666;
             cursor: pointer;
-            font-weight: 600;
-            width: 100%;
+            margin-bottom: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: bold;
         }
         .back-link:hover {
-            color: #1b4d3e;
+            color: var(--text-main);
         }
 
-        .flashcard-view {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
-        .inner-question-card {
+        /* تصميم البطاقات التفاعلية (Flashcards) */
+        .flashcard {
             background: #fff;
-            border: 1px solid #eaeaea;
-            border-top: 4px solid #1b4d3e;
-            border-radius: 14px;
-            padding: 30px 20px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 25px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            text-align: right;
+        }
+
+        .card-tag {
+            display: inline-block;
+            background-color: #e6f4ef;
+            color: var(--primary-green);
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
+
+        .card-question-text {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-main);
+            line-height: 1.6;
             margin-bottom: 20px;
         }
-        .badges-row {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 15px;
-        }
-        .badge-tag {
-            background-color: #e8f5e9;
-            color: #2e7d63;
-            padding: 4px 12px;
-            border-radius: 15px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            display: inline-block;
-        }
-        .badge-category {
-            background-color: #fef5e7;
-            color: #d67b22;
-            padding: 4px 12px;
-            border-radius: 15px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            display: inline-block;
-        }
-        .question-text-box {
-            font-size: 1.15rem;
-            color: #222;
-            font-weight: 700;
-            margin-bottom: 25px;
-            line-height: 1.6;
-        }
-        .reveal-ans-btn {
-            background-color: #1b4d3e;
+
+        .show-ans-btn {
+            background-color: var(--primary-green);
             color: white;
             border: none;
-            padding: 10px 30px;
+            padding: 10px 20px;
             border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s;
-        }
-        .reveal-ans-btn:hover {
-            background-color: #14382d;
-        }
-        .answer-box-content {
-            font-size: 1.05rem;
-            color: #1b4d3e;
-            font-weight: 600;
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px dashed #ddd;
-            line-height: 1.6;
-            display: none;
-        }
-        .answer-box-content.show {
-            display: block;
-        }
-        .card-nav-row {
-            display: flex;
-            gap: 10px;
+            font-size: 0.95rem;
             width: 100%;
-            margin-bottom: 15px;
+            font-weight: bold;
+            transition: background 0.2s;
         }
-        .sub-btn {
+
+        .show-ans-btn:hover {
+            background-color: #0e4c3a;
+        }
+
+        .answer-box {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #cbd5e1;
+            color: #15803d;
+            font-weight: 500;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .nav-control-btn {
             flex: 1;
-            background: white;
-            border: 1px solid #ccc;
-            color: #444;
             padding: 10px;
             border-radius: 8px;
-            font-weight: 600;
+            border: 1px solid #cbd5e1;
+            background-color: white;
+            color: var(--text-main);
+            font-weight: bold;
             cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .nav-control-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .nav-control-btn:not(:disabled):hover {
+            background-color: #f1f5f9;
+        }
+
+        .counter-indicator {
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: bold;
             text-align: center;
-            transition: all 0.2s;
-        }
-        .sub-btn:hover {
-            background: #f9f9f9;
-            border-color: #1b4d3e;
-            color: #1b4d3e;
-        }
-        .counter-text {
-            font-size: 0.9rem;
-            color: #666;
-            font-weight: 600;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>🌿 المنهاج من ميراث النبوة</h1>
-        <button class="nav-btn" onclick="showHome()">منصة الحفظ والمراجعة</button>
+    <!-- الهيدر العلوي -->
+    <header class="top-header">
+        <div class="header-badge">منصة الحفظ والمراجعة</div>
+        <div class="header-title">المنهاج من ميراث النبوة 🌿</div>
     </header>
 
-    <main>
-        <div class="master-container">
-
-            <!-- الشاشة الرئيسية -->
-            <div class="home-content" id="homeScreen">
-                <h2>مرحباً بكِ في مراجعة كتاب المنهاج من ميراث النبوة</h2>
-                <p>منصتك التفاعلية الشاملة لحفظ المتون، مراجعة الأبواب، الرواة، التخريج، وإتمام الأحاديث بدقة وعناية.</p>
-                <div class="btn-group">
-                    <button class="main-btn" onclick="showChapters()">📚 أبواب المنهاج</button>
-                    <button class="main-btn secondary">⚡ اختبارات شاملة</button>
-                </div>
-            </div>
-
-            <!-- شاشة قائمة الأبواب -->
-            <div class="chapters-menu" id="chaptersScreen">
-                <div class="back-link" onclick="showHome()">← الرجوع للرئيسية</div>
-                <div class="chapters-header-title">أبواب المنهاج</div>
-                <div class="chapters-list">
-                    <button class="chapter-item-btn" onclick="openChapter(1)">الباب الأول: مرجعية الوحي وشموليته ومركزية التسليم لله ولرسوله ﷺ</button>
-                    <button class="chapter-item-btn" onclick="openChapter(2)">الباب الثاني: تلقي القرآن على منهاج النبوة وتقديم مقصد العمل به</button>
-                    <button class="chapter-item-btn" onclick="openChapter(3)">الباب الثالث: تعظيم سنة النبي ﷺ ووجوب اتباعه والالتزام بهديه والاقتداء بسيرته</button>
-                    <button class="chapter-item-btn" onclick="openChapter(4)">الباب الرابع: تعظيم حدود الله والتحذير من مخالفة أمره وأمر رسوله ﷺ</button>
-                </div>
-            </div>
-
-            <!-- شاشة الأسئلة والفلاش كاردز -->
-            <div class="flashcard-view" id="flashcardScreen">
-                <div class="back-link" onclick="showChapters()">← القائمة السابقة</div>
+    <div class="main-container">
+        <div class="content-box">
+            
+            <!-- 1. الواجهة الرئيسية -->
+            <div id="home-view">
+                <h1>مرحباً بكِ في مراجعة كتاب المنهاج من ميراث النبوة</h1>
+                <p class="description">منصتك التفاعلية الشاملة لحفظ المتون، مراجعة الأبواب، الرواة، التخريج، وإتمام الأحاديث بدقة وعناية.</p>
                 
-                <div class="inner-question-card">
-                    <div class="badges-row">
-                        <span class="badge-tag" id="badgeTitle">الباب الأول - اسم الباب</span>
-                        <span class="badge-category" id="badgeCategory">التصنيف: متن وحفظ</span>
-                    </div>
-                    <div class="question-text-box" id="qText">جاري تحميل السؤال...</div>
-                    <button class="reveal-ans-btn" id="revealBtn" onclick="toggleAnswer()">إظهار الإجابة</button>
-                    <div class="answer-box-content" id="aText">جاري تحميل الإجابة...</div>
+                <button class="action-btn btn-chapters" onclick="showChaptersMenu()">
+                    <span>📚 أبواب المنهاج</span>
+                </button>
+                
+                <button class="action-btn btn-exams" onclick="showExamsMenu()">
+                    <span>⚡ اختبارات شاملة</span>
+                </button>
+            </div>
+
+            <!-- 2. قائمة أبواب المنهاج الفرعية -->
+            <div id="chapters-menu-view" class="sub-menu-view">
+                <button class="back-link" onclick="goHome()">← الرجوع للرئيسية</button>
+                <h2 style="font-size: 1.1rem; color: var(--primary-green); margin-bottom: 15px; text-align: right;">أبواب المنهاج</h2>
+                
+                <button class="sub-btn" onclick="startQuiz(1)">
+                    الباب الأول: مرجعية الوحي وشموليته ومركزية التسليم لله ولرسوله ﷺ
+                </button>
+                <button class="sub-btn" onclick="startQuiz(2)">
+                    الباب الثاني: تلقي القرآن على منهاج النبوة وتقديم مقصد العمل به
+                </button>
+                <button class="sub-btn" onclick="startQuiz(3)">
+                    الباب الثالث: تعظيم سنة النبي ﷺ ووجوب اتباعه والالتزام بهديه والاقْتداء بسيرته
+                </button>
+            </div>
+
+            <!-- 3. قائمة الاختبارات الشاملة الفرعية -->
+            <div id="exams-menu-view" class="sub-menu-view">
+                <button class="back-link" onclick="goHome()">← الرجوع للرئيسية</button>
+                <h2 style="font-size: 1.1rem; color: var(--accent-orange); margin-bottom: 15px; text-align: right;">الاختبارات الشاملة</h2>
+                
+                <button class="sub-btn" style="border-color: var(--accent-orange); color: var(--accent-orange);" onclick="startQuiz('all')">
+                    🌟 الاختبار الشامل لجميع الأبواب (1 و 2 و 3)
+                </button>
+            </div>
+
+            <!-- 4. واجهة عرض البطاقات التفاعلية (Flashcards) -->
+            <div id="quiz-view" class="quiz-view">
+                <button class="back-link" onclick="backToMenu()">← القائمة السابقة</button>
+                
+                <div class="flashcard">
+                    <span class="card-tag" id="card-cat">التصنيف</span>
+                    <div class="card-question-text" id="card-q">نص السؤال هنا...</div>
+                    <button class="show-ans-btn" id="ans-toggle-btn" onclick="toggleAnswer()">إظهار الإجابة</button>
+                    <div class="answer-box" id="card-a">الإجابة هنا...</div>
                 </div>
 
-                <div class="card-nav-row">
-                    <button class="sub-btn" onclick="prevQuestion()">السابق</button>
-                    <button class="sub-btn" onclick="nextQuestion()">التالي</button>
+                <div class="nav-controls">
+                    <button class="nav-control-btn" id="prev-btn" onclick="prevCard()">السابق</button>
+                    <button class="nav-control-btn" id="next-btn" onclick="nextCard()">التالي</button>
                 </div>
-                <div class="counter-text" id="counterText">السؤال 1 من 10</div>
+                
+                <div class="counter-indicator" id="counter-text">السؤال 1 من 10</div>
             </div>
 
         </div>
-    </main>
+    </div>
 
     <script>
-        const dbChapters = {
-            1: {
-                title: "الباب الأول - مرجعية الوحي",
-                questions: [
-                    { q: "1. ما هو العنوان الحرفي الدقيق للباب الأول من كتاب 'المنهاج من ميراث النبوة'؟", a: "بَابٌ فِي مَرْجِعِيَّةِ الْوَحْيِ وَشُمُولِيَّتِهِ وَمَرْكَزِيَّةِ التَّسْلِيمِ لِلهِ وَلِرَسُولِهِ ﷺ", cat: "متن وحفظ" },
-                    { q: "2. ما الآية الكريمة من سورة النساء التي تُعد أصلاً في وجوب رد النزاع إلى الله والرسول؟", a: "قوله تعالى: ﴿فَإِن تَنَزَعْتُمْ فِي شَيْءٍ فَرُدُّوهُ إِلَى اللَّهِ وَالرَّسُولِ﴾ [النساء: ٥٩]", cat: "آيات قرآنية" },
-                    { q: "3. اذكر الآية التي نصت صراحة على نفي الإيمان حتى يتحقق التحكيم والرضا والتسليم لنبي الله ﷺ.", a: "قوله تعالى: ﴿فَلَا وَرَبِّكَ لَا يُؤْمِنُونَ حَتَّى يُحَكِّمُوكَ فِيمَا شَجَرَ بَيْنَهُمْ ثُمَّ لَا يَجِدُوا فِي أَنفُسِهِمْ حَرَجًا مِّمَّا قَضَيْتَ وَيُسَلِّمُوا تَسْلِيمًا﴾ [النساء: ٦٥]", cat: "آيات قرآنية" },
-                    { q: "4. ما الآية التي نفت الخيرة للمؤمن والمؤمنة إذا قضى الله ورسوله أمراً؟", a: "قوله تعالى: ﴿وَمَا كَانَ لِمُؤْمِنٍ وَلَا مُؤْمِنَةٍ إِذَا قَضَى اللَّهُ وَرَسُولُهُ أَمْرًا أَن يَكُونَ لَهُمُ الْخِيَرَةُ مِنْ أَمْرِهِمْ﴾ [الأحزاب: ٣٦]", cat: "آيات قرآنية" },
-                    { q: "5. ما الآية التي نصت على أن القرآن كتاب عزيز لا يأتيه الباطل من بين يديه ولا من خلفه؟", a: "قوله تعالى: ﴿وَإِنَّهُ لَكِتَابٌ عَزِيزٌ ەۙ لَّا يَأْتِيهِ الْبَاطِلُ مِنْ بَيْنِ يَدَيْهِ وَلَا مِنْ خَلْفِهِ﴾ [فصلت: ٤١-٤٢]", cat: "آيات قرآنية" }
-                ]
+        const chapter1Data = [
+            {
+                category: "الباب الأول - اسم الباب",
+                question: "ما هو العنوان الدقيق والكامل للباب الأول من كتاب 'المنهاج من ميراث النبوة'؟",
+                answer: "باب في مرجعية الوحي وشموليته ومركزية التسليم لله ولرسوله ﷺ."
             },
-            2: {
-                title: "الباب الثاني - تلقي القرآن",
-                questions: [
-                    { q: "1. ما هو العنوان الكامل للباب الثاني من كتاب المنهاج؟", a: "بَابٌ فِي تَلَقِي الْقُرْآنِ عَلَى مِنْهَاجِ النُّبُوَّةِ، وَتَقْدِيمِ مَقْصَدِ الْعَمَلِ بِهِ وَتَدَبَّرِهِ...", cat: "متن وحفظ" },
-                    { q: "2. في كم موضع ذكر الله تعالى تيسير القرآن للذكر في سورة القمر؟", a: "ذكرت في أربعة مواضع: ﴿وَلَقَدْ يَسَّرْنَا الْقُرْءَانَ لِلذِّكْرِ فَهَلْ مِن مُّدَّكِرٍ﴾ [القمر: ١٧-٢٢-٣٢-٤٠]", cat: "آيات قرآنية" },
-                    { q: "3. ما معنى 'لِلذِّكْرِ' في سورة القمر حسب تفسير الإمام الطبري؟", a: "قال الطبري: «للذكر: لمن أراد أن يتذكر ويعتبر ويتعظ».", cat: "تفسير ومعاني" }
-                ]
+            {
+                category: "الباب الأول - إكمال المتون",
+                question: "أتمم متن حديث أبي رافع رضي الله عنه: «لَا أُلْفِيَنَّ أَحَدَكُمْ مُتَّكِئًا عَلَى أَرِيكَتِهِ...» إلى آخره.",
+                answer: "«...يَأْتِيهِ أَمْرٌ مِمَّا أَمَرْتُ بِهِ أَوْ نَهَيْتُ عَنْهُ فَيَقُولُ: لَا أَدْرِي، مَا وَجَدْنَا فِي كِتَابِ اللَّهِ اتَّبَعْنَاهُ»."
             },
-            3: {
-                title: "الباب الثالث - تعظيم السنة",
-                questions: [
-                    { q: "1. ما هو العنوان الدقيق والحرفي للباب الثالث؟", a: "بَابٌ فِي تَعْظِيمِ سُنَّةِ النَّبِيِّ ﷺ وَوُجُوبِ اتِّبَاعِهِ وَالِالْتِزَامِ بِهَدْيِهِ وَالِاقْتِدَاءِ بِسِيرَتِهِ", cat: "متن وحفظ" },
-                    { q: "2. ما الآية من سورة الأحزاب التي تجعل النبي ﷺ أسوة حسنة؟", a: "قوله تعالى: ﴿لَقَدْ كَانَ لَكُمْ فِي رَسُولِ اللَّهِ أَسْوَةٌ حَسَنَةٌ لِمَن كَانَ يَرْجُوا اللَّهَ وَالْيَوْمَ الْآخِرَ﴾ [الأحزاب: ٢١]", cat: "آيات قرآنية" }
-                ]
+            {
+                category: "الباب الأول - إكمال المتون",
+                question: "أتمم بداية قصة حديث أبي هريرة الطويل عند نزول آية: ﴿وَإِن تُبْدُوا مَا فِي أَنفُسِكُمْ أَوْ تُخْفُوهُ...﴾، ماذا فعل الصحابة رضي الله عنهم؟",
+                answer: "«فَاشْتَدَّ ذَلِكَ عَلَى أَصْحَابِ رَسُولِ اللهِ ﷺ، فَأَتَوْا رَسُولَ اللَّهِ ﷺ ثُمَّ بَرَكُوا عَلَى الرُّكَبِ فَقَالُوا...»."
             },
-            4: {
-                title: "الباب الرابع - تعظيم حدود الله",
-                questions: [
-                    { q: "1. ما هو العنوان الدقيق للباب الرابع؟", a: "بَابُ تَعْظِيمِ حُدُودِ اللهِ وَالتَّحْذِيرِ مِنْ مُخَالَفَةِ أَمْرِهِ وَأَمْرِ رَسُولِهِ ﷺ", cat: "متن وحفظ" },
-                    { q: "2. ما الآية من سورة الحج التي نصت على أن تعظيم شعائر الله من تقوى القلوب؟", a: "قوله تعالى: ﴿ذَلِكَ وَمَن يُعَظِّمْ شَعَائِرَ اللَّهِ فَإِنَّهَا مِن تَقْوَى الْقُلُوبِ﴾ [الحج: ٣٢]", cat: "آيات قرآنية" }
-                ]
+            {
+                category: "الباب الأول - الرواة",
+                question: "من هو الصحابي الجليل راوي حديث: «كِتَابُ اللَّهِ، هُوَ حَبْلُ اللَّهِ...»؟",
+                answer: "زيد بن أرقم رضي الله عنه."
+            },
+            {
+                category: "الباب الأول - الرواة",
+                question: "من هو الصحابي الذي روى خطبة النبي ﷺ الدائمة: «أَمَّا بَعْدُ: فَإِنَّ خَيْرَ الْحَدِيثِ كِتَابُ اللَّهِ...»؟",
+                answer: "جابر بن عبد الله رضي الله عنهما."
+            },
+            {
+                category: "الباب الأول - التخريج",
+                question: "حديث أبي رافع رضي الله عنه («لَا أُلْفِيَنَّ أَحَدَكُمْ مُتَّكِئًا...»)، في أي الكتب الستة تم تخريجه؟",
+                answer: "أخرجه أبو داود (٤٦٠٥)، والترمذي (٢٦٦٣)."
+            },
+            {
+                category: "الباب الأول - التخريج",
+                question: "حديث جابر بن عبد الله في خطبة الحاجة (خير الحديث كتاب الله)، من أخرجه من أصحاب السنن أو الصحاح؟",
+                answer: "أخرجه مسلم (٨٦٧)."
+            },
+            {
+                category: "الباب الأول - التخريج",
+                question: "حديث أبي هريرة «مَنْ أَطَاعَنِي فَقَدْ أَطَاعَ اللَّهَ...»، ما هو تخريجه المتفق عليه أو المذكور في المتن؟",
+                answer: "أخرجه البخاري (٧١٣٧)، ومسلم (١٨٣٥)."
+            },
+            {
+                category: "الباب الأول - ترتيب النصوص",
+                question: "ما هو الحديث الذي يأتي مباشرة بعد حديث زيد بن أرقم في الباب الأول؟",
+                answer: "حديث أبي رافع رضي الله عنه: «لَا أُلْفِيَنَّ أَحَدَكُمْ مُتَّكِئًا عَلَى أَرِيكَتِهِ...»."
+            },
+            {
+                category: "الباب الأول - ترتيب النصوص",
+                question: "ما هو الحديث الذي يسبق مباشرة حديث جابر بن عبد الله (خَيْرُ الْحَدِيثِ كِتَابُ اللَّهِ) في ترتيب الباب؟",
+                answer: "حديث أبي هريرة رضي الله عنه: «مَنْ أَطَاعَنِي فَقَدْ أَطَاعَ اللَّهَ، وَمَنْ عَصَانِي فَقَدْ عَصَى اللَّهَ»."
+            },
+            {
+                category: "الباب الأول - ترتيب النصوص",
+                question: "ما هو الحديث الذي يُختتم به الباب الأول بالكامل (وهو أطول أحاديث الباب)؟",
+                answer: "حديث أبي هريرة الطويل في قصة نزول آية المحاسبة ﴿وَإِن تُبْدُوا مَا فِي أَنفُسِكُمْ...﴾ ونسخها بقوله: ﴿لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا...﴾."
             }
-        };
+        ];
 
-        let activeChapter = 1;
-        let activeIdx = 0;
+        const chapter2Data = [
+            {
+                category: "الباب الثاني - اسم الباب",
+                question: "ما هو العنوان الكامل والدقيق للباب الثاني من كتاب 'المنهاج من ميراث النبوة'؟",
+                answer: "باب في تلقي القرآن على منهاج النبوة، وتقديم مقصد العمل به وتدبره والاستهداء والاستغناء به وتحكيمه وزيادة الإيمان به على غير ذلك من المقاصد الشريفة."
+            },
+            {
+                category: "الباب الثاني - إكمال المتون",
+                question: "أتمم أثر عبد الله بن عمر رضي الله عنهما بنصه إلى آخره: «لَقَدْ عِشْنَا بُرْهَةً مِنْ دَهْرِنَا وَأَحَدُنَا يُؤْتَى الْإِيمَانَ قَبْلَ الْقُرْآنِ...»؟",
+                answer: "«...وَتَنْزِلُ السُّورَةُ عَلَى مُحَمَّدٍ ﷺ فَتَتَعَلَّمُ حَلَالَهَا وَحَرَامَهَا وَآمِرَهَا وَزَاجِرَهَا وَمَا يَنْبَغِي أَنْ يَقِفَ عِنْدَهُ مِنْهَا كَمَا تَعَلَّمُونَ أَنْتُمُ الْيَوْمَ الْقُرْآنَ. ثُمَّ لَقَدْ رَأَيْتُ الْيَوْمَ رِجَالًا يُؤْتَى أَحَدُهُمُ الْقُرْآنَ قَبْلَ الْإِيمَانِ، فَيَقْرَأُ مَا بَيْنَ فَاتِحَتِهِ إِلَى خَاتِمَتِهِ مَا يَدْرِي مَا آمِرُهُ وَلَا زَاجِرُهُ وَلَا مَا يَنْبَغِي أَنْ يَقِفَ عِنْدَهُ مِنْهُ، فَيَنْثُرَهُ نَثْرَ الدَّقَلِ»."
+            },
+            {
+                category: "الباب الثاني - إكمال المتون",
+                question: "أتمم حديث أبي هريرة رضي الله عنه في فضل مجالس القرآن إلى نهايته: «مَا اجْتَمَعَ قَوْمٌ فِي بَيْتٍ مِنْ بُيُوتِ اللَّهِ يَتْلُونَ كِتَابَ اللَّهِ وَيَتَدَارَسُونَهُ بَيْنَهُمْ...»؟",
+                answer: "«...إِلَّا نَزَلَتْ عَلَيْهِمُ السَّكِينَةُ وَغَشِيَتْهُمُ الرَّحْمَةُ وَحَفَّتْهُمُ الْمَلَائِكَةُ وَذَكَرَهُمُ اللَّهُ فِيمَنْ عِنْدَهُ»."
+            },
+            {
+                category: "الباب الثاني - إكمال المتون",
+                question: "أتمم الجزء الثاني (حديث رفع الأمانة) من أثر حذيفة بن اليمان رضي الله عنه: «يَنَامُ الرَّجُلُ النَّوْمَةَ فَتُقْبَضُ الْأَمَانَةُ مِنْ قَلْبِهِ فَيَظَلُّ أَثَرُهَا...» إلى وصف الجمرة؟",
+                answer: "«...مِثْلَ الْوَكْتِ، ثُمَّ يَنَامُ النَّوْمَةَ فَتُقْبَضُ الْأَمَانَةُ مِنْ قَلْبِهِ فَيَظَلُّ أَثَرُهَا مِثْلَ الْمَجْلِ، كَجَمْرٍ دَحْرَجْتَهُ عَلَى رِجْلِكَ فَنَفِطَ فَتَرَاهُ مُنْتَبِرًا وَلَيْسَ فِيهِ شَيْءٍ - ثُمَّ أَخَذَ حَصًى فَدَحْرَجَهُ عَلَى رِجْلِهِ، فَيُصْبِحُ النَّاسُ يَتَبَايَعُونَ لَا يَكَادُ أَحَدٌ يُؤَدِّي الْأَمَانَةَ، حَتَّى يُقَالَ: إِنَّ فِي بَنِي فُلَانٍ رَجُلًا أَمِينًا، حَتَّى يُقَالَ لِلرَّجُلِ: مَا أَجْلَدَهُ مَا أَظْرَفَهُ! مَا أَعْقَلَهُ! وَمَا فِي قَلْبِهِ مِثْقَالَ حَبَّةٍ مِنْ خَرْدَلٍ مِنْ إِيمَانٍ»."
+            },
+            {
+                category: "الباب الثاني - إكمال المتون",
+                question: "أتمم أثر عبد الله بن مسعود رضي الله عنه: «كَانَ الرَّجُلُ مِنَّا إِذَا تَعَلَّمَ عَشْرَ آيَاتٍ...» إلى نهايته.",
+                answer: "«...لَمْ يُجَاوِزُهُنَّ حَتَّى يَعْرِفَ مَعَانِيَهُنَّ وَالْعَمَلَ بِهِنَّ»."
+            },
+            {
+                category: "الباب الثاني - إكمال المتون",
+                question: "أتمم أثر أنس بن مالك رضي الله عنه في الكاتب بين يدي النبي ﷺ: «كَانَ رَجُلٌ يَكْتُبُ بَيْنَ يَدَيْ رَسُولِ اللَّهِ ﷺ قَدْ قَرَأَ الْبَقَرَةَ وَآلَ عِمْرَانَ...» إلى نهايته.",
+                answer: "«...وَكَانَ الرَّجُلُ إِذَا قَرَأَ الْبَقَرَةَ وَآلَ عِمْرَانَ يُعَدُّ فِينَا عَظِيمًا»."
+            },
+            {
+                category: "الباب الثاني - الرواة",
+                question: "من هو الصحابي الجليل الذي قال: «كُنَّا مَعَ النَّبِيِّ ﷺ وَنَحْنُ فِتْيَانُ حَزَاوِرَةٌ، فَتَعَلَّمْنَا الْإِيمَانَ قَبْلَ أَنْ نَتَعَلَّمَ الْقُرْآنَ»؟",
+                answer: "جندب بن عبد الله رضي الله عنه."
+            },
+            {
+                category: "الباب الثاني - الرواة",
+                question: "من هو التابعي الجليل الذي روى منهج الصحابة في أخذ القرآن عشر آيات عشر آيات عن أصحاب النبي ﷺ؟",
+                answer: "أبو عبد الرحمن السلمي رحمه الله."
+            },
+            {
+                category: "الباب الثاني - التخريج",
+                question: "أثر ابن عمر رضي الله عنهما في تعلم الإيمان قبل القرآن ونثر القرآن نثر الدقل، مَن أخرجه وما هو اللفظ المُعتمد؟",
+                answer: "أخرجه الحاكم (١٠١)، والبيهقي (٥٣٥٥)، واللفظ للبيهقي."
+            },
+            {
+                category: "الباب الثاني - التخريج",
+                question: "قصة استشهاد القراء السبعين وبئر معونة (حديث أنس بن مالك رضي الله عنه)، في أي الصحيحين أو السنن أُخرج؟",
+                answer: "أخرجه مسلم (٦٧٧)."
+            },
+            {
+                category: "الباب الثاني - التخريج",
+                question: "أثر عبد الله بن مسعود رضي الله عنه في توقف الرجل عند عشر آيات لا يجاوزهن حتى يعلمهن، مَن أخرجه؟",
+                answer: "أخرجه الحاكم (٢٠٦٦)، والبيهقي في الكبرى (٥٣٥٣)، والطبري في تفسيره (واللفظ للطبري)."
+            },
+            {
+                category: "الباب الثاني - التخريج",
+                question: "كم مكث عبد الله بن عمر رضي الله عنهما يتعلم سورة البقرة، ومَن أخرج هذا الأثر؟",
+                answer: "مكث فيها ثماني سنين يتعلمها، وأخرجه مالك (٥٤٦)."
+            },
+            {
+                category: "الباب الثاني - التخريج",
+                question: "أثر أنس بن مالك رضي الله عنه في كون من قرأ البقرة وآل عمران يُعد فيهم عظيماً، في أي الكتب أُخرج؟",
+                answer: "أخرجه أحمد (١٢٢١٦)."
+            },
+            {
+                category: "الباب الثاني - ترتيب النصوص",
+                question: "ما هو النص أو الأثر الذي يأتي مباشرة بعد أثر عبد الله بن عمر (لَقَدْ عِشْنَا بُرْهَةً...) في الباب الثاني؟",
+                answer: "أثر جندب بن عبد الله رضي الله عنه: «كُنَّا مَعَ النَّبِيِّ ﷺ وَنَحْنُ فِتْيَانُ حَزَاوِرَةٌ...»."
+            },
+            {
+                category: "الباب الثاني - ترتيب النصوص",
+                question: "ما هو الحديث الذي يسبق مباشرة أثر أبي عبد الرحمن السلمي (حَدَّثَنَا مَنْ كَانَ يُقْرِئُنَا...) في ترتيب الباب؟",
+                answer: "حديث أنس بن مالك رضي الله عنه في قصة بعث القراء السبعين من الأنصار."
+            },
+            {
+                category: "الباب الثاني - ترتيب النصوص",
+                question: "ما هو الأثر الذي يأتي مباشرة قبل أثر حذيفة بن اليمان (حَدَّثَنَا رَسُولُ اللَّهِ ﷺ حَدِيثَيْنِ) في ختام الباب الثاني؟",
+                answer: "أثر أنس رضي الله عنه في الرجل الذي كان يكتب بين يدي النبي ﷺ وقد قرأ البقرة وآل عمران."
+            },
+            {
+                category: "الباب الثاني - ترتيب النصوص",
+                question: "ما هو النص الذي يختتم به الباب الثاني بالكامل (وهو النص رقم 14)؟",
+                answer: "أثر حذيفة بن اليمان رضي الله عنه الطويل في حديث الأمانة ونزلها في جذر قلوب الرجال ثم رفعها."
+            }
+        ];
 
-        function showHome() {
-            document.getElementById('homeScreen').style.display = 'block';
-            document.getElementById('chaptersScreen').style.display = 'none';
-            document.getElementById('flashcardScreen').style.display = 'none';
+        const chapter3Data = [
+            {
+                category: "الباب الثالث - اسم الباب",
+                question: "ما هو العنوان الكامل والدقيق للباب الثالث من كتاب 'المنهاج من ميراث النبوة'؟",
+                answer: "باب في تعظيم سنة النبي ﷺ ووجوب اتباعه والالتزام بهديه والاقْتداء بسيرته."
+            },
+            {
+                category: "الباب الثالث - الآيات القرآنية",
+                question: "اذكر الآية التي افتتح بها الباب الثالث في بيان التأسي بالنبي ﷺ (قوله تعالى: ﴿لَقَدْ كَانَ لَكُمْ فِي رَسُولِ اللَّهِ...﴾)؟",
+                answer: "قول الله تعالى: ﴿لَقَدْ كَانَ لَكُمْ فِي رَسُولِ اللَّهِ أُسْوَةٌ حَسَنَةٌ لِمَن كَانَ يَرْجُوا اللَّهَ وَالْيَوْمَ الْآخِرَ وَذَكَرَ اللَّهَ كَثِيرًا﴾ [الأحزاب: ٢١]."
+            },
+            {
+                category: "الباب الثالث - إكمال المتون",
+                question: "أتمم متن حديث أبي هريرة رضي الله عنه: «كُلُّ أُمَّتِي يَدْخُلُونَ الْجَنَّةَ إِلَّا مَنْ أَبَى» إلى نهايته.",
+                answer: "قَالُوا: يَا رَسُولَ اللَّهِ وَمَنْ يَأْبَى؟ قَالَ: «مَنْ أَطَاعَنِي دَخَلَ الْجَنَّةَ، وَمَنْ عَصَانِي فَقَدْ أَبَى»."
+            },
+            {
+                category: "الباب الثالث - إكمال المتون",
+                question: "أتمم حديث أبي هريرة رضي الله عنه: «إِذَا نَهَيْتُكُمْ عَنْ شَيْءٍ فَاجْتَنِبُوهُ...» إلى نهايته.",
+                answer: "«...وَإِذَا أَمَرْتُكُمْ بِأَمْرٍ فَأْتُوا مِنْهُ مَا اسْتَطَعْتُمْ»."
+            },
+            {
+                category: "الباب الثالث - إكمال المتون",
+                question: "أتمم أثر عبد الله بن مسعود رضي الله عنه: «إِنَّ أَحْسَنَ الْحَدِيثِ كِتَابُ اللَّهِ...» إلى نهايته.",
+                answer: "«...وَأَحْسَنَ الْهَدْيِ هَدْيُ مُحَمَّدٍ ﷺ، وَشَرَّ الْأُمُورِ مُحْدَثَاتُهَا، وَإِنَّ مَا تُوعَدُونَ لَآتٍ، وَمَا أَنتُمْ بِمُعْجِزِينَ»."
+            },
+            {
+                category: "الباب الثالث - إكمال المتون",
+                question: "في مثل الغيث الذي ضربه النبي ﷺ (حديث أبي موسى الأشعري)، ما وصف الطائفة الأولى التي قبلت الماء؟",
+                answer: "«فَكَانَ مِنْهَا نَقِيَّةٌ قَبِلَتِ الْمَاءَ فَأَنْبَنَتِ الْكَلَا وَالْعُشْبَ الْكَثِيرَ»."
+            },
+            {
+                category: "الباب الثالث - إكمال المتون",
+                question: "ما هو وصف الطائفة الثانية في حديث أبي موسى الأشعري رضي الله عنه؟",
+                answer: "«وَكَانَتْ مِنْهَا أَجَادِبُ أَمْسَكَتِ الْمَاءَ فَنَفَعَ اللَّهُ بِهَا النَّاسَ فَشَرِبُوا وَسَقَوْا وَزَرَعُوا»."
+            },
+            {
+                category: "الباب الثالث - إكمال المتون",
+                question: "ما هو وصف الطائفة الثالثة التي لا تنفع ولا تنتفع في حديث المطر والهدى؟",
+                answer: "«وَأَصَابَتْ مِنْهَا طَائِفَةً أُخْرَى إِنَّمَا هِيَ قِيعَانٌ لَا تُمْسِكُ مَاءً وَلَا تُنْبِتُ كَلَّا»."
+            },
+            {
+                category: "الباب الثالث - إكمال المتون",
+                question: "أتمم متن حديث أم المؤمنين عائشة رضي الله عنها: «مَنْ عَمِلَ عَمَلًا لَيْسَ عَلَيْهِ أَمْرُنَا...»؟",
+                answer: "«...فَهُوَ رَدٌّ»."
+            },
+            {
+                category: "الباب الثالث - ترتيب النصوص",
+                question: "ما هما الحديثان اللذان يفتتحان الأحاديث في الباب الثالث، وكلاهما من رواية أي صحابي؟",
+                answer: "هما حديثا أبي هريرة رضي الله عنه («كُلُّ أُمَّتِي يَدْخُلُونَ الْجَنَّةَ...» ثم «إِذَا نَهَيْتُكُمْ عَنْ شَيْءٍ فَاجْتَنِبُوهُ...»)."
+            },
+            {
+                category: "الباب الثالث - ترتيب النصوص",
+                question: "ما هو الأثر الذي يأتي مباشرة بعد حديث النهي والأمر لأبي هريرة وقبل حديث أبي موسى؟",
+                answer: "أثر عبد الله بن مسعود رضي الله عنه: «إِنَّ أَحْسَنَ الْحَدِيثِ كِتَابُ اللَّهِ، وَأَحْسَنَ الْهَدْيِ هَدْيُ مُحَمَّدٍ...»."
+            },
+            {
+                category: "الباب الثالث - ترتيب النصوص",
+                question: "ما هو الحديث الذي يأتي مباشرة بعد حديث أبي موسى الأشعري في مثل الغيث، وهو آخر أحاديث الباب الثالث؟",
+                answer: "حديث أم المؤمنين عائشة رضي الله عنها: «مَنْ عَمِلَ عَمَلًا لَيْسَ عَلَيْهِ أَمْرُنَا فَهُوَ رَدٌّ» (وهو الحديث رقم 19 والأخير في الباب)."
+            },
+            {
+                category: "الباب الثالث - التخريج",
+                question: "ما هو تخريج حديث أبي هريرة رضي الله عنه («كُلُّ أُمَّتِي يَدْخُلُونَ الْجَنَّةَ إِلَّا مَنْ أَبَى»)?",
+                answer: "أخرجه البخاري (٧٢٨٠)."
+            },
+            {
+                category: "الباب الثالث - التخريج",
+                question: "حديث أبي هريرة في النهي والأمر («إِذَا نَهَيْتُكُمْ عَنْ شَيْءٍ فَاجْتَنِبُوهُ...»)، من أخرجه من أصحاب الصحاح؟",
+                answer: "أخرجه البخاري (٧٢٨٨)، ومسلم (١٣٣٧)."
+            },
+            {
+                category: "الباب الثالث - التخريج",
+                question: "أثر عبد الله بن مسعود («إِنَّ أَحْسَنَ الْحَدِيثِ كِتَابُ اللَّهِ...»)، أين تم تخريجه؟",
+                answer: "أخرجه البخاري (٧٢٧٧)."
+            },
+            {
+                category: "الباب الثالث - التخريج",
+                question: "حديث أبي موسى الأشعري رضي الله عنه في مثل الهدى والعلم بالغيث، ما هو تخريجه المتفق عليه؟",
+                answer: "أخرجه البخاري (٧٩)، ومسلم (٢٢٨٢)."
+            },
+            {
+                category: "الباب الثالث - التخريج",
+                question: "حديث عائشة رضي الله عنها («مَنْ عَمِلَ عَمَلًا لَيْسَ عَلَيْهِ أَمْرُنَا فَهُوَ رَدٌّ»)، أين أُخرج؟",
+                answer: "أخرجه البخاري (٢٦٨٧)، ومسلم (١٧١٨)."
+            }
+        ];
+
+        let activeData = [];
+        let currentIndex = 0;
+        let currentModeType = '';
+
+        function showChaptersMenu() {
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('exams-menu-view').style.display = 'none';
+            document.getElementById('chapters-menu-view').style.display = 'block';
+            currentModeType = 'chapters';
         }
 
-        function showChapters() {
-            document.getElementById('homeScreen').style.display = 'none';
-            document.getElementById('chaptersScreen').style.display = 'flex';
-            document.getElementById('flashcardScreen').style.display = 'none';
+        function showExamsMenu() {
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('chapters-menu-view').style.display = 'none';
+            document.getElementById('exams-menu-view').style.display = 'block';
+            currentModeType = 'exams';
         }
 
-        function openChapter(chNum) {
-            activeChapter = chNum;
-            activeIdx = 0;
-            document.getElementById('homeScreen').style.display = 'none';
-            document.getElementById('chaptersScreen').style.display = 'none';
-            document.getElementById('flashcardScreen').style.display = 'flex';
-            loadQuestion();
+        function goHome() {
+            document.getElementById('chapters-menu-view').style.display = 'none';
+            document.getElementById('exams-menu-view').style.display = 'none';
+            document.getElementById('quiz-view').style.display = 'none';
+            document.getElementById('home-view').style.display = 'block';
         }
 
-        function loadQuestion() {
-            const ch = dbChapters[activeChapter];
-            const qData = ch.questions[activeIdx];
+        function backToMenu() {
+            document.getElementById('quiz-view').style.display = 'none';
+            if (currentModeType === 'chapters') {
+                document.getElementById('chapters-menu-view').style.display = 'block';
+            } else {
+                document.getElementById('exams-menu-view').style.display = 'block';
+            }
+        }
+
+        function startQuiz(type) {
+            if (type === 'all') {
+                activeData = [...chapter1Data, ...chapter2Data, ...chapter3Data];
+            } else if (type === '1-2') {
+                activeData = [...chapter1Data, ...chapter2Data];
+            } else if (type === 1) {
+                activeData = [...chapter1Data];
+            } else if (type === 2) {
+                activeData = [...chapter2Data];
+            } else if (type === 3) {
+                activeData = [...chapter3Data];
+            }
             
-            document.getElementById('badgeTitle').innerText = ch.title;
-            document.getElementById('badgeCategory').innerText = `التصنيف: ${qData.cat}`;
-            document.getElementById('qText').innerText = qData.q;
-            document.getElementById('aText').innerText = qData.a;
-            document.getElementById('aText').classList.remove('show');
-            document.getElementById('counterText').innerText = `السؤال ${activeIdx + 1} من ${ch.questions.length}`;
+            currentIndex = 0;
+            document.getElementById('chapters-menu-view').style.display = 'none';
+            document.getElementById('exams-menu-view').style.display = 'none';
+            document.getElementById('quiz-view').style.display = 'block';
+            renderCard();
+        }
+
+        function renderCard() {
+            const item = activeData[currentIndex];
+            document.getElementById('card-cat').textContent = item.category;
+            document.getElementById('card-q').textContent = `${currentIndex + 1}. ${item.question}`;
+            
+            const ansBox = document.getElementById('card-a');
+            const ansBtn = document.getElementById('ans-toggle-btn');
+            ansBox.style.display = 'none';
+            ansBox.textContent = item.answer;
+            ansBtn.textContent = 'إظهار الإجابة';
+
+            document.getElementById('prev-btn').disabled = currentIndex === 0;
+            document.getElementById('next-btn').disabled = currentIndex === activeData.length - 1;
+            document.getElementById('counter-text').textContent = `السؤال ${currentIndex + 1} من ${activeData.length}`;
         }
 
         function toggleAnswer() {
-            document.getElementById('aText').classList.toggle('show');
-        }
-
-        function nextQuestion() {
-            const questions = dbChapters[activeChapter].questions;
-            if (activeIdx < questions.length - 1) {
-                activeIdx++;
-                loadQuestion();
+            const ansBox = document.getElementById('card-a');
+            const ansBtn = document.getElementById('ans-toggle-btn');
+            if (ansBox.style.display === 'block') {
+                ansBox.style.display = 'none';
+                ansBtn.textContent = 'إظهار الإجابة';
             } else {
-                activeIdx = 0;
-                loadQuestion();
+                ansBox.style.display = 'block';
+                ansBtn.textContent = 'إخفاء الإجابة';
             }
         }
 
-        function prevQuestion() {
-            const questions = dbChapters[activeChapter].questions;
-            if (activeIdx > 0) {
-                activeIdx--;
-                loadQuestion();
-            } else {
-                activeIdx = questions.length - 1;
-                loadQuestion();
+        function nextCard() {
+            if (currentIndex < activeData.length - 1) {
+                currentIndex++;
+                renderCard();
+            }
+        }
+
+        function prevCard() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderCard();
             }
         }
     </script>
