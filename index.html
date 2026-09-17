@@ -1,315 +1,292 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>المنهاج من ميراث النبوة - منصة المراجعة والاختبارات التفاعلية</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-body {
-font-family: 'Cairo', sans-serif;
-background-color: #f4f7f6;
-}
-.amiri-font {
-font-family: 'Amiri', serif;
-}
-.custom-shadow {
-box-shadow: 0 4px 20px -2px rgba(16, 101, 74, 0.08);
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة المنهاج من ميراث النبوة</title>
+    <style>
+        :root {
+            --primary: #065f46;
+            --primary-dark: #064e3b;
+            --accent: #d97706;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Cairo', Tahoma, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding-bottom: 40px;
+        }
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        header h1 {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 700px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-size: 1.5rem;
+        }
+        .card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 100%;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+        .btn-accent {
+            background-color: var(--accent);
+        }
+        .btn-accent:hover {
+            background-color: #b45309;
+        }
+        .back-btn {
+            background: #e2e8f0;
+            border: none;
+            color: var(--text);
+            font-weight: bold;
+            font-size: 0.95rem;
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .search-box {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 12px;
+            border: 1px solid #cbd5e1;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            outline: none;
+        }
+        .search-box:focus {
+            border-color: var(--primary);
+        }
+        .chapter-item {
+            background: white;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: right;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .chapter-item:hover {
+            border-color: var(--primary);
+            box-shadow: 0 2px 8px rgba(6, 95, 70, 0.05);
+        }
+        .chapter-title {
+            font-weight: bold;
+            font-size: 0.95rem;
+            color: var(--text);
+        }
+        .chapter-num {
+            background: #ecfdf5;
+            color: var(--primary);
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-left: 10px;
+            white-space: nowrap;
+        }
+        .hidden {
+            display: none !important;
+        }
+    </style>
 </head>
-<body class="text-slate-800 min-h-screen flex flex-col justify-between">
+<body>
 
-<!-- Header -->
-<header class="bg-emerald-900 text-white shadow-lg py-4 px-6 sticky top-0 z-50 border-b border-emerald-800">
-<div class="max-w-4xl mx-auto flex justify-between items-center">
-<h1 class="text-xl md:text-2xl font-bold amiri-font tracking-wide cursor-pointer flex items-center gap-2" onclick="showHome()">
-<span>🌿</span> المنهاج من ميراث النبوة
-</h1>
-<div class="flex items-center gap-2">
-<span class="text-xs bg-emerald-800/80 text-emerald-100 px-3 py-1.5 rounded-full border border-emerald-700 font-semibold">منصة المراجعة الجماعية</span>
-</div>
-</div>
-</header>
+    <header>
+        <h1>🌿 المنهاج من ميراث النبوة</h1>
+    </header>
 
-<!-- Main Container -->
-<main class="max-w-3xl mx-auto p-4 md:p-6 w-full flex-grow">
+    <div class="container">
+        
+        <!-- Home View -->
+        <div id="home-view" class="card">
+            <h2>منصة مراجعة وتثبيت أبواب المنهاج</h2>
+            <p>موسوعتك التفاعلية الشاملة لمراجعة الأبواب الـ 37، وتثبيت المتون، واختبار معلوماتك أنت وصحابك بكل سهولة وبكفاءة عالية.</p>
+            <button class="btn" onclick="switchView('chapters-view')">📖 تصفح أبواب المنهاج (37 باباً)</button>
+            <button class="btn btn-accent" onclick="switchView('quiz-view')">⚡ اختبار شامل عشوائي</button>
+        </div>
 
-<!-- Home Screen -->
-<div id="home-screen" class="space-y-6 py-6 text-center">
-<div class="bg-white p-8 md:p-10 rounded-3xl custom-shadow border border-emerald-50">
-<div class="w-16 h-16 bg-emerald-100 text-emerald-800 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl shadow-inner">📖</div>
-<h2 class="text-2xl md:text-3xl font-bold text-emerald-950 amiri-font mb-3">منصة مراجعة وتثبيت أبواب المنهاج</h2>
-<p class="text-slate-600 text-sm md:text-base leading-relaxed max-w-xl mx-auto mb-8">
-موسوعتك التفاعلية الشاملة لمراجعة الأبواب الـ 37، وتثبيت المتون، واختبار معلوماتك أنتِ وصحابك بكل سهولة وبكفاءة عالية.
-</p>
-<div class="flex flex-col sm:flex-row justify-center gap-4">
-<button onclick="showChapters()" class="bg-emerald-800 hover:bg-emerald-900 text-white px-8 py-3.5 rounded-2xl font-bold shadow-md hover:shadow-lg transition duration-200 cursor-pointer flex items-center justify-center gap-2 text-base">
-<span>📖</span> تصفح أبواب المنهاج (37 باباً)
-</button>
-<button onclick="startGeneralQuiz()" class="bg-amber-600 hover:bg-amber-700 text-white px-8 py-3.5 rounded-2xl font-bold shadow-md hover:shadow-lg transition duration-200 cursor-pointer flex items-center justify-center gap-2 text-base">
-<span>⚡</span> اختبار شامل عشوائي
-</button>
-</div>
-</div>
+        <!-- Chapters View -->
+        <div id="chapters-view" class="card hidden">
+            <button class="back-btn" onclick="switchView('home-view')">← العودة للرئيسية</button>
+            <h2 style="font-size: 1.2rem; margin-bottom: 15px;">أبواب المنهاج الـ 37</h2>
+            <input type="text" id="searchInput" class="search-box" placeholder="ابحث عن اسم الباب..." onkeyup="filterChapters()">
+            <div id="chapters-list" style="max-height: 500px; overflow-y: auto;"></div>
+        </div>
 
-<!-- Features Quick Grid -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-right">
-<div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
-<div class="text-emerald-700 font-bold mb-1 flex items-center gap-2"><span>🎯</span> الأبواب كاملة</div>
-<p class="text-xs text-slate-500 leading-relaxed">الـ 37 باب مرتبة بدقة وعناية وفق المتن الأصلي للكتاب.</p>
-</div>
-<div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
-<div class="text-emerald-700 font-bold mb-1 flex items-center gap-2"><span>👥</span> مشاركة سهلة</div>
-<p class="text-xs text-slate-500 leading-relaxed">رابط واحد تفتحيه أنتِ وصحابك وتراجعوا مع بعض في أي وقت.</p>
-</div>
-<div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
-<div class="text-emerald-700 font-bold mb-1 flex items-center gap-2"><span>📈</span> تقييم فوري</div>
-<p class="text-xs text-slate-500 leading-relaxed">أسئلة تفاعلية مع تصحيح فوري لتعزيز الحفظ والتثبيت.</p>
-</div>
-</div>
-</div>
+        <!-- Quiz View -->
+        <div id="quiz-view" class="card hidden">
+            <button class="back-btn" onclick="switchView('home-view')">← العودة للرئيسية</button>
+            <h2 id="quiz-title">اختبار تثبيتي</h2>
+            <p id="quiz-question" style="font-size: 1.1rem; color: #1e293b; font-weight: bold; margin-bottom: 20px;"></p>
+            <div id="quiz-options"></div>
+        </div>
 
-<!-- Chapters Section -->
-<div id="chapters-section" class="hidden space-y-4">
-<div class="flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
-<button onclick="showHome()" class="text-emerald-800 text-sm font-bold flex items-center gap-1.5 bg-emerald-50 hover:bg-emerald-100 px-3.5 py-2 rounded-xl transition cursor-pointer">
-← الرئيسية
-</button>
-<h3 class="text-base md:text-lg font-bold text-emerald-950 amiri-font">أبواب الكتاب (37 باباً)</h3>
-<span class="text-xs bg-slate-100 text-slate-600 px-3 py-1.5 rounded-xl font-semibold">اضغط أي باب للبدء</span>
-</div>
+    </div>
 
-<!-- Search Box -->
-<div class="relative">
-<input type="text" id="chapter-search" oninput="filterChapters()" placeholder="ابحث عن اسم الباب..." class="w-full bg-white p-3.5 pr-10 rounded-2xl border border-slate-200 focus:outline-none focus:border-emerald-700 text-sm shadow-sm">
-<span class="absolute right-3.5 top-3.5 text-slate-400">🔍</span>
-</div>
+    <script>
+        const chapters = [
+            "الباب الأول: باب في مرجعية الوحي وشموليته ومركزية التسليم لله ولرسوله ﷺ",
+            "الباب الثاني: باب في تلقي القرآن على منهاج النبوة، وتقديم العمل به وتدبره والاستهداء والاستغناء به وتحكيمه وزيادة الإيمان به",
+            "الباب الثالث: باب في تعظيم سنة النبي ﷺ ووجوب اتباعها والالتزام بهديه والاقتداء بسيرته",
+            "الباب الرابع: باب تعظيم حدود الله والتحذير من مخالفة أمره وأمر رسوله ﷺ",
+            "الباب الخامس: باب ضبط الأفهام على معيار الوحي، وتصحيح النبي ﷺ لمقاييس النظر",
+            "الباب السادس: باب في أهمية الاقتداء بطريقة الصحابة بعد النبي ﷺ ومعالم هديهم العام",
+            "الباب السابع: باب في أن الدين على مراتب متفاوتة في الأمر والنهي والخبر",
+            "الباب الثامن: باب مركزية كلمة الإسلام (لا إله إلا الله) وفضلها وشروطها",
+            "الباب التاسع: باب في مركزية التزكية وأعمال القلوب ومركزية الصلاة في حياة المصلح",
+            "الباب العاشر: باب شرف العلم النافع وفضله وذم من لم يعمل بعلمه",
+            "الباب الحادي عشر: باب في مركزية العمل وأنه المقصود من العلم",
+            "الباب الثاني عشر: باب في صدق النية وأن العمل المقبول ما ابتغي به وجه الله",
+            "الباب الثالث عشر: باب أهمية استحضار الغاية والحذر من مزاحمة الغايات الشريفة",
+            "الباب الرابع عشر: باب في تحمل الفرد مسؤولية التكليف تجاه نفسه وغيره",
+            "الباب الخامس عشر: باب في المسؤولية العامة تجاه الإسلام والمسلمين",
+            "الباب السادس عشر: باب في مركزية اتباع هدي الأنبياء وأهميته للمصلح",
+            "الباب السابع عشر: باب فضل الإصلاح والدعوة إلى الله والأمر بالمعروف والنهي عن المنكر",
+            "الباب الثامن عشر: باب في مركزية الجهاد وفضله وأهميته في إقامة الدين",
+            "الباب التاسع عشر: باب في أن الدين شامل للسياسة والحكم ووجوب السعي لهيمنة الإسلام",
+            "الباب العشرون: باب في أهمية صناعة المصلحين وبيان صفاتهم",
+            "الباب الحادي والعشرون: باب في أهمية الوعي بسبيل المجرمين والحذر من كيد أعداء الإسلام",
+            "الباب الثاني والعشرون: باب العناية بالشباب وتقديم ذوي العلم منهم",
+            "الباب الثالث والعشرون: باب دور المرأة في بث العلم ونصرة الإسلام وعنايتها بأبواب الخير",
+            "الباب الرابع والعشرون: باب في الثبات على الاستقامة والحذر من الانتكاس",
+            "الباب الخامس والعشرون: باب في الحث على الاعتدال في الدين والتيسير والتحذير من الغلو",
+            "الباب السادس والعشرون: باب في مركزية حسن الخلق والبر والإحسان",
+            "الباب السابع والعشرون: باب في مفاتيح الهداية والبصيرة ودوام احتياج المسلم لها",
+            "الباب الثامن والعشرون: باب في أهمية الصحبة الصالحة وفضل الحب في الله",
+            "الباب التاسع والعشرون: باب في الحذر من الفتن وفتنة الدنيا والتنافس فيها",
+            "الباب الثلاثون: باب في فهم أسباب ضعف المسلمين واختلال أحوالهم",
+            "الباب الحادي والثلاثون: باب في السنن الإلهية وأهمية موافقتها في الإصلاح",
+            "الباب الثاني والثلاثون: باب في حسن العاقبة والتمكين بعد البلاء",
+            "الباب الثالث والثلاثون: باب في المبشرات بالتمكين وصلاح أحوال المسلمين آخر الزمان",
+            "الباب الرابع والثلاثون: باب في أن الإسلام هو الدين الوحيد المقبول عند الله",
+            "الباب الخامس والثلاثون: باب سير المؤمن إلى الله بين الخوف والرجاء",
+            "الباب السادس والثلاثون: باب في الشوق إلى رسول الله ﷺ والحنين إليه",
+            "الباب السابع والثلاثون: باب الشوق إلى الله ﷺ"
+        ];
 
-<div id="chapters-list" class="grid gap-3">
-<!-- Injected via JS -->
-</div>
-</div>
+        function switchView(viewId) {
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('chapters-view').classList.add('hidden');
+            document.getElementById('quiz-view').classList.add('hidden');
+            
+            document.getElementById(viewId).classList.remove('hidden');
+            window.scrollTo({top: 0, behavior: 'smooth'});
 
-<!-- Quiz / Training Screen -->
-<div id="quiz-section" class="hidden space-y-4">
-<div class="flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
-<button onclick="showChapters()" class="text-emerald-800 text-sm font-bold flex items-center gap-1.5 bg-emerald-50 hover:bg-emerald-100 px-3.5 py-2 rounded-xl transition cursor-pointer">
-← الأبواب
-</button>
-<button onclick="showHome()" class="text-slate-600 text-xs font-semibold hover:text-emerald-800 cursor-pointer">الرئيسية</button>
-</div>
+            if (viewId === 'chapters-view') {
+                renderChapters(chapters);
+            } else if (viewId === 'quiz-view') {
+                loadQuiz();
+            }
+        }
 
-<div class="bg-white p-6 md:p-8 rounded-3xl custom-shadow border border-slate-100">
-<div class="flex justify-between items-center mb-4 text-xs font-bold">
-<span id="question-type-badge" class="bg-amber-100 text-amber-800 px-3 py-1 rounded-lg">النمط</span>
-<span id="question-progress" class="text-slate-500">السؤال 1 من 1</span>
-</div>
-<div id="chapter-title-display" class="text-xs font-bold text-emerald-700 mb-2 bg-emerald-50 inline-block px-3 py-1 rounded-lg">اسم الباب</div>
-<h4 id="question-text" class="text-lg md:text-xl font-bold text-slate-900 amiri-font mb-6 leading-relaxed">
-جاري تحميل السؤال...
-</h4>
-<div id="options-container" class="space-y-3 mb-6"></div>
-<div id="feedback-container" class="hidden p-4 rounded-xl text-sm mb-4 font-semibold"></div>
-<button id="next-btn" onclick="nextQuestion()" class="hidden w-full bg-emerald-800 hover:bg-emerald-900 text-white py-3.5 rounded-2xl font-bold transition duration-200 cursor-pointer shadow-md">السؤال التالي ←</button>
-</div>
-</div>
+        function renderChapters(list) {
+            const container = document.getElementById('chapters-list');
+            container.innerHTML = '';
+            
+            list.forEach((title, index) => {
+                const item = document.createElement('div');
+                item.className = 'chapter-item';
+                item.innerHTML = `
+                    <span class="chapter-title">${title}</span>
+                    <span class="chapter-num">باب ${index + 1}</span>
+                `;
+                item.onclick = () => alert(`أنتِ الآن تراجعين: ${title}`);
+                container.appendChild(item);
+            });
+        }
 
-</main>
+        function filterChapters() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = chapters.filter(ch => ch.toLowerCase().includes(query));
+            renderChapters(filtered);
+        }
 
-<!-- Footer -->
-<footer class="bg-white border-t border-slate-200 text-center py-5 text-xs text-slate-500 mt-12">
-موقع مراجعة المنهاج من ميراث النبوة • صُمِّم بعناية للمراجعة الجماعية لحفظ متون السنة النبوية 🌿
-</footer>
-
-<!-- JavaScript logic -->
-<script>
-const chaptersData = [
-{ id: 1, title: "الباب الأول: باب في مرجعية الوحي وشموليته ومركزية التسليم لله ولرسوله ﷺ" },
-{ id: 2, title: "الباب الثاني: باب في تلقي القرآن على منهاج النبوة، وتقديم العمل به وتدبره والاستهداء والاستغناء به وتحكيمه وزيادة الإيمان به على غير ذلك من المقاصد الشريفة" },
-{ id: 3, title: "الباب الثالث: باب في تعظيم سنة النبي ﷺ ووجوب اتباعها والالتزام بهديه والاقتداء بسيرته" },
-{ id: 4, title: "الباب الرابع: باب تعظيم حدود الله والتحذير من مخالفة أمره وأمر رسوله ﷺ" },
-{ id: 5, title: "الباب الخامس: باب ضبط الأفهام على معيار الوحي، وتصحيح النبي ﷺ لمقاييس النظر، وأن من أسباب الضلال رد الحق بمعايير نظر خاطئة" },
-{ id: 6, title: "الباب السادس: باب في أهمية الاقتداء بطريقة الصحابة بعد النبي ﷺ، واتباعهم في منهاجهم ومعالم هديهم العام، ومركزية اتباع سنة الخلفاء الراشدين منهم في إقامة الدين، ونصرة الإسلام، ونصرة السياسة، ونحو ذلك" },
-{ id: 7, title: "الباب السابع: باب في أن الدين على مراتب متفاوتة في الأمر والنهي والخبر، وأن الفقه في الدين والدعوة تبع لإدراك هذه المراتب" },
-{ id: 8, title: "الباب الثامن: باب مركزية كلمة الإسلام (لا إله إلا الله) وفضلها وتفسيرها وشروطها والدعوة إليها، وخطورة ما يضادها من الشرك الأكبر والأصغر" },
-{ id: 9, title: "الباب التاسع: باب في مركزية التزكية وأعمال القلوب، وأهمية دوام التزود الإيماني والتعبدي ومركزية الصلاة في حياة المصلح" },
-{ id: 10, title: "الباب العاشر: باب شرف العلم النافع وفضله وذم من لم يعمل بعلمه" },
-{ id: 11, title: "الباب الحادي عشر: باب في مركزية العمل وأنه المقصود من العلم، وتربية النبي ﷺ أصحابه على العمل، وإبعاده إياهم عن القيل والقال وكثرة السؤال" },
-{ id: 12, title: "الباب الثاني عشر: باب في صدق النية وأن العمل المقبول هو ما ابتغي به وجه تعالى ووافق السنة" },
-{ id: 13, title: "الباب الثالث عشر: باب أهمية استحضار الغاية، والحذر من مزاحمة الغايات الشريفة بالمطالب الدينية" },
-{ id: 14, title: "الباب الرابع عشر: باب في تحمل الفرد مسؤولية التكليف تجاه نفسه وغيره" },
-{ id: 15, title: "الباب الخامس عشر: باب في المسؤولية العامة تجاه الإسلام والمسلمين" },
-{ id: 16, title: "الباب السادس عشر: باب في مركزية اتباع هدي الأنبياء وأهميته للمصلح في عبادته ودعوته وصبره" },
-{ id: 17, title: "الباب السابع عشر: باب فضل الإصلاح والدعوة إلى الله تعالى، وأهمية الأمر بالمعروف والنهي عن المنكر" },
-{ id: 18, title: "الباب الثامن عشر: باب في مركزية الجهاد وفضله وأهميته في إقامة الدين وإعلاء كلمة الله ومحاربة الباطل وأهله" },
-{ id: 19, title: "الباب التاسع عشر: باب في أن الدين شامل للسياسة والحكم، ووجوب السعي لهيمنة الإسلام والحكم به" },
-{ id: 20, title: "الباب العشرون: باب في أهمية صناعة المصلحين، وأن علهم مدار إقامة الدين، وبيان صفاتهم وما ينبغي أن يكونوا عليه" },
-{ id: 21, title: "الباب الحادي والعشرون: باب في أهمية الوعي بسبيل المجرمين والحذر من أعداء الإسلام وكيدهم والتنبه من مكر المنافقين" },
-{ id: 22, title: "الباب الثاني والعشرون: باب العناية بالشباب، وتقديم ذوي العلم منهم، وتفعيل أدوارهم في العمل للإسلام" },
-{ id: 23, title: "الباب الثالث والعشرون: باب دور المرأة في بث العلم ونصرة الإسلام، وفي عنايتها بأبواب الخيرات، ومسارعتها إلى العمل بها" },
-{ id: 24, title: "الباب الرابع والعشرون: باب في الثبات على الاستقامة، والحذر من الانتيكاس" },
-{ id: 25, title: "الباب الخامس والعشرون: باب في الحث على الاعتدال في الدين والتيسير فيه، والتحذير من الغلو والتشديد على النفس أو الغير" },
-{ id: 26, title: "الباب السادس والعشرون: باب في مركزية حسن الخلق والبر والإحسان في حياة المسلم" },
-{ id: 27, title: "الباب السابع والعشرون: باب في مفاتيح الهداية والبصيرة، ودوام احتياج المسلم إلى الهداية الربانية" },
-{ id: 28, title: "الباب الثامن والعشرون: باب في أهمية الصحبة الصالحة، وفضل الحب في الله، وخطورة التفرق والتنازع واختلاف الكلمة" },
-{ id: 29, title: "الباب التاسع والعشرون: باب في الحذر من الفتن، وما يخشى على الصالحين من فتنة الدنيا والتنافس فيها" },
-{ id: 30, title: "الباب الثلاثون: باب في فهم أسباب ضعف المسلمين واختلال أحوالهم، وإخبار النبي ﷺ عن ذلك" },
-{ id: 31, title: "الباب الحادي والثلاثون: باب في السنن الإلهية وأهمية موافقتها في الإصلاح وإقامة الدين وسياسة الناس ودعوتهم" },
-{ id: 32, title: "الباب الثاني والثلاثون: باب في حسن العاقبة والتمكين بعد البلاء" },
-{ id: 33, title: "الباب الثالث والثلاثون: باب في المبشرات بالتمكين وصلاح أحوال المسلمين في آخر الزمان بعد الشدائد والفتن" },
-{ id: 34, title: "الباب الرابع والثلاثون: باب في أن الإسلام هو الدين الوحيد المقبول عند الله، وأنه شرط النجاة" },
-{ id: 35, title: "الباب الخامس والثلاثون: باب سير المؤمن إلى الله تعالى بين الخوف والرجاء" },
-{ id: 36, title: "الباب السادس والثلاثون: باب في الشوق إلى رسول الله ﷺ والحنين إليه" },
-{ id: 37, title: "الباب السابع والثلاثون: باب الشوق إلى الله ﷺ" }
- ];
-
-function showHome() {
-document.getElementById('home-screen').classList.remove('hidden');
-document.getElementById('chapters-section').classList.add('hidden');
-document.getElementById('quiz-section').classList.add('hidden');
-window.scrollTo({top: 0, behavior: 'smooth'});
-}
-
-function showChapters() {
-document.getElementById('home-screen').classList.add('hidden');
-document.getElementById('chapters-section').classList.remove('hidden');
-document.getElementById('quiz-section').classList.add('hidden');
-renderChaptersList(chaptersData);
-window.scrollTo({top: 0, behavior: 'smooth'});
-}
-
-function filterChapters() {
-const query = document.getElementById('chapter-search').value.toLowerCase();
-const filtered = chaptersData.filter(ch => ch.title.toLowerCase().includes(query));
-renderChaptersList(filtered);
-}
-
-function renderChaptersList(data) {
-const listContainer = document.getElementById('chapters-list');
-listContainer.innerHTML = '';
-
-if (data.length === 0) {
-listContainer.innerHTML = '<div class="bg-white p-6 rounded-2xl text-center text-slate-400 text-sm">عذراً، لم نجد باباً بهذا الاسم.</div>';
-return;
-}
-
-data.forEach(ch => {
-const card = document.createElement('div');
-card.className = "bg-white p-4.5 md:p-5 rounded-2xl shadow-sm border border-slate-100 hover:border-emerald-300 hover:shadow-md transition duration-200 flex justify-between items-center gap-4";
-card.innerHTML = &lt;div class="flex items-center gap-3.5"&gt; &lt;span class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-800 font-bold flex items-center justify-center shrink-0 text-sm amiri-font border border-emerald-100"&gt;${ch.id}</span>
-<div>
-<h4 class="font-bold text-slate-900 text-sm md:text-base amiri-font leading-relaxed">${ch.title}&lt;/h4&gt; &lt;p class="text-[11px] text-slate-400 mt-0.5"&gt;اضغط لبدء التدريب على أسئلة هذا الباب&lt;/p&gt; &lt;/div&gt; &lt;/div&gt; &lt;button onclick="startChapterQuiz(${ch.id})" class="bg-emerald-50 hover:bg-emerald-800 text-emerald-800 hover:text-white px-4 py-2.5 rounded-xl text-xs font-bold transition duration-200 whitespace-nowrap cursor-pointer border border-emerald-200">بدء الباب</button>
-`;
-listContainer.appendChild(card);
-});
-}
-
-let currentQuestions = [];
-let currentQIndex = 0;
-
-function startChapterQuiz(chapterId) {
-const chapter = chaptersData.find(c => c.id === chapterId);
-document.getElementById('chapters-section').classList.add('hidden');
-document.getElementById('quiz-section').classList.remove('hidden');
-document.getElementById('chapter-title-display').innerText = chapter.title;
-
-currentQuestions = [
-{
-type: "سؤال تثبيتي للباب",
-text: هذا هو تدريب (${chapter.title}). هل ترغبين في البدء بإضافة الأسئلة والأنماط المخصصة لهذا الباب مع زميلاتك؟`,
-options: ["نعم، جاهزون للبدء والمراجعة", "لاحقاً إن شاء الله", "تخطي السؤال", "حفظ ومتابعة"],
-correct: 0
-}
-];
-currentQIndex = 0;
-renderQuestion();
-window.scrollTo({top: 0, behavior: 'smooth'});
-}
-
-function startGeneralQuiz() {
-document.getElementById('home-screen').classList.add('hidden');
-document.getElementById('quiz-section').classList.remove('hidden');
-document.getElementById('chapter-title-display').innerText = "اختبار شامل عشوائي";
-
-currentQuestions = [
-{
-type: "اختبار عام في المتن",
-text: "ما هو الباب الذي يتناول مرجعية الوحي وشموليته ومركزية التسليم لله ولرسوله ﷺ؟",
-options: ["الباب الأول", "الباب الثاني", "الباب الثالث", "الباب الرابع"],
-correct: 0
-},
-{
-type: "اختبار عام في المتن",
-text: "أي الأبواب الآتية يتعلق بتعظيم سنة النبي ﷺ ووجوب اتباعها والالتزام بهديه؟",
-options: ["الباب الأول", "الباب الثاني", "الباب الثالث", "الباب الخامس"],
-correct: 2
-}
-];
-currentQIndex = 0;
-renderQuestion();
-window.scrollTo({top: 0, behavior: 'smooth'});
-}
-
-function renderQuestion() {
-if (currentQIndex >= currentQuestions.length) {
-document.getElementById('quiz-section').innerHTML = &lt;div class="bg-white p-8 md:p-10 rounded-3xl text-center space-y-4 custom-shadow"&gt; &lt;div class="w-16 h-16 bg-emerald-100 text-emerald-800 rounded-2xl flex items-center justify-center mx-auto text-2xl"&gt;🎉&lt;/div&gt; &lt;h3 class="text-2xl font-bold text-emerald-950 amiri-font"&gt;أحسنتِ صنعاً أنتِ وصحابك!&lt;/h3&gt; &lt;p class="text-slate-600 text-sm"&gt;أتممتِ هذه الجولة التدريبية بنجاح وتميز.&lt;/p&gt; &lt;div class="flex flex-col sm:flex-row justify-center gap-3 pt-2"&gt; &lt;button onclick="showChapters()" class="bg-emerald-800 text-white px-6 py-3 rounded-2xl font-bold text-sm cursor-pointer shadow"&gt;العودة للأبواب&lt;/button&gt; &lt;button onclick="showHome()" class="bg-slate-100 text-slate-700 px-6 py-3 rounded-2xl font-bold text-sm cursor-pointer"&gt;الرئيسية&lt;/button&gt; &lt;/div&gt; &lt;/div&gt;;
-return;
-}
-
-const q = currentQuestions[currentQIndex];
-document.getElementById('question-type-badge').innerText = q.type;
-document.getElementById('question-progress').innerText = السؤال ${currentQIndex + 1} من ${currentQuestions.length};
-document.getElementById('question-text').innerText = q.text;
-
-const optionsContainer = document.getElementById('options-container');
-optionsContainer.innerHTML = '';
-
-q.options.forEach((opt, idx) => {
-const btn = document.createElement('button');
-btn.className = "w-full text-right p-4 rounded-2xl border border-slate-200 hover:border-emerald-600 hover:bg-emerald-50/50 text-sm font-bold text-slate-800 transition duration-150 cursor-pointer flex items-center justify-between";
-btn.innerHTML = <span&gt;${opt}</span><span class="w-6 h-6 rounded-full border border-slate-300 flex items-center justify-center text-xs text-slate-400">✓</span>`;
-btn.onclick = () => checkAnswer(idx, q.correct, btn);
-optionsContainer.appendChild(btn);
-});
-
-const feedback = document.getElementById('feedback-container');
-feedback.classList.add('hidden');
-document.getElementById('next-btn').classList.add('hidden');
-}
-
-function checkAnswer(selected, correct, selectedBtn) {
-const feedback = document.getElementById('feedback-container');
-feedback.classList.remove('hidden');
-
-const buttons = document.getElementById('options-container').getElementsByTagName('button');
-
-if (selected === correct) {
-feedback.className = "p-4 rounded-xl text-sm mb-4 bg-emerald-50 text-emerald-900 font-bold border border-emerald-200 flex items-center gap-2";
-feedback.innerHTML = "<span>✨</span> إجابة صحيحة وموفقة! بارك الله في حفظكِ وفهمكِ.";
-selectedBtn.className = "w-full text-right p-4 rounded-2xl border border-emerald-600 bg-emerald-100 text-emerald-950 text-sm font-bold flex items-center justify-between";
-} else {
-feedback.className = "p-4 rounded-xl text-sm mb-4 bg-rose-50 text-rose-900 font-bold border border-rose-200 flex items-center gap-2";
-feedback.innerHTML = <span&gt;⚠️&lt;/span&gt; إجابة خاطئة. الإجابة الصحيحة هي:${currentQuestions[currentQIndex].options[correct]}`;
-selectedBtn.className = "w-full text-right p-4 rounded-2xl border border-rose-400 bg-rose-100 text-rose-950 text-sm font-bold flex items-center justify-between";
-
-// Highlight correct
-buttons[correct].className = "w-full text-right p-4 rounded-2xl border border-emerald-600 bg-emerald-50 text-emerald-950 text-sm font-bold flex items-center justify-between";
-}
-
-for (let b of buttons) {
-b.disabled = true;
-b.style.cursor = 'not-allowed';
-}
-
-document.getElementById('next-btn').classList.remove('hidden');
-}
-
-function nextQuestion() {
-currentQIndex++;
-renderQuestion();
-}
-</script>
+        function loadQuiz() {
+            document.getElementById('quiz-title').innerText = "سؤال تثبيتي عشوائي";
+            document.getElementById('quiz-question').innerText = "ما هو الباب الذي يتناول مرجعية الوحي وشموليته ومركزية التسليم لله ولرسوله ﷺ؟";
+            
+            const optionsDiv = document.getElementById('quiz-options');
+            optionsDiv.innerHTML = '';
+            
+            const options = ["الباب الأول", "الباب الثاني", "الباب الثالث", "الباب الرابع"];
+            options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'btn';
+                btn.style.marginTop = '8px';
+                btn.style.backgroundColor = '#f1f5f9';
+                btn.style.color = '#1e293b';
+                btn.innerText = opt;
+                btn.onclick = () => {
+                    if (idx === 0) {
+                        alert("✨ إجابة صحيحة وموفقة!");
+                    } else {
+                        alert("❌ إجابة خاطئة، الإجابة الصحيحة هي: الباب الأول");
+                    }
+                };
+                optionsDiv.appendChild(btn);
+            });
+        }
+    </script>
 </body>
 </html>
