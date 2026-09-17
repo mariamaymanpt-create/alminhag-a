@@ -145,26 +145,70 @@
             margin-left: 10px;
             white-space: nowrap;
         }
-        .quiz-box {
+        
+        /* Flashcard Styling */
+        .flashcard-container {
             text-align: right;
+        }
+        .flashcard-question-box {
             background: #f8fafc;
-            padding: 15px;
-            border-radius: 12px;
+            padding: 20px;
+            border-radius: 14px;
             margin-bottom: 15px;
             border: 1px solid #e2e8f0;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--text);
         }
-        .quiz-box h4 {
-            color: var(--primary);
-            margin-bottom: 8px;
+        .flashcard-answer-box {
+            background: #ecfdf5;
+            padding: 18px;
+            border-radius: 14px;
+            margin-bottom: 20px;
+            border: 1px solid #a7f3d0;
+            color: var(--primary-dark);
+            font-weight: bold;
             font-size: 1.05rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .quiz-box input {
-            width: 100%;
-            padding: 10px;
+        .flashcard-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .nav-card-btn {
+            background: #e2e8f0;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            color: var(--text);
+        }
+        .nav-card-btn:hover {
+            background: #cbd5e1;
+        }
+        .hide-toggle-btn {
+            background: white;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 6px 14px;
             border-radius: 8px;
-            border: 1px solid #cbd5e1;
-            margin-top: 8px;
-            font-family: 'Cairo';
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+        .hide-toggle-btn:hover {
+            background: #d1fae5;
+        }
+        .card-counter {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: bold;
         }
         .hidden {
             display: none !important;
@@ -182,9 +226,9 @@
         <!-- Home View -->
         <div id="home-view" class="card">
             <h2>منصة مراجعة وتثبيت أبواب المنهاج</h2>
-            <p>موسوعتك التفاعلية الشاملة لمراجعة الأبواب، وتثبيت المتون، وترتيب الأحاديث، واختبار معلوماتك بكفاءة عالية للورش.</p>
+            <p>موسوعتك التفاعلية الشاملة بنظام الـ Flashcards لتثبيت المتون والأبواب بكفاءة عالية للورش.</p>
             <button class="btn" onclick="switchView('chapters-view')">📖 تصفح أبواب المنهاج (37 باباً)</button>
-            <button class="btn btn-accent" onclick="switchView('quiz-view')">⚡ اختبار شامل عشوائي</button>
+            <button class="btn btn-accent" onclick="switchView('quiz-view')">⚡ اختبار سريع عشوائي</button>
         </div>
 
         <!-- Chapters View -->
@@ -195,11 +239,11 @@
             <div id="chapters-list" style="max-height: 500px; overflow-y: auto;"></div>
         </div>
 
-        <!-- Chapter Detail / Quiz View -->
+        <!-- Chapter Detail Flashcards View -->
         <div id="chapter-detail-view" class="card hidden">
             <button class="back-btn" onclick="switchView('chapters-view')">← العودة لقائمة الأبواب</button>
             <h2 id="detail-title" style="font-size: 1.2rem; margin-bottom: 15px; color: var(--primary);"></h2>
-            <div id="chapter-content-area"></div>
+            <div id="flashcard-area" class="flashcard-container"></div>
         </div>
 
         <!-- Quiz View -->
@@ -215,12 +259,12 @@
     <script>
         const chapters = [
             "الباب الأول: باب في مرجعية الوحي وشموليته ومركزية التسليم لله ولرسوله ﷺ",
-            "الباب الثاني: باب في تلقي القرآن على منهاج النبوة، وتقديم العمل به وتدبره والاستهداء والاستغناء به وتحكيمه وزيادة الإيمان به",
-            "الباب الثالث: باب في تعظيم سنة النبي ﷺ ووجوب اتباعها والالتزام بهديه والاقتداء بسيرته",
+            "الباب الثاني: باب في تلقي القرآن على منهاج النبوة، وتقديم العمل به تدبره والاعتماد عليه",
+            "الباب الثالث: باب في تعظيم سنة النبي ﷺ ووجوب اتباعها والالتزام بهديه",
             "الباب الرابع: باب تعظيم حدود الله والتحذير من مخالفة أمره وأمر رسوله ﷺ",
-            "الباب الخامس: باب ضبط الأفهام على معيار الوحي، وتصحيح النبي ﷺ لمقاييس النظر، وأن من أسباب الضلال رد الحق بمعابير نظر خاطئة",
+            "الباب الخامس: باب ضبط الأفهام على معيار الوحي، وتصحيح النبي ﷺ لمقاييس النظر",
             "الباب السادس: باب في أهمية الاقتداء بطريقة الصحابة بعد النبي ﷺ ومعالم هديهم العام",
-            "الباب السابع: باب في أن الدين على مراتب متفاوتة في الأمر والنهي والخبر، وأن الفقه في الدين والدعوة تبع لإدراك هذه المراتب",
+            "الباب السابع: باب في أن الدين على مراتب متفاوتة في الأمر والنهي والخبر",
             "الباب الثامن: باب مركزية كلمة الإسلام (لا إله إلا الله) وفضلها وشروطها",
             "الباب التاسع: باب في مركزية التزكية وأعمال القلوب ومركزية الصلاة في حياة المصلح",
             "الباب العاشر: باب شرف العلم النافع وفضله وذم من لم يعمل بعلمه",
@@ -252,6 +296,42 @@
             "الباب السادس والثلاثون: باب في الشوق إلى رسول الله ﷺ والحنين إليه",
             "الباب السابع والثلاثون: باب الشوق إلى الله ﷺ"
         ];
+
+        // قاعدة بيانات البطاقات التفاعلية لكل باب
+        const chapterFlashcards = {
+            1: [
+                { q: "ما هو عنوان الباب الأول بالكامل؟", a: "باب في مرجعية الوحي وشموليته ومركزية التسليم لله ولرسوله ﷺ" },
+                { q: "ما الحديث الذي يأتي مباشرة بعد حديث زيد بن أرقم (كتاب الله هو حبل الله)؟", a: "حديث: «لا أُلْفِيَنَّ أَحَدَكُمْ مُتَّكِئًا عَلَى أَرِيكَتِهِ...»" }
+            ],
+            2: [
+                { q: "ما هو عنوان الباب الثاني بالكامل؟", a: "باب في تلقي القرآن على منهاج النبوة، وتقديم العمل به تدبره والاعتماد عليه" },
+                { q: "ما الأثر أو الحديث الذي يلي أثر جندب بن عبد الله (كنا مع النبي ونحن فتيان حزاورة)؟", a: "حديث: «مَا اجْتَمَعَ قَوْمٌ فِي بَيْتٍ مِنْ بُيُوتِ اللَّهِ يَتْلُونَ كِتَابَ اللَّهِ...»" }
+            ],
+            3: [
+                { q: "ما هو عنوان الباب الثالث بالكامل؟", a: "باب في تعظيم سنة النبي ﷺ ووجوب اتباعها والالتزام بهديه" },
+                { q: "ما الحديث الذي يلي حديث أبي هريرة: «كُلُّ أُمَّتِي يَدْخُلُونَ الْجَنَّةَ إِلَّا مَنْ أَبَى»؟", a: "حديث: «إِذَا نَهَيْتُكُمْ عَنْ شَيْءٍ فَاجْتَنِبوهُ، وَإِذَا أَمَرْتُكُمْ بِشَيْءٍ فَأْتُوا مِنْهُ مَا اسْتَطَعْتُمْ»" }
+            ],
+            4: [
+                { q: "ما هو عنوان الباب الرابع بالكامل؟", a: "باب تعظيم حدود الله والتحذير من مخالفة أمره وأمر رسوله ﷺ" },
+                { q: "ما الحديث الذي يلي قصة المرأة المخزومية لعائشة رضي الله عنها؟", a: "حديث: «إِنِّي أَخْشَى إِنْ تَرَكْتُهُمْ أَنْ يهْلِكُوا...»" }
+            ],
+            5: [
+                { q: "ما هو عنوان الباب الخامس بالكامل؟", a: "باب ضبط الأفهام على معيار الوحي، وتصحيح النبي ﷺ لمقاييس النظر" },
+                { q: "ما الحديث الذي يلي قصة عمر بن الخطاب رضي الله عنه مع الحصير؟", a: "حديث: «الدُّنْيَا سِجْنُ الْمُؤْمِنِ وَجَنَّةُ الْكَافِرِ»" }
+            ],
+            6: [
+                { q: "ما هو عنوان الباب السادس بالكامل؟", a: "باب في أهمية الاقتداء بطريقة الصحابة بعد النبي ﷺ ومعالم هديهم العام" },
+                { q: "أكمل متن عمران بن حصين: «خَيْرُ أُمَّتِي قَرْنِي...» حتى وصف من يأتي بعدهم بالسمن", a: "...ثُمَّ يَفْشُو الشَّحْمُ فَيَشْهَدُونَ وَلَا يُسْتَشْهَدُونَ" }
+            ],
+            7: [
+                { q: "ما هو عنوان الباب السابع بالكامل؟", a: "باب في أن الدين على مراتب متفاوتة في الأمر والنهي والخبر" },
+                { q: "أكمل الحديث القدسي: «وَمَا تَقَرَّبَ إِلَيَّ عَبْدِي بِشَيْءٍ أَحَبَّ إِلَيَّ مِمَّا افْتَرَضْتُ عَلَيْهِ...»", a: "...وَمَا يَزَالُ عَبْدِي يَتَقَرَّبُ إِلَيَّ بِالنَّوَافِلِ حَتَّى أُحِبَّهُ" },
+                { q: "ما هو الحديث الذي يُختتم به الباب السابع تماماً؟", a: "حديث جبريل عليه السلام الطويل في بيان الإسلام والإيمان والإحسان" }
+            ]
+        };
+
+        let currentFlashcardsList = [];
+        let currentCardIndex = 0;
 
         function switchView(viewId) {
             document.getElementById('home-view').classList.add('hidden');
@@ -287,169 +367,64 @@
 
         function openChapter(num, title) {
             document.getElementById('detail-title').innerText = title;
-            const contentArea = document.getElementById('chapter-content-area');
-            contentArea.innerHTML = '';
-
-            if (num === 1) {
-                contentArea.innerHTML = `
-                    <div class="quiz-box">
-                        <h4>1. أسئلة أسماء الأبواب:</h4>
-                        <p>ما هو عنوان الباب الأول من كتاب المنهاج من ميراث النبوة؟</p>
-                        <input type="text" id="q1_1" placeholder="اكتب الإجابة هنا...">
-                        <button class="btn" style="padding: 8px; font-size: 0.9rem; margin-top: 8px;" onclick="checkAnswer('1_1', 'باب في مرجعية الوحي وشموليته ومركزية التسليم لله ولرسوله')">تحقق من الإجابة</button>
-                        <p id="res1_1" style="margin-top: 5px; font-weight: bold;"></p>
-                    </div>
-                    <div class="quiz-box">
-                        <h4>2. أسئلة ترتيب وتسلسل الأحاديث:</h4>
-                        <p>ما هو الحديث الذي يأتي مباشرة بعد حديث زيد بن أرقم رضي الله عنه (كتاب الله هو حبل الله) في الباب الأول؟</p>
-                        <input type="text" id="q1_2" placeholder="اكتب بداية الحديث...">
-                        <button class="btn" style="padding: 8px; font-size: 0.9rem; margin-top: 8px;" onclick="checkAnswer('1_2', 'لا أُلْفِيَنَّ أَحَدَكُمْ مُتَّكِئًا')">تحقق من الإجابة</button>
-                        <p id="res1_2" style="margin-top: 5px; font-weight: bold;"></p>
-                    </div>
-                `;
-            } else if (num === 2) {
-                contentArea.innerHTML = `
-                    <div class="quiz-box">
-                        <h4>1. أسئلة أسماء الأبواب:</h4>
-                        <p>ما هو عنوان الباب الثاني من كتاب المنهاج؟</p>
-                        <input type="text" id="q2_1" placeholder="اكتب عنوان الباب...">
-                        <button class="btn" style="padding: 8px; font-size: 0.9rem; margin-top: 8px;" onclick="checkAnswer('2_1', 'تلقي القرآن على منهاج النبوة')">تحقق من الإجابة</button>
-                        <p id="res2_1" style="margin-top: 5px; font-weight: bold;"></p>
-                    </div>
-                    <div class="quiz-box">
-                        <h4>2. أسئلة ترتيب وتسلسل الأحاديث:</h4>
-                        <p>ما هو الحديث أو الأثر الذي يأتي مباشرة بعد أثر جندب بن عبد الله (كنا مع النبي ونحن فتيان حزاورة) في الباب الثاني؟</p>
-                        <input type="text" id="q2_2" placeholder="اكتب بداية الحديث...">
-                        <button class="btn" style="padding: 8px; font-size: 0.9rem; margin-top: 8px;" onclick="checkAnswer('2_2', 'مَا اجْتَمَعَ قَوْمٌ فِي بَيْتٍ')">تحقق من الإجابة</button>
-                        <p id="res2_2" style="margin-top: 5px; font-weight: bold;"></p>
-                    </div>
-                `;
-            } else if (num === 3) {
-                contentArea.innerHTML = `
-                    <div class="quiz-box">
-                        <h4>1. أسئلة أسماء الأبواب:</h4>
-                        <p>ما هو عنوان الباب الثالث من كتاب المنهاج من ميراث النبوة؟</p>
-                        <input type="text" id="q3_1" placeholder="اكتب عنوان الباب...">
-                        <button class="btn" style="padding: 8px; font-size: 0.9rem; margin-top: 8px;" onclick="checkAnswer('3_1', 'تعظيم سنة النبي')">تحقق من الإجابة</button>
-                        <p id="res3_1" style="margin-top: 5px; font-weight: bold;"></p>
-                    </div>
-                    <div class="quiz-box">
-                        <h4>2. أسئلة ترتيب وتسلسل الأحاديث:</h4>
-                        <p>ما هو الحديث الذي يأتي مباشرة بعد حديث أبي هريرة رضي الله عنه: «كُلُّ أُمَّتِي يَدْخُلُونَ الْجَنَّةَ إِلَّا مَنْ أَبَى» في الباب الثالث؟</p>
-                        <input type="text" id="q3_2" placeholder="اكتب بداية الحديث...">
-                        <button class="btn" style="padding: 8px; font-size: 0.9rem; margin-top: 8px;" onclick="checkAnswer('3_2', 'إِذَا نَهَيْتُكُمْ عَنْ شَيْءٍ')">تحقق من الإجابة</button>
-                        <p id="res3_2" style="margin-top: 5px; font-weight: bold;"></p>
-                    </div>
-                `;
-            } else if (num === 4) {
-                contentArea.innerHTML = `
-                    <div class="quiz-box">
-                        <h4>1. أسئلة أسماء الأبواب:</h4>
-                        <p>ما هو عنوان الباب الرابع من كتاب المنهاج من ميراث النبوة؟</p>
-                        <input type="text" id="q4_1" placeholder="اكتب عنوان الباب...">
-                        <button class="btn" style="padding: 8px; font-size: 0.9rem; margin-top: 8px;" onclick="checkAnswer('4_1', 'تعظيم حدود الله')">تحقق من الإجابة</button>
-                        <p id="res4_1" style="margin-top: 5px; font-weight: bold;"></p>
-                    </div>
-                    <div class="quiz-box">
-                        <h4>2. أسئلة ترتيب وتسلسل الأحاديث:</h4>
-                        <p>ما هو الحديث أو الأثر الذي يأتي مباشرة بعد حديث عائشة رضي الله عنها في قصة المرأة المخزومية في الباب الرابع؟</p>
-                        <input type="text" id="q4_2" placeholder="اكتب بداية الحديث...">
-                        <button class="btn" style="padding: 8px; font-size: 0.9rem; margin-top: 8px;" onclick="checkAnswer('4_2', 'إِنِّي أَخْشَى إِنْ تَرَكْتُ')">تحقق من الإجابة</button>
-                        <p id="res4_2" style="margin-top: 5px; font-weight: bold;"></p>
-                    </div>
-                `;
-            } else if (num === 5) {
-                contentArea.innerHTML = `
-                    <div class="quiz-box">
-                        <h4>1. أسئلة أسماء الأبواب:</h4>
-                        <p>ما هو عنوان الباب الخامس من كتاب المنهاج من ميراث النبوة؟</p>
-                        <input type="text" id="q5_1" placeholder="اكتب عنوان الباب...">
-                        <button class="btn" style="padding: 8px; font-size: 0.9rem; margin-top: 8px;" onclick="checkAnswer('5_1', 'ضبط الأفهام على معيار الوحي')">تحقق من الإجابة</button>
-                        <p id="res5_1" style="margin-top: 5px; font-weight: bold;"></p>
-                    </div>
-                    <div class="quiz-box">
-                        <h4>2. أسئلة ترتيب وتسلسل الأحاديث:</h4>
-                        <p>ما هو الحديث الذي يأتي مباشرة بعد حديث عمر رضي الله عنه في قصة الحصير في الباب الخامس؟</p>
-                        <input type="text" id="q5_2" placeholder="اكتب بداية الحديث...">
-                        <button class="btn" style="padding: 8px; font-size: 0.9rem; margin-top: 8px;" onclick="checkAnswer('5_2', 'الدُّنْيَا سِجْنُ الْمُؤْمِنِ')">تحقق من الإجابة</button>
-                        <p id="res5_2" style="margin-top: 5px; font-weight: bold;"></p>
-                    </div>
-                `;
-            } else if (num === 6) {
-                contentArea.innerHTML = `
-                    <div class="quiz-box">
-                        <h4>1. أسئلة أسماء الأبواب:</h4>
-                        <p>ما هو عنوان الباب السادس الكامل من كتاب المنهاج؟</p>
-                        <input type="text" id="q6_1" placeholder="اكتب عنوان الباب...">
-                        <button class="btn" style="padding: 8px; font-size: 0.9rem; margin-top: 8px;" onclick="checkAnswer('6_1', 'أهمية الاقتداء بطريقة الصحابة')">تحقق من الإجابة</button>
-                        <p id="res6_1" style="margin-top: 5px; font-weight: bold;"></p>
-                    </div>
-                    <div class="quiz-box">
-                        <h4>2. إكمال المتن الاستراتيجي (عمران بن حصين):</h4>
-                        <p>أكملي الحديث: «خَيْرُ أُمَّتِي قَرْنِي، ثُمَّ الَّذِينَ يَلُونَهُمْ، ثُمَّ الَّذِينَ يَلُونَهُمْ...» إلى وصف من يأتي بعدهم بالسمن.</p>
-                        <input type="text" id="q6_2" placeholder="أكملي بقية المتن...">
-                        <button class="btn" style="padding: 8px; font-size: 0.9rem; margin-top: 8px;" onclick="checkAnswer('6_2', 'يَشْهَدُونَ وَلَا يُسْتَشْهَدُونَ')">تحقق من الإجابة</button>
-                        <p id="res6_2" style="margin-top: 5px; font-weight: bold;"></p>
-                    </div>
-                    <div class="quiz-box">
-                        <h4>3. أسئلة ترتيب وتسلسل الأحاديث:</h4>
-                        <p>ما هو النص الذي يسبق مباشرة رسالة عمر بن عبد العزيز في ختام الباب السادس؟</p>
-                        <input type="text" id="q6_3" placeholder="اكتب اسم أو بداية الحديث السابق...">
-                        <button class="btn" style="padding: 8px; font-size: 0.9rem; margin-top: 8px;" onclick="checkAnswer('6_3', 'يَأْتِي عَلَى النَّاسِ زَمَانٌ يَغْزُو فِتَامٌ')">تحقق من الإجابة</button>
-                        <p id="res6_3" style="margin-top: 5px; font-weight: bold;"></p>
-                    </div>
-                `;
-            } else if (num === 7) {
-                contentArea.innerHTML = `
-                    <div class="quiz-box">
-                        <h4>1. أسئلة أسماء الأبواب:</h4>
-                        <p>ما هو عنوان الباب السابع الكامل من كتاب المنهاج؟</p>
-                        <input type="text" id="q7_1" placeholder="اكتب عنوان الباب...">
-                        <button class="btn" style="padding: 8px; font-size: 0.9rem; margin-top: 8px;" onclick="checkAnswer('7_1', 'الدين على مراتب متفاوتة')">تحقق من الإجابة</button>
-                        <p id="res7_1" style="margin-top: 5px; font-weight: bold;"></p>
-                    </div>
-                    <div class="quiz-box">
-                        <h4>2. إكمال المتن الاستراتيجي (حديث الولي):</h4>
-                        <p>أكملي الحديث القدسي: «وَمَا تَقَرَّبَ إِلَيَّ عَبْدِي بِشَيْءٍ أَحَبَّ إِلَيَّ مِمَّا افْتَرَضْتُ عَلَيْهِ، وَمَا يَزَالُ عَبْدِي يَتَقَرَّبُ إِلَيَّ بِالنَّوَافِلِ حَتَّى أُحِبَّهُ، فَإِذَا أَحْبَبْتُهُ كُنْتُ...»</p>
-                        <input type="text" id="q7_2" placeholder="أكملي بقية المقطع...">
-                        <button class="btn" style="padding: 8px; font-size: 0.9rem; margin-top: 8px;" onclick="checkAnswer('7_2', 'سَمْعَهُ الَّذِي يَسْمَعُ بِهِ')">تحقق من الإجابة</button>
-                        <p id="res7_2" style="margin-top: 5px; font-weight: bold;"></p>
-                    </div>
-                    <div class="quiz-box">
-                        <h4>3. أسئلة ترتيب وتسلسل الأحاديث:</h4>
-                        <p>ما هو الحديث الذي يقع مباشرة قبل حديث أبي هريرة القدسي (من عادى لي ولياً فقد آذنته بالحرب) في الباب السابع؟</p>
-                        <input type="text" id="q7_3" placeholder="اكتب اسم أو بداية الحديث السابق...">
-                        <button class="btn" style="padding: 8px; font-size: 0.9rem; margin-top: 8px;" onclick="checkAnswer('7_3', 'بُنِيَ الْإِسْلَامُ عَلَى خَمْسٍ')">تحقق من الإجابة</button>
-                        <p id="res7_3" style="margin-top: 5px; font-weight: bold;"></p>
-                    </div>
-                    <div class="quiz-box">
-                        <h4>4. أسئلة ترتيب وتسلسل الأحاديث:</h4>
-                        <p>ما هو الحديث الذي يُختتم به الباب السابع تماماً؟</p>
-                        <input type="text" id="q7_4" placeholder="اكتب اسم أو بداية الحديث الختامي...">
-                        <button class="btn" style="padding: 8px; font-size: 0.9rem; margin-top: 8px;" onclick="checkAnswer('7_4', 'حديث جبريل')">تحقق من الإجابة</button>
-                        <p id="res7_4" style="margin-top: 5px; font-weight: bold;"></p>
-                    </div>
-                `;
-            } else {
-                contentArea.innerHTML = `
-                    <div style="padding: 30px; text-align: center; color: var(--text-light);">
-                        <p>🚧 أسئلة هذا الباب قيد الإعداد وقريباً سنضيفها معاً!</p>
-                    </div>
-                `;
-            }
-
+            
+            // جلب بطاقات الباب أو وضع بطاقات افتراضية لو الباب لسه بينبني
+            currentFlashcardsList = chapterFlashcards[num] || [
+                { q: "عنوان هذا الباب:", a: title },
+                { q: "قريباً سيتم إضافة تفاصيل ومتون وأحاديث هذا الباب بكاملها هنا بنظام الفلاش كاردز الممتع!", a: "ترقبوا التحديث القادم 🌿" }
+            ];
+            
+            currentCardIndex = 0;
+            renderFlashcard();
             switchView('chapter-detail-view');
         }
 
-        function checkAnswer(id, correctKey) {
-            const userVal = document.getElementById('q' + id).value.trim().toLowerCase();
-            const resEle = document.getElementById('res' + id);
-            if (userVal.includes(correctKey.toLowerCase())) {
-                resEle.style.color = '#059669';
-                resEle.innerText = "✨ إجابة صحيحة وموفقة!";
+        function renderFlashcard() {
+            const area = document.getElementById('flashcard-area');
+            const card = currentFlashcardsList[currentCardIndex];
+            
+            area.innerHTML = `
+                <div class="card-counter">بطاقة ${currentCardIndex + 1} من ${currentFlashcardsList.length}</div>
+                <div class="flashcard-question-box">
+                    ❓ ${card.q}
+                </div>
+                <div id="ans-box" class="flashcard-answer-box hidden">
+                    <span>💡 الإجابة: ${card.a}</span>
+                </div>
+                <button id="toggle-btn" class="btn" style="margin-bottom: 15px;" onclick="toggleAnswer()">👁️ إظهار الإجابة</button>
+                
+                <div class="flashcard-controls">
+                    <button class="nav-card-btn" onclick="prevCard()" ${currentCardIndex === 0 ? 'disabled style="opacity:0.5;"' : ''}>← السابق</button>
+                    <button class="nav-card-btn" onclick="nextCard()" ${currentCardIndex === currentFlashcardsList.length - 1 ? 'disabled style="opacity:0.5;"' : ''}>التالي →</button>
+                </div>
+            `;
+        }
+
+        function toggleAnswer() {
+            const ansBox = document.getElementById('ans-box');
+            const toggleBtn = document.getElementById('toggle-btn');
+            if (ansBox.classList.contains('hidden')) {
+                ansBox.classList.remove('hidden');
+                toggleBtn.innerText = "🔒 إخفاء الإجابة";
+                toggleBtn.style.backgroundColor = "#64748b";
             } else {
-                resEle.style.color = '#dc2626';
-                resEle.innerText = "❌ محاولة أخرى، الإجابة تحتوي على: " + correctKey;
+                ansBox.classList.add('hidden');
+                toggleBtn.innerText = "👁️ إظهار الإجابة";
+                toggleBtn.style.backgroundColor = "var(--primary)";
+            }
+        }
+
+        function nextCard() {
+            if (currentCardIndex < currentFlashcardsList.length - 1) {
+                currentCardIndex++;
+                renderFlashcard();
+            }
+        }
+
+        function prevCard() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                renderFlashcard();
             }
         }
 
