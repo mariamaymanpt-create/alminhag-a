@@ -25,11 +25,11 @@
             flex-direction: column;
         }
 
-        /* الهيدر العلوي تماماً كما في الصورة */
+        /* الهيدر العلوي تماماً كما في الصورة المطلوبة */
         .top-header {
             background-color: var(--primary-green);
             color: white;
-            padding: 15px 20px;
+            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -46,7 +46,7 @@
         }
 
         .header-title {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: bold;
             display: flex;
             align-items: center;
@@ -75,19 +75,19 @@
 
         h1 {
             color: var(--primary-green);
-            font-size: 1.6rem;
-            margin-bottom: 15px;
+            font-size: 1.5rem;
+            margin-bottom: 12px;
             line-height: 1.4;
         }
 
         p.description {
             color: var(--text-muted);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             line-height: 1.6;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
-        /* الأزرار الرئيسية بتصميم الصورة */
+        /* الأزرار الرئيسية بتصميم الصورة الثانية الـ Exact */
         .action-btn {
             width: 100%;
             padding: 14px 20px;
@@ -118,10 +118,11 @@
             background-color: var(--accent-orange);
         }
 
-        /* واجهة عرض الأبواب أو القوائم الفرعية */
+        /* واجهة الأبواب والاختبارات الفرعية */
         .sub-menu-view, .quiz-view {
             display: none;
             width: 100%;
+            text-align: right;
         }
 
         .sub-btn {
@@ -129,14 +130,15 @@
             color: var(--primary-green);
             border: 2px solid var(--primary-green);
             border-radius: 12px;
-            padding: 15px;
-            font-size: 0.95rem;
+            padding: 14px 16px;
+            font-size: 0.9rem;
             font-weight: bold;
             width: 100%;
             margin-bottom: 12px;
             cursor: pointer;
             text-align: right;
             transition: all 0.2s;
+            line-height: 1.5;
         }
 
         .sub-btn:hover {
@@ -150,7 +152,7 @@
             color: var(--text-muted);
             font-size: 0.9rem;
             cursor: pointer;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             display: inline-flex;
             align-items: center;
             gap: 5px;
@@ -251,12 +253,13 @@
             font-size: 0.85rem;
             color: var(--text-muted);
             font-weight: bold;
+            text-align: center;
         }
     </style>
 </head>
 <body>
 
-    <!-- الهيدر العلوي -->
+    <!-- الهيدر العلوي الأصلي -->
     <header class="top-header">
         <div class="header-badge">منصة الحفظ والمراجعة</div>
         <div class="header-title">المنهاج من ميراث النبوة 🌿</div>
@@ -265,7 +268,7 @@
     <div class="main-container">
         <div class="content-box">
             
-            <!-- 1. الواجهة الرئيسية -->
+            <!-- 1. الواجهة الرئيسية (نفس الشكل المطلوب تماماً) -->
             <div id="home-view">
                 <h1>مرحباً بكِ في مراجعة كتاب المنهاج من ميراث النبوة</h1>
                 <p class="description">منصتك التفاعلية الشاملة لحفظ المتون، مراجعة الأبواب الـ 37، الرواة، التخريج، وإتمام الأحاديث بدقة وعناية.</p>
@@ -282,7 +285,7 @@
             <!-- 2. قائمة أبواب المنهاج الفرعية -->
             <div id="chapters-menu-view" class="sub-menu-view">
                 <button class="back-link" onclick="goHome()">← الرجوع للرئيسية</button>
-                <h2 style="font-size: 1.2rem; color: var(--primary-green); margin-bottom: 20px;">اختر الباب للمراجعة</h2>
+                <h2 style="font-size: 1.1rem; color: var(--primary-green); margin-bottom: 15px; text-align: right;">أبواب المنهاج</h2>
                 
                 <button class="sub-btn" onclick="startQuiz(1)">
                     الباب الأول: مرجعية الوحي وشموليته ومركزية التسليم لله ولرسوله ﷺ
@@ -292,10 +295,10 @@
                 </button>
             </div>
 
-            <!-- 3. قائمة الاختبارات الشاملة -->
+            <!-- 3. قائمة الاختبارات الشاملة الفرعية -->
             <div id="exams-menu-view" class="sub-menu-view">
                 <button class="back-link" onclick="goHome()">← الرجوع للرئيسية</button>
-                <h2 style="font-size: 1.2rem; color: var(--accent-orange); margin-bottom: 20px;">اختر الاختبار الشامل</h2>
+                <h2 style="font-size: 1.1rem; color: var(--accent-orange); margin-bottom: 15px; text-align: right;">الاختبارات الشاملة</h2>
                 
                 <button class="sub-btn" style="border-color: var(--accent-orange); color: var(--accent-orange);" onclick="startQuiz('all')">
                     ⚡ الاختبار الشمولي (الباب الأول والباب الثاني معاً)
@@ -473,16 +476,18 @@
 
         let activeData = [];
         let currentIndex = 0;
-        let currentModeType = ''; // لحفظ نوع القائمة للرجوع إليها
+        let currentModeType = '';
 
         function showChaptersMenu() {
             document.getElementById('home-view').style.display = 'none';
+            document.getElementById('exams-menu-view').style.display = 'none';
             document.getElementById('chapters-menu-view').style.display = 'block';
             currentModeType = 'chapters';
         }
 
         function showExamsMenu() {
             document.getElementById('home-view').style.display = 'none';
+            document.getElementById('chapters-menu-view').style.display = 'none';
             document.getElementById('exams-menu-view').style.display = 'block';
             currentModeType = 'exams';
         }
