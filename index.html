@@ -6,243 +6,321 @@
     <title>منصة المنهاج من ميراث النبوة</title>
     <style>
         :root {
-            --primary-color: #2c5e50;
-            --secondary-color: #e8f5e9;
-            --accent-color: #81c784;
-            --text-color: #333;
-            --bg-color: #f4f7f6;
+            --primary-green: #115e47;
+            --accent-orange: #d97706;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
         }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
-            color: var(--text-color);
+            color: var(--text-main);
             margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            padding: 0;
             min-height: 100vh;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-        h1 {
-            color: var(--primary-color);
-            margin-bottom: 5px;
-        }
-        p.subtitle {
-            color: #666;
-            font-size: 1.1rem;
-        }
-        .container {
-            width: 100%;
-            max-width: 700px;
-        }
-        
-        /* واجهة الأقسام الرئيسية */
-        .home-view {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            width: 100%;
         }
-        .section-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            border-right: 6px solid var(--primary-color);
-        }
-        .section-title {
-            font-size: 1.2rem;
-            color: var(--primary-color);
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-        .menu-btn {
-            background: var(--secondary-color);
-            border: 2px solid var(--primary-color);
-            color: var(--primary-color);
+
+        /* الهيدر العلوي تماماً كما في الصورة */
+        .top-header {
+            background-color: var(--primary-green);
+            color: white;
             padding: 15px 20px;
-            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-badge {
+            background-color: #0e4c3a;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .header-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* حاوية المحتوى الرئيسي */
+        .main-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .content-box {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 480px;
+            padding: 35px 25px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: var(--primary-green);
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        p.description {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* الأزرار الرئيسية بتصميم الصورة */
+        .action-btn {
+            width: 100%;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 12px;
             font-size: 1.05rem;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.2s ease;
-            width: 100%;
-            text-align: right;
-            margin-bottom: 10px;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            transition: transform 0.1s ease, opacity 0.2s;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.04);
         }
-        .menu-btn:hover {
-            background-color: var(--primary-color);
+
+        .action-btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-chapters {
+            background-color: var(--primary-green);
+        }
+
+        .btn-exams {
+            background-color: var(--accent-orange);
+        }
+
+        /* واجهة عرض الأبواب أو القوائم الفرعية */
+        .sub-menu-view, .quiz-view {
+            display: none;
+            width: 100%;
+        }
+
+        .sub-btn {
+            background-color: #f1f5f9;
+            color: var(--primary-green);
+            border: 2px solid var(--primary-green);
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            width: 100%;
+            margin-bottom: 12px;
+            cursor: pointer;
+            text-align: right;
+            transition: all 0.2s;
+        }
+
+        .sub-btn:hover {
+            background-color: var(--primary-green);
             color: white;
         }
 
-        /* واجهة عرض البطاقات التفاعلية (Flashcards) */
-        .quiz-view {
-            display: none;
-            width: 100%;
-        }
-        .card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            padding: 30px;
+        .back-link {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            cursor: pointer;
             margin-bottom: 20px;
-            position: relative;
-            overflow: hidden;
-            text-align: center;
-        }
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 8px;
-            height: 100%;
-            background-color: var(--primary-color);
-        }
-        .card-category {
-            font-size: 0.85rem;
-            color: var(--primary-color);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
             font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-            display: inline-block;
-            background: var(--secondary-color);
-            padding: 4px 12px;
-            border-radius: 20px;
         }
-        .card-question {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 25px;
-            color: #2c3e50;
-            line-height: 1.6;
+        .back-link:hover {
+            color: var(--text-main);
         }
-        .answer-section {
-            display: none;
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px dashed #e0e0e0;
-            background-color: #fafbfc;
-            padding: 15px;
-            border-radius: 8px;
-            color: #27ae60;
-            font-weight: 500;
-            line-height: 1.6;
+
+        /* تصميم البطاقات التفاعلية (Flashcards) */
+        .flashcard {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 25px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
             text-align: right;
         }
-        .btn {
-            background-color: var(--primary-color);
+
+        .card-tag {
+            display: inline-block;
+            background-color: #e6f4ef;
+            color: var(--primary-green);
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
+
+        .card-question-text {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-main);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .show-ans-btn {
+            background-color: var(--primary-green);
             color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background 0.2s;
-        }
-        .btn:hover {
-            background-color: #1e3f35;
-        }
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        .nav-btn {
-            background-color: #e0e0e0;
-            color: #333;
             border: none;
             padding: 10px 20px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.95rem;
+            width: 100%;
             font-weight: bold;
             transition: background 0.2s;
         }
-        .nav-btn:hover:not(:disabled) {
-            background-color: #d0d0d0;
+
+        .show-ans-btn:hover {
+            background-color: #0e4c3a;
         }
-        .nav-btn:disabled {
-            opacity: 0.5;
+
+        .answer-box {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #cbd5e1;
+            color: #15803d;
+            font-weight: 500;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .nav-control-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            background-color: white;
+            color: var(--text-main);
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .nav-control-btn:disabled {
+            opacity: 0.4;
             cursor: not-allowed;
         }
-        .back-home-btn {
-            background-color: #7f8c8d;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-            transition: background 0.2s;
+
+        .nav-control-btn:not(:disabled):hover {
+            background-color: #f1f5f9;
         }
-        .back-home-btn:hover {
-            background-color: #616a6b;
-        }
-        .counter {
-            text-align: center;
-            margin-top: 10px;
+
+        .counter-indicator {
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
             font-weight: bold;
-            color: #666;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>🌿 المنهاج من ميراث النبوة</h1>
-        <p class="subtitle">منصة مراجعة وتثبيت أبواب كتاب المنهاج بنظام الـ Flashcards التفاعلية</p>
+    <!-- الهيدر العلوي -->
+    <header class="top-header">
+        <div class="header-badge">منصة الحفظ والمراجعة</div>
+        <div class="header-title">المنهاج من ميراث النبوة 🌿</div>
     </header>
 
-    <div class="container">
-        <!-- واجهة الأقسام الرئيسية -->
-        <div class="home-view" id="home-view">
+    <div class="main-container">
+        <div class="content-box">
             
-            <!-- قسم الاختبار الشمولي -->
-            <div class="section-card">
-                <div class="section-title">⚡ الاختبار الشمولي للكتاب</div>
-                <button class="menu-btn" onclick="startQuiz('all')">
-                    <span>بدء الاختبار الشمولي (الباب الأول والباب الثاني معاً)</span>
-                    <span>←</span>
+            <!-- 1. الواجهة الرئيسية -->
+            <div id="home-view">
+                <h1>مرحباً بكِ في مراجعة كتاب المنهاج من ميراث النبوة</h1>
+                <p class="description">منصتك التفاعلية الشاملة لحفظ المتون، مراجعة الأبواب الـ 37، الرواة، التخريج، وإتمام الأحاديث بدقة وعناية.</p>
+                
+                <button class="action-btn btn-chapters" onclick="showChaptersMenu()">
+                    <span>📚 أبواب المنهاج</span>
+                </button>
+                
+                <button class="action-btn btn-exams" onclick="showExamsMenu()">
+                    <span>⚡ اختبارات شاملة</span>
                 </button>
             </div>
 
-            <!-- قسم أبواب المنهاج -->
-            <div class="section-card">
-                <div class="section-title">📖 تصفح أبواب المنهاج</div>
-                <button class="menu-btn" onclick="startQuiz(1)">
-                    <span>الباب الأول: مرجعية الوحي وشموليته ومركزية التسليم لله ولرسوله ﷺ</span>
-                    <span>←</span>
+            <!-- 2. قائمة أبواب المنهاج الفرعية -->
+            <div id="chapters-menu-view" class="sub-menu-view">
+                <button class="back-link" onclick="goHome()">← الرجوع للرئيسية</button>
+                <h2 style="font-size: 1.2rem; color: var(--primary-green); margin-bottom: 20px;">اختر الباب للمراجعة</h2>
+                
+                <button class="sub-btn" onclick="startQuiz(1)">
+                    الباب الأول: مرجعية الوحي وشموليته ومركزية التسليم لله ولرسوله ﷺ
                 </button>
-                <button class="menu-btn" onclick="startQuiz(2)">
-                    <span>الباب الثاني: تلقي القرآن على منهاج النبوة وتقديم مقصد العمل به</span>
-                    <span>←</span>
+                <button class="sub-btn" onclick="startQuiz(2)">
+                    الباب الثاني: تلقي القرآن على منهاج النبوة وتقديم مقصد العمل به
                 </button>
             </div>
 
-        </div>
-
-        <!-- واجهة عرض البطاقات التفاعلية (Flashcards) -->
-        <div class="quiz-view" id="quiz-view">
-            <button class="back-home-btn" onclick="goHome()">← العودة للرئيسية</button>
-            
-            <div class="card" id="card-box">
-                <!-- المحتوى يتغير برمجياً -->
+            <!-- 3. قائمة الاختبارات الشاملة -->
+            <div id="exams-menu-view" class="sub-menu-view">
+                <button class="back-link" onclick="goHome()">← الرجوع للرئيسية</button>
+                <h2 style="font-size: 1.2rem; color: var(--accent-orange); margin-bottom: 20px;">اختر الاختبار الشامل</h2>
+                
+                <button class="sub-btn" style="border-color: var(--accent-orange); color: var(--accent-orange);" onclick="startQuiz('all')">
+                    ⚡ الاختبار الشمولي (الباب الأول والباب الثاني معاً)
+                </button>
             </div>
 
-            <div class="nav-buttons">
-                <button class="nav-btn" id="prev-btn" onclick="prevCard()">← السابق</button>
-                <button class="nav-btn" id="next-btn" onclick="nextCard()">التالي →</button>
+            <!-- 4. واجهة عرض البطاقات التفاعلية (Flashcards) -->
+            <div id="quiz-view" class="quiz-view">
+                <button class="back-link" onclick="backToMenu()">← القائمة السابقة</button>
+                
+                <div class="flashcard">
+                    <span class="card-tag" id="card-cat">التصنيف</span>
+                    <div class="card-question-text" id="card-q">نص السؤال هنا...</div>
+                    <button class="show-ans-btn" id="ans-toggle-btn" onclick="toggleAnswer()">إظهار الإجابة</button>
+                    <div class="answer-box" id="card-a">الإجابة هنا...</div>
+                </div>
+
+                <div class="nav-controls">
+                    <button class="nav-control-btn" id="prev-btn" onclick="prevCard()">السابق</button>
+                    <button class="nav-control-btn" id="next-btn" onclick="nextCard()">التالي</button>
+                </div>
+                
+                <div class="counter-indicator" id="counter-text">السؤال 1 من 10</div>
             </div>
-            <div class="counter" id="counter-box"></div>
+
         </div>
     </div>
 
@@ -395,6 +473,35 @@
 
         let activeData = [];
         let currentIndex = 0;
+        let currentModeType = ''; // لحفظ نوع القائمة للرجوع إليها
+
+        function showChaptersMenu() {
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('chapters-menu-view').style.display = 'block';
+            currentModeType = 'chapters';
+        }
+
+        function showExamsMenu() {
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('exams-menu-view').style.display = 'block';
+            currentModeType = 'exams';
+        }
+
+        function goHome() {
+            document.getElementById('chapters-menu-view').style.display = 'none';
+            document.getElementById('exams-menu-view').style.display = 'none';
+            document.getElementById('quiz-view').style.display = 'none';
+            document.getElementById('home-view').style.display = 'block';
+        }
+
+        function backToMenu() {
+            document.getElementById('quiz-view').style.display = 'none';
+            if (currentModeType === 'chapters') {
+                document.getElementById('chapters-menu-view').style.display = 'block';
+            } else {
+                document.getElementById('exams-menu-view').style.display = 'block';
+            }
+        }
 
         function startQuiz(type) {
             if (type === 'all') {
@@ -406,40 +513,36 @@
             }
             
             currentIndex = 0;
-            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('chapters-menu-view').style.display = 'none';
+            document.getElementById('exams-menu-view').style.display = 'none';
             document.getElementById('quiz-view').style.display = 'block';
             renderCard();
         }
 
-        function goHome() {
-            document.getElementById('quiz-view').style.display = 'none';
-            document.getElementById('home-view').style.display = 'flex';
-        }
-
         function renderCard() {
-            const cardBox = document.getElementById('card-box');
             const item = activeData[currentIndex];
+            document.getElementById('card-cat').textContent = item.category;
+            document.getElementById('card-q').textContent = `${currentIndex + 1}. ${item.question}`;
             
-            cardBox.innerHTML = `
-                <span class="card-category">${item.category}</span>
-                <div class="card-question">${currentIndex + 1}. ${item.question}</div>
-                <button class="btn" id="ans-btn" onclick="toggleAnswer()">إظهار الإجابة</button>
-                <div class="answer-section" id="answer-sec">${item.answer}</div>
-            `;
+            const ansBox = document.getElementById('card-a');
+            const ansBtn = document.getElementById('ans-toggle-btn');
+            ansBox.style.display = 'none';
+            ansBox.textContent = item.answer;
+            ansBtn.textContent = 'إظهار الإجابة';
 
             document.getElementById('prev-btn').disabled = currentIndex === 0;
             document.getElementById('next-btn').disabled = currentIndex === activeData.length - 1;
-            document.getElementById('counter-box').textContent = `السؤال ${currentIndex + 1} من ${activeData.length}`;
+            document.getElementById('counter-text').textContent = `السؤال ${currentIndex + 1} من ${activeData.length}`;
         }
 
         function toggleAnswer() {
-            const ansSec = document.getElementById('answer-sec');
-            const ansBtn = document.getElementById('ans-btn');
-            if (ansSec.style.display === 'block') {
-                ansSec.style.display = 'none';
+            const ansBox = document.getElementById('card-a');
+            const ansBtn = document.getElementById('ans-toggle-btn');
+            if (ansBox.style.display === 'block') {
+                ansBox.style.display = 'none';
                 ansBtn.textContent = 'إظهار الإجابة';
             } else {
-                ansSec.style.display = 'block';
+                ansBox.style.display = 'block';
                 ansBtn.textContent = 'إخفاء الإجابة';
             }
         }
