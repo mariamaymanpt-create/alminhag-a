@@ -6,453 +6,6 @@
     <title>منصة المنهاج من ميراث النبوة</title>
     <style>
         :root {
-            --primary: #065f46;
-            --primary-dark: #064e3b;
-            --accent: #d97706;
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text: #1e293b;
-            --text-light: #64748b;
-        }
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            font-family: 'Cairo', Tahoma, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            padding-bottom: 40px;
-        }
-        header {
-            background-color: var(--primary);
-            color: white;
-            padding: 15px 20px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        header h1 {
-            font-size: 1.25rem;
-            font-weight: bold;
-        }
-        .container {
-            max-width: 700px;
-            margin: 20px auto;
-            padding: 0 15px;
-        }
-        .card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            margin-bottom: 20px;
-            border: 1px solid #e2e8f0;
-            text-align: center;
-        }
-        .card h2 {
-            color: var(--primary);
-            margin-bottom: 12px;
-            font-size: 1.5rem;
-        }
-        .card p {
-            color: var(--text-light);
-            font-size: 0.95rem;
-            margin-bottom: 20px;
-        }
-        .btn {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 14px 20px;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.2s;
-            width: 100%;
-            margin-top: 10px;
-            display: inline-block;
-        }
-        .btn:hover {
-            background-color: var(--primary-dark);
-        }
-        .btn-accent {
-            background-color: var(--accent);
-        }
-        .btn-accent:hover {
-            background-color: #b45309;
-        }
-        .back-btn {
-            background: #e2e8f0;
-            border: none;
-            color: var(--text);
-            font-weight: bold;
-            font-size: 0.95rem;
-            cursor: pointer;
-            padding: 8px 16px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .search-box {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 12px;
-            border: 1px solid #cbd5e1;
-            font-size: 1rem;
-            margin-bottom: 15px;
-            outline: none;
-        }
-        .search-box:focus {
-            border-color: var(--primary);
-        }
-        .chapter-item {
-            background: white;
-            padding: 16px;
-            border-radius: 12px;
-            margin-bottom: 10px;
-            border: 1px solid #e2e8f0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            text-align: right;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .chapter-item:hover {
-            border-color: var(--primary);
-            box-shadow: 0 2px 8px rgba(6, 95, 70, 0.05);
-        }
-        .chapter-title {
-            font-weight: bold;
-            font-size: 0.95rem;
-            color: var(--text);
-        }
-        .chapter-num {
-            background: #ecfdf5;
-            color: var(--primary);
-            padding: 6px 10px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            margin-left: 10px;
-            white-space: nowrap;
-        }
-        
-        /* Flashcard Styling */
-        .flashcard-container {
-            text-align: right;
-        }
-        .flashcard-question-box {
-            background: #f8fafc;
-            padding: 20px;
-            border-radius: 14px;
-            margin-bottom: 15px;
-            border: 1px solid #e2e8f0;
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: var(--text);
-        }
-        .flashcard-answer-box {
-            background: #ecfdf5;
-            padding: 18px;
-            border-radius: 14px;
-            margin-bottom: 20px;
-            border: 1px solid #a7f3d0;
-            color: var(--primary-dark);
-            font-weight: bold;
-            font-size: 1.05rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .flashcard-controls {
-            display: flex;
-            gap: 10px;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-        }
-        .nav-card-btn {
-            background: #e2e8f0;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            color: var(--text);
-        }
-        .nav-card-btn:hover {
-            background: #cbd5e1;
-        }
-        .card-counter {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-        .hidden {
-            display: none !important;
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <h1>🌿 المنهاج من ميراث النبوة</h1>
-    </header>
-
-    <div class="container">
-        
-        <!-- Home View -->
-        <div id="home-view" class="card">
-            <h2>منصة مراجعة وتثبيت أبواب المنهاج</h2>
-            <p>موسوعتك التفاعلية الشاملة بنظام الـ Flashcards لتثبيت المتون والأبواب بكفاءة عالية.</p>
-            <button class="btn" onclick="switchView('chapters-view')">📖 تصفح أبواب المنهاج (37 باباً)</button>
-            <button class="btn btn-accent" onclick="switchView('quiz-view')">⚡ اختبار سريع عشوائي</button>
-        </div>
-
-        <!-- Chapters View -->
-        <div id="chapters-view" class="card hidden">
-            <button class="back-btn" onclick="switchView('home-view')">← العودة للرئيسية</button>
-            <h2 style="font-size: 1.2rem; margin-bottom: 15px;">أبواب المنهاج الـ 37</h2>
-            <input type="text" id="searchInput" class="search-box" placeholder="ابحث عن اسم الباب..." onkeyup="filterChapters()">
-            <div id="chapters-list" style="max-height: 500px; overflow-y: auto;"></div>
-        </div>
-
-        <!-- Chapter Detail Flashcards View -->
-        <div id="chapter-detail-view" class="card hidden">
-            <button class="back-btn" onclick="switchView('chapters-view')">← العودة لقائمة الأبواب</button>
-            <h2 id="detail-title" style="font-size: 1.1rem; margin-bottom: 15px; color: var(--primary);"></h2>
-            <div id="flashcard-area" class="flashcard-container"></div>
-        </div>
-
-        <!-- Quiz View -->
-        <div id="quiz-view" class="card hidden">
-            <button class="back-btn" onclick="switchView('home-view')">← العودة للرئيسية</button>
-            <h2 id="quiz-title">اختبار تثبيتي</h2>
-            <p id="quiz-question" style="font-size: 1.1rem; color: #1e293b; font-weight: bold; margin-bottom: 20px;"></p>
-            <div id="quiz-options"></div>
-        </div>
-
-    </div>
-
-    <script>
-        const chapters = [
-            "الباب الأول: باب في مرجعية الوحي وشموليته ومركزية التسليم لله ولرسوله ﷺ",
-            "الباب الثاني: باب في تلقي القرآن على منهاج النبوة، وتقديم العمل به تدبره والاعتماد عليه",
-            "الباب الثالث: باب في تعظيم سنة النبي ﷺ ووجوب اتباعها والالتزام بهديه",
-            "الباب الرابع: باب تعظيم حدود الله والتحذير من مخالفة أمره وأمر رسوله ﷺ",
-            "الباب الخامس: باب ضبط الأفهام على معيار الوحي، وتصحيح النبي ﷺ لمقاييس النظر",
-            "الباب السادس: باب في أهمية الاقتداء بطريقة الصحابة بعد النبي ﷺ ومعالم هديهم العام",
-            "الباب السابع: باب في أن الدين على مراتب متفاوتة في الأمر والنهي والخبر",
-            "الباب الثامن: باب مركزية كلمة الإسلام (لا إله إلا الله) وفضلها وشروطها",
-            "الباب التاسع: باب في مركزية التزكية وأعمال القلوب ومركزية الصلاة في حياة المصلح",
-            "الباب العاشر: باب شرف العلم النافع وفضله وذم من لم يعمل بعلمه",
-            "الباب الحادي عشر: باب في مركزية العمل وأنه المقصود من العلم",
-            "الباب الثاني عشر: باب في صدق النية وأن العمل المقبول ما ابتغي به وجه الله",
-            "الباب الثالث عشر: باب أهمية استحضار الغاية والحذر من مزاحمة الغايات الشريفة",
-            "الباب الرابع عشر: باب في تحمل الفرد مسؤولية التكليف تجاه نفسه وغيره",
-            "الباب الخامس عشر: باب في المسؤولية العامة تجاه الإسلام والمسلمين",
-            "الباب السادس عشر: باب في مركزية اتباع هدي الأنبياء وأهميته للمصلح",
-            "الباب السابع عشر: باب فضل الإصلاح والدعوة إلى الله والأمر بالمعروف والنهي عن المنكر",
-            "الباب الثامن عشر: باب في مركزية الجهاد وفضله وأهميته في إقامة الدين",
-            "الباب التاسع عشر: باب في أن الدين شامل للسياسة والحكم ووجوب السعي لهيمنة الإسلام",
-            "الباب العشرون: باب في أهمية صناعة المصلحين وبيان صفاتهم",
-            "الباب الحادي والعشرون: باب في أهمية الوعي بسبيل المجرمين والحذر من كيد أعداء الإسلام",
-            "الباب الثاني والعشرون: باب العناية بالشباب وتقديم ذوي العلم منهم",
-            "الباب الثالث والعشرون: باب دور المرأة في بث العلم ونصرة الإسلام وعنايتها بأبواب الخير",
-            "الباب الرابع والعشرون: باب في الثبات على الاستقامة والحذر من الانتكاس",
-            "الباب الخامس والعشرون: باب في الحث على الاعتدال في الدين والتيسير والتحذير من الغلو",
-            "الباب السادس والعشرون: باب في مركزية حسن الخلق والبر والإحسان",
-            "الباب السابع والعشرون: باب في مفاتيح الهداية والبصيرة ودوام احتياج المسلم لها",
-            "الباب الثامن والعشرون: باب في أهمية الصحبة الصالحة وفضل الحب في الله",
-            "الباب التاسع والعشرون: باب في الحذر من الفتن وفتنة الدنيا والتنافس فيها",
-            "الباب الثلاثون: باب في فهم أسباب ضعف المسلمين واختلال أحوالهم",
-            "الباب الحادي والثلاثون: باب في السنن الإلهية وأهمية موافقتها في الإصلاح",
-            "الباب الثاني والثلاثون: باب في حسن العاقبة والتمكين بعد البلاء",
-            "الباب الثالث والثلاثون: باب في المبشرات بالتمكين وصلاح أحوال المسلمين آخر الزمان",
-            "الباب الرابع والثلاثون: باب في أن الإسلام هو الدين الوحيد المقبول عند الله",
-            "الباب الخامس والثلاثون: باب سير المؤمن إلى الله بين الخوف والرجاء",
-            "الباب السادس والثلاثون: باب في الشوق إلى رسول الله ﷺ والحنين إليه",
-            "الباب السابع والثلاثون: باب الشوق إلى الله ﷺ"
-        ];
-
-        // قاعدة بيانات البطاقات التفاعلية مع تحديث أسئلة الباب الأول الاحترافية
-        const chapterFlashcards = {
-            1: [
-                { q: "ما هو العنوان الدقيق والكامل للباب الأول من كتاب 'المنهاج من ميراث النبوة'؟", a: "باب في مرجعية الوحي وشموليته ومركزية التسليم لله ولرسوله ﷺ" },
-                { q: "أتمم متن حديث أبي رافع رضي الله عنه: «لَا أُلْفِيَنَّ أَحَدَكُمْ مُتَّكِئًا عَلَى أَرِيكَتِهِ...» إلى آخره[cite: 1].", a: "«...يَأْتِيهِ أَمْرٌ مِمَّا أَمَرْتُ بِهِ أَوْ نَهَيْتُ عَنْهُ فَيَقُولُ: لَا أَدْرِي، مَا وَجَدْنَا فِي كِتَابِ اللَّهِ اتَّبَعْنَاهُ»[cite: 1]." },
-                { q: "أتمم بداية قصة حديث أبي هريرة الطويل عند نزول آية: ﴿وَإِن تُبْدُوا مَا فِي أَنفُسِكُمْ أَوْ تُخْفُوهُ...﴾، ماذا فعل الصحابة رضي الله عنهم؟[cite: 1]", a: "«فَاشْتَدَّ ذَلِكَ عَلَى أَصْحَابِ رَسُولِ اللهِ ﷺ، فَأَتَوْا رَسُولَ اللَّهِ ﷺ ثُمَّ بَرَكُوا عَلَى الرُّكَبِ فَقَالُوا...»[cite: 1]" },
-                { q: "من هو الصحابي الجليل راوي حديث: «كِتَابُ اللَّهِ، هُوَ حَبْلُ اللَّهِ...»؟[cite: 1]", a: "زيد بن أرقم رضي الله عنه[cite: 1]" },
-                { q: "من هو الصحابي الذي روى خطبة النبي ﷺ الدائمة: «أَمَّا بَعْدُ: فَإِنَّ خَيْرَ الْحَدِيثِ كِتَابُ اللَّهِ...»؟[cite: 1]", a: "جابر بن عبد الله رضي الله عنهما[cite: 1]" },
-                { q: "حديث أبي رافع رضي الله عنه («لَا أُلْفِيَنَّ أَحَدَكُمْ مُتَّكِئًا...»)، في أي الكتب تم تخريجه؟[cite: 1]", a: "أخرجه أبو داود (٤٦٠٥)، والترمذي (٢٦٦٣)[cite: 1]" },
-                { q: "حديث جابر بن عبد الله في خطبة الحاجة (خير الحديث كتاب الله)، من أخرجه؟[cite: 1]", a: "أخرجه مسلم (٨٦٧)[cite: 1]" },
-                { q: "حديث أبي هريرة «مَنْ أَطَاعَنِي فَقَدْ أَطَاعَ اللَّهَ...»، ما هو تخريجه المذكور في المتن؟[cite: 1]", a: "أخرجه البخاري (٧١٣٧)، ومسلم (١٨٣٥)[cite: 1]" },
-                { q: "ما هو الحديث الذي يأتي مباشرة بعد حديث زيد بن أرقم في الباب الأول؟[cite: 1]", a: "حديث أبي رافع رضي الله عنه: «لَا أُلْفِيَنَّ أَحَدَكُمْ مُتَّكِئًا عَلَى أَرِيكَتِهِ...»[cite: 1]" },
-                { q: "ما هو الحديث الذي يسبق مباشرة حديث جابر بن عبد الله (خَيْرُ الْحَدِيثِ كِتَابُ اللَّهِ) في ترتيب الباب؟[cite: 1]", a: "حديث أبي هريرة رضي الله عنه: «مَنْ أَطَاعَنِي فَقَدْ أَطَاعَ اللَّهَ، وَمَنْ عَصَانِي فَقَدْ عَصَى اللَّهَ»[cite: 1]" },
-                { q: "ما هو الحديث الذي يُختتم به الباب الأول بالكامل (وهو أطول أحاديث الباب)؟[cite: 1]", a: "حديث أبي هريرة الطويل في قصة نزول آية المحاسبة ﴿وَإِن تُبْدُوا...﴾ ونسخها بقوله: ﴿لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا...﴾[cite: 1]" }
-            ],
-            2: [
-                { q: "ما هو عنوان الباب الثاني بالكامل؟", a: "باب في تلقي القرآن على منهاج النبوة، وتقديم العمل به تدبره والاعتماد عليه" },
-                { q: "ما الأثر أو الحديث الذي يلي أثر جندب بن عبد الله؟", a: "حديث: «مَا اجْتَمَعَ قَوْمٌ فِي بَيْتٍ مِنْ بُيُوتِ اللَّهِ يَتْلُونَ كِتَابَ اللَّهِ...»" }
-            ],
-            3: [
-                { q: "ما هو عنوان الباب الثالث بالكامل؟", a: "باب في تعظيم سنة النبي ﷺ ووجوب اتباعها والالتزام بهديه" }
-            ]
-        };
-
-        let currentFlashcardsList = [];
-        let currentCardIndex = 0;
-
-        function switchView(viewId) {
-            document.getElementById('home-view').classList.add('hidden');
-            document.getElementById('chapters-view').classList.add('hidden');
-            document.getElementById('chapter-detail-view').classList.add('hidden');
-            document.getElementById('quiz-view').classList.add('hidden');
-            
-            document.getElementById(viewId).classList.remove('hidden');
-            window.scrollTo({top: 0, behavior: 'smooth'});
-
-            if (viewId === 'chapters-view') {
-                renderChapters(chapters);
-            } else if (viewId === 'quiz-view') {
-                loadQuiz();
-            }
-        }
-
-        function renderChapters(list) {
-            const container = document.getElementById('chapters-list');
-            container.innerHTML = '';
-            
-            list.forEach((title, index) => {
-                const item = document.createElement('div');
-                item.className = 'chapter-item';
-                item.innerHTML = `
-                    <span class="chapter-title">${title}</span>
-                    <span class="chapter-num">باب ${index + 1}</span>
-                `;
-                item.onclick = () => openChapter(index + 1, title);
-                container.appendChild(item);
-            });
-        }
-
-        function openChapter(num, title) {
-            document.getElementById('detail-title').innerText = title;
-            
-            currentFlashcardsList = chapterFlashcards[num] || [
-                { q: "عنوان هذا الباب:", a: title },
-                { q: "قريباً سيتم إضافة تفاصيل ومتون وأحاديث هذا الباب بنظام الفلاش كاردز!", a: "ترقبوا التحديث القادم 🌿" }
-            ];
-            
-            currentCardIndex = 0;
-            renderFlashcard();
-            switchView('chapter-detail-view');
-        }
-
-        function renderFlashcard() {
-            const area = document.getElementById('flashcard-area');
-            const card = currentFlashcardsList[currentCardIndex];
-            
-            area.innerHTML = `
-                <div class="card-counter">بطاقة ${currentCardIndex + 1} من ${currentFlashcardsList.length}</div>
-                <div class="flashcard-question-box">
-                    ❓ ${card.q}
-                </div>
-                <div id="ans-box" class="flashcard-answer-box hidden">
-                    <span>💡 الإجابة: ${card.a}</span>
-                </div>
-                <button id="toggle-btn" class="btn" style="margin-bottom: 15px;" onclick="toggleAnswer()">👁️ إظهار الإجابة</button>
-                
-                <div class="flashcard-controls">
-                    <button class="nav-card-btn" onclick="prevCard()" ${currentCardIndex === 0 ? 'disabled style="opacity:0.5;"' : ''}>← السابق</button>
-                    <button class="nav-card-btn" onclick="nextCard()" ${currentCardIndex === currentFlashcardsList.length - 1 ? 'disabled style="opacity:0.5;"' : ''}>التالي →</button>
-                </div>
-            `;
-        }
-
-        function toggleAnswer() {
-            const ansBox = document.getElementById('ans-box');
-            const toggleBtn = document.getElementById('toggle-btn');
-            if (ansBox.classList.contains('hidden')) {
-                ansBox.classList.remove('hidden');
-                toggleBtn.innerText = "🔒 إخفاء الإجابة";
-                toggleBtn.style.backgroundColor = "#64748b";
-            } else {
-                ansBox.classList.add('hidden');
-                toggleBtn.innerText = "👁️ إظهار الإجابة";
-                toggleBtn.style.backgroundColor = "var(--primary)";
-            }
-        }
-
-        function nextCard() {
-            if (currentCardIndex < currentFlashcardsList.length - 1) {
-                currentCardIndex++;
-                renderFlashcard();
-            }
-        }
-
-        function prevCard() {
-            if (currentCardIndex > 0) {
-                currentCardIndex--;
-                renderFlashcard();
-            }
-        }
-
-        function filterChapters() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = chapters.filter(ch => ch.toLowerCase().includes(query));
-            renderChapters(filtered);
-        }
-
-        function loadQuiz() {
-            document.getElementById('quiz-title').innerText = "سؤال تثبيتي عشوائي";
-            document.getElementById('quiz-question').innerText = "ما هو العنوان الدقيق للباب الأول من كتاب المنهاج من ميراث النبوة؟";
-            
-            const optionsDiv = document.getElementById('quiz-options');
-            optionsDiv.innerHTML = '';
-            
-            const options = [
-                "باب في مرجعية الوحي وشموليته ومركزية التسليم لله ولرسوله ﷺ",
-                "باب في تلقي القرآن على منهاج النبوة",
-                "باب في تعظيم سنة النبي ﷺ ووجوب اتباعها",
-                "باب في أهمية الاقتداء بطريقة الصحابة"
-            ];
-            options.forEach((opt, idx) => {
-                const btn = document.createElement('button');
-                btn.className = 'btn';
-                btn.style.marginTop = '8px';
-                btn.style.backgroundColor = '#f1f5f9';
-                btn.style.color = '#1e293b';
-                btn.innerText = opt;
-                btn.onclick = () => {
-                    if (idx === 0) {
-                        alert("✨ إجابة صحيحة وموفقة!");
-                    } else {
-                        alert("❌ إجابة خاطئة، الإجابة الصحيحة هي الخيار الأول.");
-                    }
-                };
-                optionsDiv.appendChild(btn);
-            });
-        }
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>البطاقات التعليمية - المنهاج من ميراث النبوة</title>
-    <style>
-        :root {
             --primary-color: #2c5e50;
             --secondary-color: #e8f5e9;
             --accent-color: #81c784;
@@ -472,7 +25,7 @@
         }
         header {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         h1 {
             color: var(--primary-color);
@@ -492,9 +45,9 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
             padding: 30px;
             margin-bottom: 20px;
-            transition: transform 0.2s ease;
             position: relative;
             overflow: hidden;
+            text-align: center;
         }
         .card::before {
             content: '';
@@ -510,21 +63,22 @@
             color: var(--primary-color);
             font-weight: bold;
             text-transform: uppercase;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             display: inline-block;
             background: var(--secondary-color);
-            padding: 4px 10px;
+            padding: 4px 12px;
             border-radius: 20px;
         }
         .card-question {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             color: #2c3e50;
+            line-height: 1.6;
         }
         .answer-section {
             display: none;
-            margin-top: 15px;
+            margin-top: 20px;
             padding-top: 15px;
             border-top: 1px dashed #e0e0e0;
             background-color: #fafbfc;
@@ -533,12 +87,13 @@
             color: #27ae60;
             font-weight: 500;
             line-height: 1.6;
+            text-align: right;
         }
         .btn {
             background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 10px 25px;
             border-radius: 8px;
             cursor: pointer;
             font-size: 1rem;
@@ -547,30 +102,116 @@
         .btn:hover {
             background-color: #1e3f35;
         }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .nav-btn {
+            background-color: #e0e0e0;
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .nav-btn:hover:not(:disabled) {
+            background-color: #d0d0d0;
+        }
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .counter {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #666;
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>المنهاج من ميراث النبوة</h1>
-        <p class="subtitle">بنك الأسئلة والشامل (الباب الأول والباب الثاني)</p>
+        <h1>🌿 المنهاج من ميراث النبوة</h1>
+        <p class="subtitle">بنك الأسئلة الشامل (الباب الأول والباب الثاني)</p>
     </header>
 
-    <div class="container" id="card-container">
-        <!-- سيتم تعبئة البطاقات ديناميكياً -->
+    <div class="container">
+        <div class="card" id="card-box">
+            <!-- المحتوى يتغير برمجياً -->
+        </div>
+
+        <div class="nav-buttons">
+            <button class="nav-btn" id="prev-btn" onclick="prevCard()">← السابق</button>
+            <button class="nav-btn" id="next-btn" onclick="nextCard()">التالي →</button>
+        </div>
+        <div class="counter" id="counter-box"></div>
     </div>
 
     <script>
         const questionsData = [
-            // ==================== الباب الأول ====================
+            // ==================== أسئلة الباب الأول ====================
             {
                 category: "الباب الأول - اسم الباب",
-                question: "ما هو العنوان الكامل والدقيق للباب الأول من الكتاب؟",
-                answer: "باب في وجوب تعظيم سنة النبي ﷺ، وتحريم ردها أو معارضتها، وتقديمها على كل قول ورأي وهدي."
+                question: "ما هو العنوان الدقيق والكامل للباب الأول من كتاب 'المنهاج من ميراث النبوة'؟",
+                answer: "باب في مرجعية الوحي وشموليته ومركزية التسليم لله ولرسوله ﷺ."
             },
-            // (يمكنك إضافة أو مراجعة بقية أسئلة الباب الأول هنا متى شئت، وهيا بنا للباب الثاني)
+            {
+                category: "الباب الأول - إكمال المتون",
+                question: "أتمم متن حديث أبي رافع رضي الله عنه: «لَا أُلْفِيَنَّ أَحَدَكُمْ مُتَّكِئًا عَلَى أَرِيكَتِهِ...» إلى آخره.",
+                answer: "«...يَأْتِيهِ أَمْرٌ مِمَّا أَمَرْتُ بِهِ أَوْ نَهَيْتُ عَنْهُ فَيَقُولُ: لَا أَدْرِي، مَا وَجَدْنَا فِي كِتَابِ اللَّهِ اتَّبَعْنَاهُ»."
+            },
+            {
+                category: "الباب الأول - إكمال المتون",
+                question: "أتمم بداية قصة حديث أبي هريرة الطويل عند نزول آية: ﴿وَإِن تُبْدُوا مَا فِي أَنفُسِكُمْ أَوْ تُخْفُوهُ...﴾، ماذا فعل الصحابة رضي الله عنهم؟",
+                answer: "«فَاشْتَدَّ ذَلِكَ عَلَى أَصْحَابِ رَسُولِ اللهِ ﷺ، فَأَتَوْا رَسُولَ اللَّهِ ﷺ ثُمَّ بَرَكُوا عَلَى الرُّكَبِ فَقَالُوا...»."
+            },
+            {
+                category: "الباب الأول - الرواة",
+                question: "من هو الصحابي الجليل راوي حديث: «كِتَابُ اللَّهِ، هُوَ حَبْلُ اللَّهِ...»؟",
+                answer: "زيد بن أرقم رضي الله عنه."
+            },
+            {
+                category: "الباب الأول - الرواة",
+                question: "من هو الصحابي الذي روى خطبة النبي ﷺ الدائمة: «أَمَّا بَعْدُ: فَإِنَّ خَيْرَ الْحَدِيثِ كِتَابُ اللَّهِ...»؟",
+                answer: "جابر بن عبد الله رضي الله عنهما."
+            },
+            {
+                category: "الباب الأول - التخريج",
+                question: "حديث أبي رافع رضي الله عنه («لَا أُلْفِيَنَّ أَحَدَكُمْ مُتَّكِئًا...»)، في أي الكتب الستة تم تخريجه؟",
+                answer: "أخرجه أبو داود (٤٦٠٥)، والترمذي (٢٦٦٣)."
+            },
+            {
+                category: "الباب الأول - التخريج",
+                question: "حديث جابر بن عبد الله في خطبة الحاجة (خير الحديث كتاب الله)، من أخرجه من أصحاب السنن أو الصحاح؟",
+                answer: "أخرجه مسلم (٨٦٧)."
+            },
+            {
+                category: "الباب الأول - التخريج",
+                question: "حديث أبي هريرة «مَنْ أَطَاعَنِي فَقَدْ أَطَاعَ اللَّهَ...»، ما هو تخريجه المتفق عليه أو المذكور في المتن؟",
+                answer: "أخرجه البخاري (٧١٣٧)، ومسلم (١٨٣٥)."
+            },
+            {
+                category: "الباب الأول - ترتيب النصوص",
+                question: "ما هو الحديث الذي يأتي مباشرة بعد حديث زيد بن أرقم في الباب الأول؟",
+                answer: "حديث أبي رافع رضي الله عنه: «لَا أُلْفِيَنَّ أَحَدَكُمْ مُتَّكِئًا عَلَى أَرِيكَتِهِ...»."
+            },
+            {
+                category: "الباب الأول - ترتيب النصوص",
+                question: "ما هو الحديث الذي يسبق مباشرة حديث جابر بن عبد الله (خَيْرُ الْحَدِيثِ كِتَابُ اللَّهِ) في ترتيب الباب؟",
+                answer: "حديث أبي هريرة رضي الله عنه: «مَنْ أَطَاعَنِي فَقَدْ أَطَاعَ اللَّهَ، وَمَنْ عَصَانِي فَقَدْ عَصَى اللَّهَ»."
+            },
+            {
+                category: "الباب الأول - ترتيب النصوص",
+                question: "ما هو الحديث الذي يُختتم به الباب الأول بالكامل (وهو أطول أحاديث الباب)؟",
+                answer: "حديث أبي هريرة الطويل في قصة نزول آية المحاسبة ﴿وَإِن تُبْدُوا مَا فِي أَنفُسِكُمْ...﴾ ونسخها بقوله: ﴿لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا...﴾."
+            },
 
-            // ==================== الباب الثاني ====================
+            // ==================== أسئلة الباب الثاني ====================
             {
                 category: "الباب الثاني - اسم الباب",
                 question: "ما هو العنوان الكامل والدقيق للباب الثاني من كتاب 'المنهاج من ميراث النبوة'؟",
@@ -658,31 +299,52 @@
             }
         ];
 
-        const container = document.getElementById('card-container');
+        let currentIndex = 0;
 
-        questionsData.forEach((item, index) => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
+        function renderCard() {
+            const cardBox = document.getElementById('card-box');
+            const item = questionsData[currentIndex];
+            
+            cardBox.innerHTML = `
                 <span class="card-category">${item.category}</span>
-                <div class="card-question">${index + 1}. ${item.question}</div>
-                <button class="btn" onclick="toggleAnswer(${index})">إظهار الإجابة</button>
-                <div class="answer-section" id="answer-${index}">${item.answer}</div>
+                <div class="card-question">${currentIndex + 1}. ${item.question}</div>
+                <button class="btn" id="ans-btn" onclick="toggleAnswer()">إظهار الإجابة</button>
+                <div class="answer-section" id="answer-sec">${item.answer}</div>
             `;
-            container.appendChild(card);
-        });
 
-        function toggleAnswer(index) {
-            const answerDiv = document.getElementById(`answer-${index}`);
-            const btn = answerDiv.previousElementSibling;
-            if (answerDiv.style.display === 'block') {
-                answerDiv.style.display = 'none';
-                btn.textContent = 'إظهار الإجابة';
+            document.getElementById('prev-btn').disabled = currentIndex === 0;
+            document.getElementById('next-btn').disabled = currentIndex === questionsData.length - 1;
+            document.getElementById('counter-box').textContent = `السؤال ${currentIndex + 1} من ${questionsData.length}`;
+        }
+
+        function toggleAnswer() {
+            const ansSec = document.getElementById('answer-sec');
+            const ansBtn = document.getElementById('ans-btn');
+            if (ansSec.style.display === 'block') {
+                ansSec.style.display = 'none';
+                ansBtn.textContent = 'إظهار الإجابة';
             } else {
-                answerDiv.style.display = 'block';
-                btn.textContent = 'إخفاء الإجابة';
+                ansSec.style.display = 'block';
+                ansBtn.textContent = 'إخفاء الإجابة';
             }
         }
+
+        function nextCard() {
+            if (currentIndex < questionsData.length - 1) {
+                currentIndex++;
+                renderCard();
+            }
+        }
+
+        function prevCard() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderCard();
+            }
+        }
+
+        // تشغيل أول بطاقة عند فتح الصفحة
+        renderCard();
     </script>
 </body>
 </html>
