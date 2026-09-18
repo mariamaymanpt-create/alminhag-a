@@ -270,29 +270,39 @@
                 <h1>مرحباً بكِ في مراجعة كتاب المنهاج من ميراث النبوة</h1>
                 <p class="description">منصتك التفاعلية الشاملة لحفظ المتون، مراجعة الأبواب، الرواة، التخريج، وإتمام الأحاديث بدقة وعناية.</p>
      
-   <!-- بطاقة الرسم البياني الدائري (Donut Chart Dashboard) -->
+ <!-- لوحة التحكم الاحترافية (Dashboard) -->
             <div style="background: #fff; padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); margin-bottom: 20px; display: flex; flex-direction: column; align-items: center;">
                 <div style="font-size: 15px; font-weight: bold; color: #444; margin-bottom: 15px; align-self: flex-start;">معدل الإنجاز والتقدم العام</div>
                 
-                <!-- تصميم الدائرة الاحترافية التفاعلية -->
+                <!-- تصميم الدائرة التفاعلية -->
                 <div id="donut-chart" style="position: relative; width: 160px; height: 160px; border-radius: 50%; background: conic-gradient(var(--primary-green) 0% 27%, #e9ecef 27% 100%); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; transition: background 0.5s ease;">
                     <div style="position: absolute; width: 120px; height: 120px; background: #fff; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                         <span id="dashboard-percent" style="font-size: 26px; font-weight: bold; color: var(--primary-green);">27%</span>
-                        <span style="font-size: 12px; color: #777;">المتوسط</span>
+                        <span style="font-size: 12px; color: #777;">المتوسط العام</span>
                     </div>
                 </div>
 
-                <!-- مؤشرات الأنشطة التفصيلية -->
-                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; width: 100%; border-top: 1px solid #f0f0f0; padding-top: 15px;">
-                    <div style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #555; background: #f8f9fa; padding: 6px 12px; border-radius: 20px;">
-                        <span style="width: 10px; height: 10px; background: var(--primary-green); border-radius: 50%;"></span>حفظ المتون
+                <!-- خانات الإحصائيات الثلاث المطلوبة -->
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; margin-top: 10px; border-top: 1px solid #f0f0f0; padding-top: 15px; text-align: center;">
+                    
+                    <!-- 1. الاستمرارية -->
+                    <div style="background: #f8f9fa; padding: 10px 5px; border-radius: 12px; border: 1px solid #e9ecef;">
+                        <span style="display: block; font-size: 1.1rem; font-weight: bold; color: var(--primary-green);" id="dash-streak">🔥 0</span>
+                        <span style="font-size: 0.75rem; color: #666;">الاستمرارية</span>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #555; background: #f8f9fa; padding: 6px 12px; border-radius: 20px;">
-                        <span style="width: 10px; height: 10px; background: var(--accent-orange); border-radius: 50%;"></span>مراجعة الأبواب
+
+                    <!-- 2. نتائج واختبارات (المنجزة من الكل) -->
+                    <div style="background: #f8f9fa; padding: 10px 5px; border-radius: 12px; border: 1px solid #e9ecef;">
+                        <span style="display: block; font-size: 1.1rem; font-weight: bold; color: var(--accent-orange);" id="dash-tests-progress">0 / ع</span>
+                        <span style="font-size: 0.75rem; color: #666;">الاختبارات المنجزة</span>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #555; background: #f8f9fa; padding: 6px 12px; border-radius: 20px;">
-                        <span style="width: 10px; height: 10px; background: #2563eb; border-radius: 50%;"></span>الاختبارات الشاملة
+
+                    <!-- 3. مراجعة الأبواب -->
+                    <div style="background: #f8f9fa; padding: 10px 5px; border-radius: 12px; border: 1px solid #e9ecef;">
+                        <span style="display: block; font-size: 1.1rem; font-weight: bold; color: #2563eb;" id="dash-chapters-revised">0</span>
+                        <span style="font-size: 0.75rem; color: #666;">مراجعة الأبواب</span>
                     </div>
+
                 </div>
             </div>
    
@@ -1031,24 +1041,24 @@
             checkStreak();
         });
 
-     function updateDashboard() {
+  function updateDashboard() {
             let history = JSON.parse(localStorage.getItem("alminhagExams")) || [];
-            const testsCountElem = document.getElementById("dash-tests");
-            if (testsCountElem) testsCountElem.innerText = history.length;
             
-            const avgElem = document.getElementById("dash-avg");
-            let currentAvg = 0;
-            if (avgElem) {
-                if (history.length > 0) {
-                    const total = history.reduce((sum, item) => sum + item.score, 0);
-                    currentAvg = Math.round(total / history.length);
-                    avgElem.innerText = currentAvg + "%";
-                } else {
-                    avgElem.innerText = "0%";
-                }
+            // تحديث عدد الاختبارات المنجزة من إجمالي (مثلاً 5 نماذج أو حسب رغبتك)
+            const totalAvailableExams = 5; 
+            const testsProgressElem = document.getElementById("dash-tests-progress");
+            if (testsProgressElem) {
+                testsProgressElem.innerText = `${history.length} / ${totalAvailableExams}`;
             }
 
-            // ⭐ هذا هو التعديل البسيط لتحديث الدائرة التفاعلية تلقائياً بناءً على المتوسط
+            // تحديث متوسط الدرجات والدائرة
+            const avgElem = document.getElementById("dash-avg");
+            let currentAvg = 0;
+            if (history.length > 0) {
+                const total = history.reduce((sum, item) => sum + item.score, 0);
+                currentAvg = Math.round(total / history.length);
+            }
+
             const donutChart = document.getElementById("donut-chart");
             const dashboardPercent = document.getElementById("dashboard-percent");
             if (donutChart && dashboardPercent) {
