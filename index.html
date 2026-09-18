@@ -356,8 +356,7 @@
               </button>
             </div>
              <!-- واجهة الاختبارات ذات الدرجات -->
-            <div id="exam-view" style="display: none; padding: 20px; max-width: 600px; margin: 0 auto; text-align: right;">
-             <!-- سيتم تعبئة هذا القسم برمجياً بالأسئلة والخيارات -->
+            <div id="exam-view" style="display: none; padding: 20px; max-width: 700px; margin: 0 auto; text-align: right;"></div>
             </div>
             <!-- 4. واجهة عرض البطاقات التفاعلية (Flashcards) -->
             <div id="quiz-view" class="quiz-view">
@@ -1874,18 +1873,31 @@ let currentExamQuestions = [];
         }
 
         // دالة بدء نموذج اختبار معين
-        function startExamModel(modelId) {
+       function startExamModel(modelId) {
             const exam = comprehensiveExams[modelId];
             if (!exam || !exam.questions || exam.questions.length === 0) {
                 alert("عذراً يا دكتورة، الأسئلة الخاصة بهذا النموذج لم تُضاف بعد.");
                 return;
             }
 
-            const examView = document.getElementById("exam-view");
-            if (examView) examView.style.display = "block";
-
+            // إخفاء قوائم الاختيار الرئيسية
             const examsMenuView = document.getElementById("exams-menu-view");
             if (examsMenuView) examsMenuView.style.display = "none";
+
+            const homeView = document.getElementById("home-view");
+            if (homeView) homeView.style.display = "none";
+
+            const chaptersMenuView = document.getElementById("chapters-menu-view");
+            if (chaptersMenuView) chaptersMenuView.style.display = "none";
+
+            // إظهار منطقة الاختبار ببطء وبشكل صحيح
+            const examView = document.getElementById("exam-view");
+            if (examView) {
+                examView.style.display = "block";
+                examView.style.width = "100%";
+                examView.style.maxWidth = "700px";
+                examView.style.margin = "20px auto";
+            }
 
             currentExamQuestions = [...exam.questions];
             currentExamIndex = 0;
