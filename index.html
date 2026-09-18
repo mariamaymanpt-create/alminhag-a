@@ -571,14 +571,19 @@
             else if (chapterId === 9) currentQuestions = [...chapter9Data];
             else if (chapterId === 10) currentQuestions = [...chapter10Data];
             else if (chapterId === 11) currentQuestions = [...chapter11Data];
+            else if (chapterId === 12) currentQuestions = [...chapter12Data];
+            else if (chapterId === 13) currentQuestions = [...chapter13Data];
+            else if (chapterId === 14) currentQuestions = [...chapter14Data];
+            else if (chapterId === 15) currentQuestions = [...chapter15Data];
             else if (chapterId === 'all') {
-                currentQuestions = [
-                    ...chapter1Data, ...chapter2Data, ...chapter3Data, 
-                    ...chapter4Data, ...chapter5Data, ...chapter6Data,
-                    ...chapter7Data, ...chapter8Data, ...chapter9Data, 
-                    ...chapter10Data, ...chapter11Data
-                ];
-            }
+             currentQuestions = [
+                 ...chapter1Data, ...chapter2Data, ...chapter3Data,
+                 ...chapter4Data, ...chapter5Data, ...chapter6Data,
+                 ...chapter7Data, ...chapter8Data, ...chapter9Data,
+                 ...chapter10Data, ...chapter11Data, ...chapter12Data,
+                 ...chapter13Data, ...chapter14Data, ...chapter15Data
+        ];
+    }
 
             currentIndex = 0;
             loadCard();
