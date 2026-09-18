@@ -270,21 +270,31 @@
                 <h1>مرحباً بكِ في مراجعة كتاب المنهاج من ميراث النبوة</h1>
                 <p class="description">منصتك التفاعلية الشاملة لحفظ المتون، مراجعة الأبواب، الرواة، التخريج، وإتمام الأحاديث بدقة وعناية.</p>
      
-   
-           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 25px;">
-               <div style="background: #f1f5f9; padding: 12px 8px; border-radius: 12px; text-align: center; border: 1px solid #e2e8f0;">
-                  <span style="display: block; font-size: 1.2rem; font-weight: bold; color: var(--primary-green);" id="dash-streak">🔥 0</span>
-                  <span style="font-size: 0.75rem; color: var(--text-muted);">الاستمرارية</span>
-              </div>
-              <div style="background: #f1f5f9; padding: 12px 8px; border-radius: 12px; text-align: center; border: 1px solid #e2e8f0;">
-                 <span style="display: block; font-size: 1.2rem; font-weight: bold; color: var(--accent-orange);" id="dash-tests">0</span>
-                 <span style="font-size: 0.75rem; color: var(--text-muted);">الاختبارات</span>
-             </div>
-             <div style="background: #f1f5f9; padding: 12px 8px; border-radius: 12px; text-align: center; border: 1px solid #e2e8f0;">
-                <span style="display: block; font-size: 1.2rem; font-weight: bold; color: #2563eb;" id="dash-avg">0%</span>
-                <span style="font-size: 0.75rem; color: var(--text-muted);">المتوسط</span>
+   <!-- بطاقة الرسم البياني الدائري (Donut Chart Dashboard) -->
+            <div style="background: #fff; padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); margin-bottom: 20px; display: flex; flex-direction: column; align-items: center;">
+                <div style="font-size: 15px; font-weight: bold; color: #444; margin-bottom: 15px; align-self: flex-start;">معدل الإنجاز والتقدم العام</div>
+                
+                <!-- تصميم الدائرة الاحترافية التفاعلية -->
+                <div id="donut-chart" style="position: relative; width: 160px; height: 160px; border-radius: 50%; background: conic-gradient(var(--primary-green) 0% 27%, #e9ecef 27% 100%); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; transition: background 0.5s ease;">
+                    <div style="position: absolute; width: 120px; height: 120px; background: #fff; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <span id="dashboard-percent" style="font-size: 26px; font-weight: bold; color: var(--primary-green);">27%</span>
+                        <span style="font-size: 12px; color: #777;">المتوسط</span>
+                    </div>
+                </div>
+
+                <!-- مؤشرات الأنشطة التفصيلية -->
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; width: 100%; border-top: 1px solid #f0f0f0; padding-top: 15px;">
+                    <div style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #555; background: #f8f9fa; padding: 6px 12px; border-radius: 20px;">
+                        <span style="width: 10px; height: 10px; background: var(--primary-green); border-radius: 50%;"></span>حفظ المتون
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #555; background: #f8f9fa; padding: 6px 12px; border-radius: 20px;">
+                        <span style="width: 10px; height: 10px; background: var(--accent-orange); border-radius: 50%;"></span>مراجعة الأبواب
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #555; background: #f8f9fa; padding: 6px 12px; border-radius: 20px;">
+                        <span style="width: 10px; height: 10px; background: #2563eb; border-radius: 50%;"></span>الاختبارات الشاملة
+                    </div>
+                </div>
             </div>
-           </div>
    
 
          
@@ -1021,20 +1031,29 @@
             checkStreak();
         });
 
-        function updateDashboard() {
+     function updateDashboard() {
             let history = JSON.parse(localStorage.getItem("alminhagExams")) || [];
             const testsCountElem = document.getElementById("dash-tests");
             if (testsCountElem) testsCountElem.innerText = history.length;
             
             const avgElem = document.getElementById("dash-avg");
+            let currentAvg = 0;
             if (avgElem) {
                 if (history.length > 0) {
                     const total = history.reduce((sum, item) => sum + item.score, 0);
-                    const avg = Math.round(total / history.length);
-                    avgElem.innerText = avg + "%";
+                    currentAvg = Math.round(total / history.length);
+                    avgElem.innerText = currentAvg + "%";
                 } else {
                     avgElem.innerText = "0%";
                 }
+            }
+
+            // ⭐ هذا هو التعديل البسيط لتحديث الدائرة التفاعلية تلقائياً بناءً على المتوسط
+            const donutChart = document.getElementById("donut-chart");
+            const dashboardPercent = document.getElementById("dashboard-percent");
+            if (donutChart && dashboardPercent) {
+                dashboardPercent.innerText = currentAvg + "%";
+                donutChart.style.background = `conic-gradient(var(--primary-green) 0% ${currentAvg}%, #e9ecef ${currentAvg}% 100%)`;
             }
         }
 
