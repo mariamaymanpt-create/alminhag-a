@@ -345,12 +345,20 @@
             <div id="exams-menu-view" class="sub-menu-view">
                 <button class="back-link" onclick="goHome()">← الرجوع للرئيسية</button>
                 <h2 style="font-size: 1.1rem; color: var(--accent-orange); margin-bottom: 15px; text-align: right;">الاختبارات الشاملة</h2>
-                
+          
+               <!-- زرار النموذج الأول -->
+               <button class="sub-btn" style="border-color: var(--accent-orange); color: var(--accent-orange); margin-bottom: 10px;" onclick="startExamModel(1)">
+                📝 النموذج الأول (الأبواب من 1 إلى 5)
+               </button>
+  
                <button class="sub-btn" style="border-color: var(--accent-orange); color: var(--accent-orange);" onclick="startQuiz('all')">
                  🌟 الاختبار الشامل لجميع الأبواب (من 1 إلى 37) وعشوائي
               </button>
             </div>
-
+             <!-- واجهة الاختبارات ذات الدرجات -->
+            <div id="exam-view" style="display: none; padding: 20px; max-width: 600px; margin: 0 auto; text-align: right;">
+             <!-- سيتم تعبئة هذا القسم برمجياً بالأسئلة والخيارات -->
+            </div>
             <!-- 4. واجهة عرض البطاقات التفاعلية (Flashcards) -->
             <div id="quiz-view" class="quiz-view">
                 <button class="back-link" onclick="backToMenu()">← القائمة السابقة</button>
