@@ -269,7 +269,25 @@
             <div id="home-view">
                 <h1>مرحباً بكِ في مراجعة كتاب المنهاج من ميراث النبوة</h1>
                 <p class="description">منصتك التفاعلية الشاملة لحفظ المتون، مراجعة الأبواب، الرواة، التخريج، وإتمام الأحاديث بدقة وعناية.</p>
-                
+     
+   
+           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 25px;">
+               <div style="background: #f1f5f9; padding: 12px 8px; border-radius: 12px; text-align: center; border: 1px solid #e2e8f0;">
+                  <span style="display: block; font-size: 1.2rem; font-weight: bold; color: var(--primary-green);" id="dash-streak">🔥 0</span>
+                  <span style="font-size: 0.75rem; color: var(--text-muted);">الاستمرارية</span>
+              </div>
+              <div style="background: #f1f5f9; padding: 12px 8px; border-radius: 12px; text-align: center; border: 1px solid #e2e8f0;">
+                 <span style="display: block; font-size: 1.2rem; font-weight: bold; color: var(--accent-orange);" id="dash-tests">0</span>
+                 <span style="font-size: 0.75rem; color: var(--text-muted);">الاختبارات</span>
+             </div>
+             <div style="background: #f1f5f9; padding: 12px 8px; border-radius: 12px; text-align: center; border: 1px solid #e2e8f0;">
+                <span style="display: block; font-size: 1.2rem; font-weight: bold; color: #2563eb;" id="dash-avg">0%</span>
+                <span style="font-size: 0.75rem; color: var(--text-muted);">المتوسط</span>
+            </div>
+           </div>
+   
+
+         
                 <button class="action-btn btn-chapters" onclick="showChaptersMenu()">
                     <span>📚 أبواب المنهاج </span>
                 </button>
@@ -938,7 +956,7 @@
             loadCard();
         }
 
-        function backToMenu() {
+       function backToMenu() {
             if (currentQuestions.length > 50) {
                 showExamsMenu();
             } else {
@@ -989,6 +1007,66 @@
                 loadCard();
             }
         }  
+
+        // دوال لوحة التحكم، الـ Streak، وحفظ النتائج
+        document.addEventListener("DOMContentLoaded", () => {
+            updateDashboard();
+            checkStreak();
+        });
+
+        function updateDashboard() {
+            let history = JSON.parse(localStorage.getItem("alminhagExams")) || [];
+            const testsCountElem = document.getElementById("dash-tests");
+            if (testsCountElem) testsCountElem.innerText = history.length;
+            
+            const avgElem = document.getElementById("dash-avg");
+            if (avgElem) {
+                if (history.length > 0) {
+                    const total = history.reduce((sum, item) => sum + item.score, 0);
+                    const avg = Math.round(total / history.length);
+                    avgElem.innerText = avg + "%";
+                } else {
+                    avgElem.innerText = "0%";
+                }
+            }
+        }
+
+        function checkStreak() {
+            let lastVisit = localStorage.getItem("alminhagLastVisit");
+            let streak = parseInt(localStorage.getItem("alminhagStreak")) || 0;
+            const today = new Date().toDateString();
+
+            if (lastVisit !== today) {
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+
+                if (lastVisit === yesterday.toDateString()) {
+                    streak++;
+                } else if (!lastVisit) {
+                    streak = 1;
+                } else {
+                    streak = 1; 
+                }
+                localStorage.setItem("alminhagLastVisit", today);
+                localStorage.setItem("alminhagStreak", streak);
+            }
+
+            const streakElem = document.getElementById("dash-streak");
+            if (streakElem) streakElem.innerText = `🔥 ${streak}`;
+        }
+
+        function saveExamRecord(percentage) {
+            let history = JSON.parse(localStorage.getItem("alminhagExams")) || [];
+            history.push({ date: new Date().toISOString(), score: percentage });
+            localStorage.setItem("alminhagExams", JSON.stringify(history));
+            updateDashboard();
+        }
+
+        function submitExam(score, totalQuestions) {
+            const percentage = Math.round((score / totalQuestions) * 100);
+            saveExamRecord(percentage);
+            alert(`ما شاء الله! انتهيتِ من الاختبار بنجاح، ونتيجتك هي: ${percentage}% وتم تسجيلها في لوحة التحكم 🌿`);
+        }
     </script>
 </body>
 </html>
