@@ -1856,60 +1856,103 @@
                 ]
             }
         };
-
-        let currentExamQuestions = [];
+let currentExamQuestions = [];
         let currentExamIndex = 0;
-        let userScore = 0;
+        let currentExamScore = 0;
 
         // دالة إظهار قائمة الاختبارات الشاملة
         function showExamsMenu() {
-            document.getElementById("home-view").style.display = "none";
-            document.getElementById("chapters-menu-view").style.display = "none";
-            document.getElementById("exams-menu-view").style.display = "block";
+            const homeView = document.getElementById("home-view");
+            const chaptersMenuView = document.getElementById("chapters-menu-view");
+            const examsMenuView = document.getElementById("exams-menu-view");
+            const examView = document.getElementById("exam-view");
+
+            if (homeView) homeView.style.display = "none";
+            if (chaptersMenuView) chaptersMenuView.style.display = "none";
+            if (examView) examView.style.display = "none";
+            if (examsMenuView) examsMenuView.style.display = "block";
         }
 
         // دالة بدء نموذج اختبار معين
         function startExamModel(modelId) {
             const exam = comprehensiveExams[modelId];
-            if (!exam || exam.questions.length === 0) {
-                alert("عذراً يا دكتورة، الأسئلة الخاصة بهذا النموذج لم تُضاف بعد. تفضلي بإضافة الأسئلة في المصفوفة أولاً!");
+            if (!exam || !exam.questions || exam.questions.length === 0) {
+                alert("عذراً يا دكتورة، الأسئلة الخاصة بهذا النموذج لم تُضاف بعد.");
                 return;
             }
 
-            currentExamQuestions = exam.questions;
-            currentExamIndex = 0;
-            userScore = 0;
+            const examView = document.getElementById("exam-view");
+            if (examView) examView.style.display = "block";
 
-            document.getElementById("exams-menu-view").style.display = "none";
+            const examsMenuView = document.getElementById("exams-menu-view");
+            if (examsMenuView) examsMenuView.style.display = "none";
+
+            currentExamQuestions = [...exam.questions];
+            currentExamIndex = 0;
+            currentExamScore = 0;
             loadExamQuestion();
         }
 
         function loadExamQuestion() {
+            const examView = document.getElementById("exam-view");
+            if (!examView) return;
+
             if (currentExamIndex >= currentExamQuestions.length) {
                 finishExam();
                 return;
             }
 
             const qObj = currentExamQuestions[currentExamIndex];
-            console.log("السؤال الحالي:", qObj.question);
+            
+            let html = `
+                <div style="background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: right;">
+                    <div style="font-size: 14px; color: #2e7d32; margin-bottom: 10px; font-weight: bold;">السؤال ${currentExamIndex + 1} من ${currentExamQuestions.length}</div>
+                    <h3 style="font-size: 18px; color: #333; margin-bottom: 20px; line-height: 1.5;">${qObj.question}</h3>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+            `;
+
+            qObj.options.forEach((option, index) => {
+                html += `
+                    <button onclick="checkExamAnswer(${index}, ${qObj.answer})" style="padding: 14px 16px; background: #f8f9fa; border: 2px solid #e9ecef; border-radius: 8px; cursor: pointer; font-size: 16px; text-align: right; transition: all 0.2s; color: #333;" onmouseover="this.style.background='#e8f5e9'; this.style.borderColor='#81c784'" onmouseout="this.style.background='#f8f9fa'; this.style.borderColor='#e9ecef'">
+                        ${option}
+                    </button>
+                `;
+            });
+
+            html += `
+                    </div>
+                </div>
+            `;
+            examView.innerHTML = html;
         }
 
         function checkExamAnswer(selectedIndex, correctIndex) {
             if (selectedIndex === correctIndex) {
-                userScore++;
+                currentExamScore++;
             }
             currentExamIndex++;
             loadExamQuestion();
         }
 
         function finishExam() {
-            const total = currentExamQuestions.length;
-            const percentage = Math.round((userScore / total) * 100);
-            
-            saveExamRecord(percentage);
+            const examView = document.getElementById("exam-view");
+            if (!examView) return;
 
-            alert(`ما شاء الله! انتهيتِ من النموذج بنجاح. درجتك: ${userScore}/${total} (${percentage}%)`);
-            location.reload(); 
+            const total = currentExamQuestions.length;
+            const percentage = total > 0 ? Math.round((currentExamScore / total) * 100) : 0;
+            
+            if (typeof saveExamRecord === 'function') {
+                saveExamRecord(percentage);
+            }
+
+            examView.innerHTML = `
+                <div style="background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center;">
+                    <h2 style="color: #2e7d32; margin-bottom: 15px;">🎉 انتهى الاختبار بنجاح!</h2>
+                    <p style="font-size: 18px; color: #555; margin-bottom: 20px;">لقد أتممت الاختبار الشامل</p>
+                    <div style="font-size: 28px; font-weight: bold; color: #d84315; margin-bottom: 25px;">نتيجتك: ${percentage}% (${currentExamScore} من ${total})</div>
+                    <button onclick="location.reload()" style="padding: 12px 25px; background: #2e7d32; color: #fff; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">العودة للرئيسية</button>
+                </div>
+            `;
         }
     </script>
 </body>
