@@ -356,10 +356,7 @@
                <button class="sub-btn" style="border-color: var(--accent-orange); color: var(--accent-orange); margin-bottom: 10px;" onclick="startExamModel(1)">
                 📝 النموذج الأول (الأبواب من 1 إلى 5)
                </button>
-  
-               <button class="sub-btn" style="border-color: var(--accent-orange); color: var(--accent-orange);" onclick="startQuiz('all')">
-                 🌟 الاختبار الشامل لجميع الأبواب (من 1 إلى 37) وعشوائي
-              </button>
+                
             </div>
              <!-- واجهة الاختبارات ذات الدرجات -->
             <div id="exam-view" style="display: none; padding: 20px; max-width: 700px; margin: 0 auto; text-align: right;"></div>
@@ -910,11 +907,14 @@
         function showChaptersMenu() {
             hideAllViews();
             chaptersMenuView.style.display = "block";
+           const dashEl = document.getElementById("dashboard") || document.querySelector(".dashboard") || document.getElementById("home");
+           if (dashEl) dashEl.style.display = "none";
         }
-
-        function showExamsMenu() {
-            hideAllViews();
-            examsMenuView.style.display = "block";
+       function showExamsMenu() {
+           hideAllViews();
+           examsMenuView.style.display = "block";
+          const dashEl = document.getElementById("dashboard") || document.querySelector(".dashboard");
+          if (dashEl) dashEl.style.display = "none";
         }
 
     function startQuiz(chapterId) {
@@ -1084,14 +1084,17 @@
             localStorage.setItem("alminhagWeeklyReset", now);
         }
 
-      // حساب إنجاز الاختبارات الشاملة بناءً على النماذج الفريدة فقط
-        let completedExamsObj = JSON.parse(localStorage.getItem("alminhagCompletedExams")) || {};
-        let uniqueExamsCount = Object.keys(completedExamsObj).length;
-        const totalExamsModelCount = 5; // إجمالي عدد نماذج الاختبارات الشاملة لديكِ
-        const examsPercent = Math.min(100, Math.round((uniqueExamsCount / totalExamsModelCount) * 100));
+      // حساب إنجاز الاختبارات الشاملة ديناميكياً تلقائياً
+    let completedExamsObj = JSON.parse(localStorage.getItem("alminhagCompletedExams")) || {};
+    let uniqueExamsCount = Object.keys(completedExamsObj).length;
+    
+    // عدد الاختبارات الكلي يتحدث تلقائياً (يزيد لوحده عند إضافة اختبارات جديدة، بحد أدنى 5 أو عدد المنجز)
+    const totalExamsModelCount = Math.max(5, uniqueExamsCount, (typeof examsData !== 'undefined' ? examsData.length : 5));
+    
+    const examsPercent = totalExamsModelCount > 0 ? Math.min(100, Math.round((uniqueExamsCount / totalExamsModelCount) * 100)) : 0;
 
-        const examsElem = document.getElementById("dash-exams-progress");
-        if (examsElem) examsElem.innerText = examsPercent + "% (" + uniqueExamsCount + "/" + totalExamsModelCount + ")";
+    const examsElem = document.getElementById("dash-exams-progress");
+    if (examsElem) examsElem.innerText = examsPercent + "% (" + uniqueExamsCount + "/" + totalExamsModelCount + ")";
         // 2. حساب إنجاز مراجعة الأبواب (الـ 37 باباً)
         let completedChapters = JSON.parse(localStorage.getItem("alminhagCompletedChapters")) || [];
         const totalChapters = 37;
