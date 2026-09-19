@@ -346,14 +346,13 @@
             </div>
 
             <!-- 3. قائمة الاختبارات الشاملة الفرعية -->
-            <div id="exams-menu-view" class="sub-menu-view">
-                <button class="back-link" onclick="goHome()">← الرجوع للرئيسية</button>
-                <h2 style="font-size: 1.1rem; color: var(--accent-orange); margin-bottom: 15px; text-align: right;">الاختبارات الشاملة</h2>
-          
-               <!-- زرار النموذج الأول -->
-               <button class="sub-btn" style="border-color: var(--accent-orange); color: var(--accent-orange); margin-bottom: 10px;" onclick="startExamModel(1)">
-                📝 النموذج الأول (الأبواب من 1 إلى 5)
-               </button>
+            <div id="exams-menu-view" style="display: none; padding: 20px; max-width: 700px; margin: 0 auto; text-align: right;">
+                <button class="back link" onclick="goHome()">← الرجوع للرئيسية</button>
+                <h2 style="font-size: 1.1rem; color: var(--accent-orange); margin-bottom: 15px;">الاختبارات الشاملة</h2>
+    
+            <!-- هذا الصندوق ستتولد بداخله الأزرار تلقائياً لكل النماذج -->
+            <div id="exams-buttons-container"></div>
+           </div>
                 
             </div>
              <!-- واجهة الاختبارات ذات الدرجات -->
@@ -910,9 +909,25 @@ function showChaptersMenu() {
 }
 
 function showExamsMenu() {
-    hideAllViews();
+    hideAllviews();
     const examsEl = document.getElementById("exams-menu-view");
-    if (examsEl) examsEl.style.display = "block";
+    if (examsEl) {
+        examsEl.style.display = "block";
+        
+        // استهداف الصندوق الفارغ وتوليد الأزرار تلقائياً
+        const container = document.getElementById("exams-buttons-container");
+        if (container) {
+            container.innerHTML = "";
+            for (let examId in examsData) {
+                let examTitle = examsData[examId].title || `النموذج رقم ${examId}`;
+                container.innerHTML += `
+                    <button class="sub btn" style="border-color: var(--accent-orange); color: var(--accent-orange); margin-bottom: 15px; width: 100%;" onclick="startExam(${examId})">
+                        ${examTitle}
+                    </button>
+                `;
+            }
+        }
+    }
 }
 
 function startQuiz(chapterId) {
