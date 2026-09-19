@@ -883,7 +883,7 @@
         const quizView = document.getElementById("quiz-view");
 
       function hideAllViews() {
-    const homeView = document.getElementById("home-view") || document.getElementById("home view");
+   const homeView = document.getElementById("home-view") || document.getElementById("home_view") || document.getElementById("home view") || document.querySelector(".dashboard-card") || document.querySelector("div[style*='background']");
     if (homeView) homeView.style.display = "none";
     
     const chaptersMenu = document.getElementById("chapters-menu-view") || document.getElementById("chapters menu view");
@@ -897,7 +897,7 @@
 
     const examView = document.getElementById("exam-view") || document.getElementById("exam view");
     if (examView) examView.style.display = "none";
-}
+        }
 
         function goHome() {
             hideAllViews();
@@ -907,21 +907,19 @@
         function showChaptersMenu() {
             hideAllViews();
             chaptersMenuView.style.display = "block";
-           const dashEl = document.getElementById("dashboard") || document.querySelector(".dashboard") || document.getElementById("home");
-           if (dashEl) dashEl.style.display = "none";
+            document.querySelector(".welcome-card, .dashboard, div[class*='card']").style.display = "none";
         }
+
        function showExamsMenu() {
            hideAllViews();
            examsMenuView.style.display = "block";
-          const dashEl = document.getElementById("dashboard") || document.querySelector(".dashboard");
-          if (dashEl) dashEl.style.display = "none";
+           document.querySelector(".welcome-card, .dashboard, div[class*='card']").style.display = "none";
         }
-
-    function startQuiz(chapterId) {
-    hideAllViews();
-    const homeView = document.getElementById("home-view");
-    if (homeView) homeView.style.display = "none"; // إجبار إخفاء الواجهة الرئيسية
-
+       function startQuiz(chapterId) {
+           hideAllViews();
+           const homeView = document.getElementById("home-view");
+           if (homeView) homeView.style.display = "none"; // إجبار إخفاء الواجهة الرئيسية
+        }
     quizView.style.display = "block";
     currentChapterId = chapterId; // حفظ رقم الباب الحالي هنا
 
