@@ -346,13 +346,14 @@
             </div>
 
             <!-- 3. قائمة الاختبارات الشاملة الفرعية -->
-            <div id="exams-menu-view" style="display: none; padding: 20px; max-width: 700px; margin: 0 auto; text-align: right;">
-                <button class="back link" onclick="goHome()">← الرجوع للرئيسية</button>
-                <h2 style="font-size: 1.1rem; color: var(--accent-orange); margin-bottom: 15px;">الاختبارات الشاملة</h2>
-    
-            <!-- هذا الصندوق ستتولد بداخله الأزرار تلقائياً لكل النماذج -->
-            <div id="exams-buttons-container"></div>
-           </div>
+            <div id="exams-menu-view" class="sub-menu-view">
+                <button class="back-link" onclick="goHome()">← الرجوع للرئيسية</button>
+                <h2 style="font-size: 1.1rem; color: var(--accent-orange); margin-bottom: 15px; text-align: right;">الاختبارات الشاملة</h2>
+          
+               <!-- زرار النموذج الأول -->
+               <button class="sub-btn" style="border-color: var(--accent-orange); color: var(--accent-orange); margin-bottom: 10px;" onclick="startExamModel(1)">
+                📝 النموذج الأول (الأبواب من 1 إلى 5)
+               </button>
                 
             </div>
              <!-- واجهة الاختبارات ذات الدرجات -->
@@ -909,25 +910,9 @@ function showChaptersMenu() {
 }
 
 function showExamsMenu() {
-    hideAllviews();
+    hideAllViews();
     const examsEl = document.getElementById("exams-menu-view");
-    if (examsEl) {
-        examsEl.style.display = "block";
-        
-        // استهداف الصندوق الفارغ وتوليد الأزرار تلقائياً
-        const container = document.getElementById("exams-buttons-container");
-        if (container) {
-            container.innerHTML = "";
-            for (let examId in examsData) {
-                let examTitle = examsData[examId].title || `النموذج رقم ${examId}`;
-                container.innerHTML += `
-                    <button class="sub btn" style="border-color: var(--accent-orange); color: var(--accent-orange); margin-bottom: 15px; width: 100%;" onclick="startExam(${examId})">
-                        ${examTitle}
-                    </button>
-                `;
-            }
-        }
-    }
+    if (examsEl) examsEl.style.display = "block";
 }
 
 function startQuiz(chapterId) {
@@ -2756,40 +2741,18 @@ function submitExam(score, totalQuestions) {
         let currentActiveExamId = null; // متغير لحفظ رقم أو مسمى النموذج الحالي
 
         // دالة إظهار قائمة الاختبارات الشاملة
-      function showExamsMenu() {
-    hideAllViews();
-    const examsEl = document.getElementById("exams-menu-view");
-    if (examsEl) {
-        examsEl.style.display = "block";
-        
-        // استهداف الصندوق الفارغ وتوليد الأزرار تلقائياً
-        const container = document.getElementById("exams-buttons-container");
-        if (container) {
-            container.innerHTML = "";
-            
-            // التحقق من اسم متغير النماذج المتاح في الكود لديكِ
-            let examsSource = window.examsData || window.exams || window.allExams || window.tests || null;
-            
-            if (examsSource) {
-                for (let examId in examsSource) {
-                    let examTitle = examsSource[examId].title || `النموذج رقم ${examId}`;
-                    container.innerHTML += `
-                        <button class="sub-btn" style="border-color: var(--accent-orange); color: var(--accent-orange); margin-bottom: 15px; width: 100%;" onclick="startExam(${examId})">
-                            ${examTitle}
-                        </button>
-                    `;
-                }
-            } else {
-                // افتراضي مؤقت في حال لم يتم تعريف متغير النماذج بعد، لضمان ظهور الأزرار وعدم بقاء الصفحة فارغة
-                container.innerHTML = `
-                    <button class="sub-btn" style="border-color: var(--accent-orange); color: var(--accent-orange); margin-bottom: 15px; width: 100%;" onclick="startQuiz('exam1')">
-                        النموذج الشامل الأول
-                    </button>
-                `;
-            }
+        function showExamsMenu() {
+            const homeView = document.getElementById("home-view");
+            const chaptersMenuView = document.getElementById("chapters-menu-view");
+            const examsMenuView = document.getElementById("exams-menu-view");
+            const examView = document.getElementById("exam-view");
+
+            if (homeView) homeView.style.display = "none";
+            if (chaptersMenuView) chaptersMenuView.style.display = "none";
+            if (examView) examView.style.display = "none";
+            if (examsMenuView) examsMenuView.style.display = "block";
         }
-    }
-}
+
         // دالة بدء نموذج اختبار معين
         function startExamModel(modelId) {
             const exam = comprehensiveExams[modelId];
