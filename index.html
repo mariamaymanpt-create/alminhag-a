@@ -885,12 +885,14 @@
         const examsMenuView = document.getElementById("exams-menu-view");
         const quizView = document.getElementById("quiz-view");
 
-        function hideAllViews() {
-            homeView.style.display = "none";
-            chaptersMenuView.style.display = "none";
-            examsMenuView.style.display = "none";
-            quizView.style.display = "none";
-        }
+      function hideAllViews() {
+    const homeView = document.getElementById("home-view");
+    if (homeView) homeView.style.display = "none";
+    
+    if (typeof chaptersMenuView !== 'undefined' && chaptersMenuView) chaptersMenuView.style.display = "none";
+    if (typeof examsMenuView !== 'undefined' && examsMenuView) examsMenuView.style.display = "none";
+    if (typeof quizView !== 'undefined' && quizView) quizView.style.display = "none";
+}
 
         function goHome() {
             hideAllViews();
@@ -980,21 +982,24 @@
         }
     }
 
-    function loadCard() {
-        const qObj = currentQuestions[currentIndex];
-        document.getElementById("card-cat").innerText = qObj.category;
-        document.getElementById("card-q").innerText = qObj.question;
-        document.getElementById("card-a").innerText = qObj.answer;
-        
-        document.getElementById("card-a").style.display = "none";
-        document.getElementById("ans-toggle-btn").innerText = "إظهار الإجابة";
-        isAnswerShown = false;
+  function loadCard() {
+    const qObj = currentQuestions[currentIndex];
+    document.getElementById("card-cat").innerText = qObj.category;
+    document.getElementById("card-q").innerText = qObj.question;
+    document.getElementById("card-a").innerText = qObj.answer;
+    
+    document.getElementById("card-a").style.display = "none";
+    document.getElementById("ans-toggle-btn").innerText = "إظهار الإجابة";
+    isAnswerShown = false;
 
-        document.getElementById("counter-text").innerText = `السؤال ${currentIndex + 1} من ${currentQuestions.length}`;
-        
-        document.getElementById("prev-btn").disabled = (currentIndex === 0);
-        document.getElementById("next-btn").disabled = (currentIndex === currentQuestions.length - 1);
-    }
+    document.getElementById("counter-text").innerText = `السؤال ${currentIndex + 1} من ${currentQuestions.length}`;
+    
+    document.getElementById("prev-btn").disabled = (currentIndex === 0);
+    
+    // التعديل هنا: زر التالي لا يُعطل أبداً، لكي يستطيع المستخدم النقر عليه عند نهاية الباب لحفظه!
+    const nextBtn = document.getElementById("next-btn");
+    if (nextBtn) nextBtn.disabled = false; 
+}
 
     function toggleAnswer() {
         const ansBox = document.getElementById("card-a");
@@ -1905,7 +1910,7 @@
                 ]
             }
         };
-let currentExamQuestions = [];
+        let currentExamQuestions = [];
         let currentExamIndex = 0;
         let currentExamScore = 0;
 
