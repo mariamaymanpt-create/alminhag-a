@@ -1067,7 +1067,7 @@ function startQuiz(chapterId) {
         checkStreak();
     });
 
-    function updateDashboard() {
+   function updateDashboard() {
         // نظام التصفير الأسبوعي (كل 7 أيام)
         const now = new Date().getTime();
         let weeklyResetTime = localStorage.getItem("alminhagWeeklyReset");
@@ -1082,18 +1082,19 @@ function startQuiz(chapterId) {
             localStorage.setItem("alminhagWeeklyReset", now);
         }
 
-      // حساب إنجاز الاختبارات الشاملة ديناميكياً تلقائياً
-    let completedExamsObj = JSON.parse(localStorage.getItem("alminhagCompletedExams")) || {};
-    let uniqueExamsCount = Object.keys(completedExamsObj).length;
-    
-    // عدد الاختبارات الكلي يتحدث تلقائياً (يزيد لوحده عند إضافة اختبارات جديدة، بحد أدنى 5 أو عدد المنجز)
-    const totalExamsModelCount = Math.max(5, uniqueExamsCount, (typeof examsData !== 'undefined' ? examsData.length : 5));
-    
-    const examsPercent = totalExamsModelCount > 0 ? Math.min(100, Math.round((uniqueExamsCount / totalExamsModelCount) * 100)) : 0;
+        // 1. حساب إنجاز الاختبارات الشاملة ديناميكياً (باستخدام مفتاح الاختبارات الصحيح)
+        let completedExamsObj = JSON.parse(localStorage.getItem("alminhagCompletedExams")) || {};
+        let uniqueExamsCount = Object.keys(completedExamsObj).length;
+        
+        // عدد الاختبارات الكلي يتحدث تلقائياً (بحد أدنى 5 أو عدد الاختبارات المتاحة)
+        const totalExamsModelCount = Math.max(5, uniqueExamsCount, (typeof examsData !== 'undefined' ? examsData.length : 5));
+        
+        const examsPercent = totalExamsModelCount > 0 ? Math.min(100, Math.round((uniqueExamsCount / totalExamsModelCount) * 100)) : 0;
 
-    const examsElem = document.getElementById("dash-exams-progress");
-    if (examsElem) examsElem.innerText = examsPercent + "% (" + uniqueExamsCount + "/" + totalExamsModelCount + ")";
-        // 2. حساب إنجاز مراجعة الأبواب (الـ 37 باباً)
+        const examsElem = document.getElementById("dash-exams-progress");
+        if (examsElem) examsElem.innerText = examsPercent + "% (" + uniqueExamsCount + "/" + totalExamsModelCount + ")";
+
+        // 2. حساب إنجاز مراجعة الأبواب (الـ 37 باباً - فلاش كاردز)
         let completedChapters = JSON.parse(localStorage.getItem("alminhagCompletedChapters")) || [];
         const totalChapters = 37;
         const chaptersPercent = Math.min(100, Math.round((completedChapters.length / totalChapters) * 100));
@@ -1110,8 +1111,7 @@ function startQuiz(chapterId) {
             dashboardPercent.innerText = avgChaptersAndExams + "%";
             donutChart.style.background = `conic-gradient(var(--primary-green) 0% ${avgChaptersAndExams}%, #e9ecef ${avgChaptersAndExams}% 100%)`;
         }
-    } // <-- تم إضافة قوس الإغلاق المفقود لدالة updateDashboard بنجاح
-
+    }
     function checkStreak() {
         let lastVisit = localStorage.getItem("alminhagLastVisit");
         let streak = parseInt(localStorage.getItem("alminhagStreak")) || 0;
@@ -1136,9 +1136,8 @@ function startQuiz(chapterId) {
         if (streakElem) streakElem.innerText = `🔥 ${streak}`;
     }
 
-   function saveExamRecord(modelId, percentage) {
+  function saveExamRecord(modelId, percentage) {
     let completedExams = JSON.parse(localStorage.getItem("alminhagCompletedExams")) || {};
-    // إذا لم يتم تمرير رقم نموذج، نستخدم رقم افتراضي أو المتصفح الحالي
     let id = modelId || (typeof currentExamId !== 'undefined' ? currentExamId : 'exam_1');
     completedExams[id] = percentage; 
     
@@ -1148,10 +1147,21 @@ function startQuiz(chapterId) {
 
 function submitExam(score, totalQuestions) {
     const percentage = Math.round((score / totalQuestions) * 100);
-    // الدالة ستلتقط رقم النموذج الحالي تلقائياً دون الحاجة لتعديل أزرار الاستدعاء
     let currentId = (typeof currentExamId !== 'undefined' ? currentExamId : 'exam_1');
     saveExamRecord(currentId, percentage);
-    alert(`ما شاء الله! انتهيتِ من الاختبار بنجاح، ونتيجتك هي: ${percentage}% وتم تسجيلها في لوحة التحكم 🌿`);
+    
+    const examView = document.getElementById("exam-view");
+    if (examView) {
+        examView.innerHTML = `
+            <div style="background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; max-width: 600px; margin: 40px auto;">
+                <h2 style="color: #2e7d32; margin-bottom: 15px;">🎉 انتهى الاختبار بنجاح!</h2>
+                <p style="font-size: 18px; color: #555; margin-bottom: 20px;">تم تسجيل نتيجتك في لوحة التحكم بنجاح</p>
+                <div style="font-size: 28px; font-weight: bold; color: #d84315; margin-bottom: 25px;">نتيجتك: ${percentage}% (${score} من ${totalQuestions})</div>
+                
+                <button onclick="showExamsMenu()" style="padding: 12px 25px; background: #2e7d32; color: #fff; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">العودة لقائمة الاختبارات الشاملة</button>
+            </div>
+        `;
+    }
 }
         // ==========================================
         // مصفوفة النماذج الشاملة (النموذج الأول)
