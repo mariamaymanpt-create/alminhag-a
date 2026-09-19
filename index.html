@@ -909,10 +909,15 @@
             examsMenuView.style.display = "block";
         }
 
-      function startQuiz(chapterId) {
+    function startQuiz(chapterId) {
     hideAllViews();
+    const homeView = document.getElementById("home-view");
+    if (homeView) homeView.style.display = "none"; // إجبار إخفاء الواجهة الرئيسية
+
     quizView.style.display = "block";
     currentChapterId = chapterId; // حفظ رقم الباب الحالي هنا
+
+    // ... باقي الشروط if (chapterId === 1) وما بعدها ...
 
     if (chapterId === 1) currentQuestions = [...chapter1Data];
     else if (chapterId === 2) currentQuestions = [...chapter2Data];
@@ -982,7 +987,7 @@
         }
     }
 
-  function loadCard() {
+ function loadCard() {
     const qObj = currentQuestions[currentIndex];
     document.getElementById("card-cat").innerText = qObj.category;
     document.getElementById("card-q").innerText = qObj.question;
@@ -996,9 +1001,11 @@
     
     document.getElementById("prev-btn").disabled = (currentIndex === 0);
     
-    // التعديل هنا: زر التالي لا يُعطل أبداً، لكي يستطيع المستخدم النقر عليه عند نهاية الباب لحفظه!
+    // الأهم هنا: السماح بزر التالي دائماً لكي يضغط عليه المستخدم عند النهاية
     const nextBtn = document.getElementById("next-btn");
-    if (nextBtn) nextBtn.disabled = false; 
+    if (nextBtn) {
+        nextBtn.disabled = false;
+    }
 }
 
     function toggleAnswer() {
@@ -1020,17 +1027,20 @@
         loadCard();
     } else {
         // وصل المستخدم لآخر بطاقة وضغط التالي!
-        if (typeof currentChapterId === 'number') {
+        // نقوم بتحويل currentChapterId إلى رقم للتأكد تماماً من تطابقه
+        let chapIdNum = parseInt(currentChapterId);
+        
+        if (!isNaN(chapIdNum)) {
             let completedChapters = JSON.parse(localStorage.getItem("alminhagCompletedChapters")) || [];
-            if (!completedChapters.includes(currentChapterId)) {
-                completedChapters.push(currentChapterId);
+            if (!completedChapters.includes(chapIdNum)) {
+                completedChapters.push(chapIdNum);
                 localStorage.setItem("alminhagCompletedChapters", JSON.stringify(completedChapters));
                 
                 if (typeof updateDashboard === 'function') {
                     updateDashboard(); // تحديث لوحة التحكم فوراً
                 }
             }
-            alert(`ما شاء الله! أتممتِ الباب ${currentChapterId} بنجاح 🌿`);
+            alert(`ما شاء الله! أتممتِ الباب ${chapIdNum} بنجاح 🌿`);
             showChaptersMenu();
         } else {
             backToMenu();
