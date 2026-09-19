@@ -886,12 +886,20 @@
         const quizView = document.getElementById("quiz-view");
 
       function hideAllViews() {
-    const homeView = document.getElementById("home-view");
+    const homeView = document.getElementById("home-view") || document.getElementById("home view");
     if (homeView) homeView.style.display = "none";
     
-    if (typeof chaptersMenuView !== 'undefined' && chaptersMenuView) chaptersMenuView.style.display = "none";
-    if (typeof examsMenuView !== 'undefined' && examsMenuView) examsMenuView.style.display = "none";
-    if (typeof quizView !== 'undefined' && quizView) quizView.style.display = "none";
+    const chaptersMenu = document.getElementById("chapters-menu-view") || document.getElementById("chapters menu view");
+    if (chaptersMenu) chaptersMenu.style.display = "none";
+    
+    const examsMenu = document.getElementById("exams-menu-view") || document.getElementById("exams menu view");
+    if (examsMenu) examsMenu.style.display = "none";
+    
+    const quiz = document.getElementById("quiz-view") || document.getElementById("quiz view");
+    if (quiz) quiz.style.display = "none";
+
+    const examView = document.getElementById("exam-view") || document.getElementById("exam view");
+    if (examView) examView.style.display = "none";
 }
 
         function goHome() {
@@ -1076,14 +1084,14 @@
             localStorage.setItem("alminhagWeeklyReset", now);
         }
 
-        // 1. حساب إنجاز الاختبارات الشاملة
-        let history = JSON.parse(localStorage.getItem("alminhagExams")) || [];
-        const totalExamsModelCount = 5; // عدد النماذج الشاملة الإجمالي المتاح
-        const examsPercent = Math.min(100, Math.round((history.length / totalExamsModelCount) * 100));
-        
-        const examsElem = document.getElementById("dash-exams-progress");
-        if (examsElem) examsElem.innerText = examsPercent + "% (" + history.length + "/" + totalExamsModelCount + ")";
+      // حساب إنجاز الاختبارات الشاملة بناءً على النماذج الفريدة فقط
+        let completedExamsObj = JSON.parse(localStorage.getItem("alminhagCompletedExams")) || {};
+        let uniqueExamsCount = Object.keys(completedExamsObj).length;
+        const totalExamsModelCount = 5; // إجمالي عدد نماذج الاختبارات الشاملة لديكِ
+        const examsPercent = Math.min(100, Math.round((uniqueExamsCount / totalExamsModelCount) * 100));
 
+        const examsElem = document.getElementById("dash-exams-progress");
+        if (examsElem) examsElem.innerText = examsPercent + "% (" + uniqueExamsCount + "/" + totalExamsModelCount + ")";
         // 2. حساب إنجاز مراجعة الأبواب (الـ 37 باباً)
         let completedChapters = JSON.parse(localStorage.getItem("alminhagCompletedChapters")) || [];
         const totalChapters = 37;
@@ -1127,19 +1135,23 @@
         if (streakElem) streakElem.innerText = `🔥 ${streak}`;
     }
 
-    function saveExamRecord(percentage) {
-        let history = JSON.parse(localStorage.getItem("alminhagExams")) || [];
-        history.push({ date: new Date().toISOString(), score: percentage });
-        localStorage.setItem("alminhagExams", JSON.stringify(history));
-        updateDashboard();
-    }
+   function saveExamRecord(modelId, percentage) {
+    let completedExams = JSON.parse(localStorage.getItem("alminhagCompletedExams")) || {};
+    // إذا لم يتم تمرير رقم نموذج، نستخدم رقم افتراضي أو المتصفح الحالي
+    let id = modelId || (typeof currentExamId !== 'undefined' ? currentExamId : 'exam_1');
+    completedExams[id] = percentage; 
+    
+    localStorage.setItem("alminhagCompletedExams", JSON.stringify(completedExams));
+    updateDashboard();
+}
 
-    function submitExam(score, totalQuestions) {
-        const percentage = Math.round((score / totalQuestions) * 100);
-        saveExamRecord(percentage);
-        alert(`ما شاء الله! انتهيتِ من الاختبار بنجاح، ونتيجتك هي: ${percentage}% وتم تسجيلها في لوحة التحكم 🌿`);
-    }
-
+function submitExam(score, totalQuestions) {
+    const percentage = Math.round((score / totalQuestions) * 100);
+    // الدالة ستلتقط رقم النموذج الحالي تلقائياً دون الحاجة لتعديل أزرار الاستدعاء
+    let currentId = (typeof currentExamId !== 'undefined' ? currentExamId : 'exam_1');
+    saveExamRecord(currentId, percentage);
+    alert(`ما شاء الله! انتهيتِ من الاختبار بنجاح، ونتيجتك هي: ${percentage}% وتم تسجيلها في لوحة التحكم 🌿`);
+}
         // ==========================================
         // مصفوفة النماذج الشاملة (النموذج الأول)
         // ==========================================
