@@ -875,9 +875,10 @@
             { category: "الباب السابع والثلاثون", question: "رتبي الأحاديث الواردة في الباب السابع والثلاثون حسب ورودها في المتن:", answer: "1. حديث أبي موسى الأشعري رضي الله عنه (رقم ٢٥٢)\n2. دعاء عمار بن ياسر رضي الله عنه (رقم ٢٥٣)\n3. حديث صهيب رضي الله عنه في كشف الحجاب بالجنة (رقم ٢٥٤)" }
   ];
         // متغيرات التحكم في التطبيق
-        let currentQuestions = [];
-        let currentIndex = 0;
-        let isAnswerShown = false;
+     let currentChapterId = null; // لتخزين رقم الباب المفتوح حالياً
+     let currentQuestions = [];
+     let currentIndex = 0;
+     let isAnswerShown = false;
 
         const homeView = document.getElementById("home-view");
         const chaptersMenuView = document.getElementById("chapters-menu-view");
@@ -906,68 +907,70 @@
             examsMenuView.style.display = "block";
         }
 
-        function startQuiz(chapterId) {
-            hideAllViews();
-            quizView.style.display = "block";
+      function startQuiz(chapterId) {
+    hideAllViews();
+    quizView.style.display = "block";
+    currentChapterId = chapterId; // حفظ رقم الباب الحالي هنا
 
-            if (chapterId === 1) currentQuestions = [...chapter1Data];
-            else if (chapterId === 2) currentQuestions = [...chapter2Data];
-            else if (chapterId === 3) currentQuestions = [...chapter3Data];
-            else if (chapterId === 4) currentQuestions = [...chapter4Data];
-            else if (chapterId === 5) currentQuestions = [...chapter5Data];
-            else if (chapterId === 6) currentQuestions = [...chapter6Data];
-            else if (chapterId === 7) currentQuestions = [...chapter7Data];
-            else if (chapterId === 8) currentQuestions = [...chapter8Data];
-            else if (chapterId === 9) currentQuestions = [...chapter9Data];
-            else if (chapterId === 10) currentQuestions = [...chapter10Data];
-            else if (chapterId === 11) currentQuestions = [...chapter11Data];
-            else if (chapterId === 12) currentQuestions = [...chapter12Data];
-            else if (chapterId === 13) currentQuestions = [...chapter13Data];
-            else if (chapterId === 14) currentQuestions = [...chapter14Data];
-            else if (chapterId === 15) currentQuestions = [...chapter15Data];
-            else if (chapterId === 16) currentQuestions = [...chapter16Data];
-            else if (chapterId === 17) currentQuestions = [...chapter17Data];
-            else if (chapterId === 18) currentQuestions = [...chapter18Data];
-            else if (chapterId === 19) currentQuestions = [...chapter19Data];
-            else if (chapterId === 20) currentQuestions = [...chapter20Data];
-            else if (chapterId === 21) currentQuestions = [...chapter21Data];
-            else if (chapterId === 22) currentQuestions = [...chapter22Data];
-            else if (chapterId === 23) currentQuestions = [...chapter23Data];
-            else if (chapterId === 24) currentQuestions = [...chapter24Data];
-            else if (chapterId === 25) currentQuestions = [...chapter25Data];          
-            else if (chapterId === 26) currentQuestions = [...chapter26Data];
-            else if (chapterId === 27) currentQuestions = [...chapter27Data];
-            else if (chapterId === 28) currentQuestions = [...chapter28Data];
-            else if (chapterId === 29) currentQuestions = [...chapter29Data];
-            else if (chapterId === 30) currentQuestions = [...chapter30Data];
-            else if (chapterId === 31) currentQuestions = [...chapter31Data];
-            else if (chapterId === 32) currentQuestions = [...chapter32Data];
-            else if (chapterId === 33) currentQuestions = [...chapter33Data];
-            else if (chapterId === 34) currentQuestions = [...chapter34Data];
-            else if (chapterId === 35) currentQuestions = [...chapter35Data];
-            else if (chapterId === 36) currentQuestions = [...chapter36Data];
-            else if (chapterId === 37) currentQuestions = [...chapter37Data];
-            else if (chapterId === 'all') {
-                  currentQuestions = [
-                        ...chapter1Data, ...chapter2Data, ...chapter3Data,
-                        ...chapter4Data, ...chapter5Data, ...chapter6Data,
-                        ...chapter7Data, ...chapter8Data, ...chapter9Data,
-                        ...chapter10Data, ...chapter11Data, ...chapter12Data,
-                        ...chapter13Data, ...chapter14Data, ...chapter15Data,
-                        ...chapter16Data, ...chapter17Data, ...chapter18Data,
-                        ...chapter19Data, ...chapter20Data, ...chapter21Data,
-                        ...chapter22Data, ...chapter23Data, ...chapter24Data,
-                        ...chapter25Data, ...chapter26Data, ...chapter27Data,
-                        ...chapter28Data, ...chapter29Data, ...chapter30Data,
-                        ...chapter31Data, ...chapter32Data, ...chapter33Data,
-                        ...chapter34Data, ...chapter35Data, ...chapter36Data,
-                        ...chapter37Data
-              ];
-          }
-    
-            currentIndex = 0;
-            loadCard();
-        }
+    if (chapterId === 1) currentQuestions = [...chapter1Data];
+    else if (chapterId === 2) currentQuestions = [...chapter2Data];
+    else if (chapterId === 3) currentQuestions = [...chapter3Data];
+    else if (chapterId === 4) currentQuestions = [...chapter4Data];
+    else if (chapterId === 5) currentQuestions = [...chapter5Data];
+    else if (chapterId === 6) currentQuestions = [...chapter6Data];
+    else if (chapterId === 7) currentQuestions = [...chapter7Data];
+    else if (chapterId === 8) currentQuestions = [...chapter8Data];
+    else if (chapterId === 9) currentQuestions = [...chapter9Data];
+    else if (chapterId === 10) currentQuestions = [...chapter10Data];
+    else if (chapterId === 11) currentQuestions = [...chapter11Data];
+    else if (chapterId === 12) currentQuestions = [...chapter12Data];
+    else if (chapterId === 13) currentQuestions = [...chapter13Data];
+    else if (chapterId === 14) currentQuestions = [...chapter14Data];
+    else if (chapterId === 15) currentQuestions = [...chapter15Data];
+    else if (chapterId === 16) currentQuestions = [...chapter16Data];
+    else if (chapterId === 17) currentQuestions = [...chapter17Data];
+    else if (chapterId === 18) currentQuestions = [...chapter18Data];
+    else if (chapterId === 19) currentQuestions = [...chapter19Data];
+    else if (chapterId === 20) currentQuestions = [...chapter20Data];
+    else if (chapterId === 21) currentQuestions = [...chapter21Data];
+    else if (chapterId === 22) currentQuestions = [...chapter22Data];
+    else if (chapterId === 23) currentQuestions = [...chapter23Data];
+    else if (chapterId === 24) currentQuestions = [...chapter24Data];
+    else if (chapterId === 25) currentQuestions = [...chapter25Data];          
+    else if (chapterId === 26) currentQuestions = [...chapter26Data];
+    else if (chapterId === 27) currentQuestions = [...chapter27Data];
+    else if (chapterId === 28) currentQuestions = [...chapter28Data];
+    else if (chapterId === 29) currentQuestions = [...chapter29Data];
+    else if (chapterId === 30) currentQuestions = [...chapter30Data];
+    else if (chapterId === 31) currentQuestions = [...chapter31Data];
+    else if (chapterId === 32) currentQuestions = [...chapter32Data];
+    else if (chapterId === 33) currentQuestions = [...chapter33Data];
+    else if (chapterId === 34) currentQuestions = [...chapter34Data];
+    else if (chapterId === 35) currentQuestions = [...chapter35Data];
+    else if (chapterId === 36) currentQuestions = [...chapter36Data];
+    else if (chapterId === 37) currentQuestions = [...chapter37Data];
+    else if (chapterId === 'all') {
+          currentQuestions = [
+                ...chapter1Data, ...chapter2Data, ...chapter3Data,
+                ...chapter4Data, ...chapter5Data, ...chapter6Data,
+                ...chapter7Data, ...chapter8Data, ...chapter9Data,
+                ...chapter10Data, ...chapter11Data, ...chapter12Data,
+                ...chapter13Data, ...chapter14Data, ...chapter15Data,
+                ...chapter16Data, ...chapter17Data, ...chapter18Data,
+                ...chapter19Data, ...chapter20Data, ...chapter21Data,
+                ...chapter22Data, ...chapter23Data, ...chapter24Data,
+                ...chapter25Data, ...chapter26Data, ...chapter27Data,
+                ...chapter28Data, ...chapter29Data, ...chapter30Data,
+                ...chapter31Data, ...chapter32Data, ...chapter33Data,
+                ...chapter34Data, ...chapter35Data, ...chapter36Data,
+                ...chapter37Data
+          ];
+          currentChapterId = 'all';
+    }
+
+    currentIndex = 0;
+    loadCard();
+}
 
       function backToMenu() {
         if (currentQuestions.length > 50) {
@@ -1006,13 +1009,29 @@
             isAnswerShown = false;
         }
     }
-
-    function nextCard() {
-        if (currentIndex < currentQuestions.length - 1) {
-            currentIndex++;
-            loadCard();
+ function nextCard() {
+    if (currentIndex < currentQuestions.length - 1) {
+        currentIndex++;
+        loadCard();
+    } else {
+        // وصل المستخدم لآخر بطاقة وضغط التالي!
+        if (typeof currentChapterId === 'number') {
+            let completedChapters = JSON.parse(localStorage.getItem("alminhagCompletedChapters")) || [];
+            if (!completedChapters.includes(currentChapterId)) {
+                completedChapters.push(currentChapterId);
+                localStorage.setItem("alminhagCompletedChapters", JSON.stringify(completedChapters));
+                
+                if (typeof updateDashboard === 'function') {
+                    updateDashboard(); // تحديث لوحة التحكم فوراً
+                }
+            }
+            alert(`ما شاء الله! أتممتِ الباب ${currentChapterId} بنجاح 🌿`);
+            showChaptersMenu();
+        } else {
+            backToMenu();
         }
     }
+}
 
     function prevCard() {
         if (currentIndex > 0) {
@@ -1912,14 +1931,7 @@ let currentExamQuestions = [];
             }
 
             // إخفاء قوائم الاختيار الرئيسية
-            const examsMenuView = document.getElementById("exams-menu-view");
-            if (examsMenuView) examsMenuView.style.display = "none";
-
-            const homeView = document.getElementById("home-view");
-            if (homeView) homeView.style.display = "none";
-
-            const chaptersMenuView = document.getElementById("chapters-menu-view");
-            if (chaptersMenuView) chaptersMenuView.style.display = "none";
+           hideAllViews();
 
             // إظهار منطقة الاختبار ببطء وبشكل صحيح
             const examView = document.getElementById("exam-view");
