@@ -930,7 +930,7 @@ function startQuiz(chapterId) {
     
     currentChapterId = chapterId; // حفظ رقم الباب الحالي
     
-    // باقي الشروط الخاصة بالأسئلة...
+    // الشروط الخاصة بالأسئلة
     if (chapterId === 1) currentQuestions = [...chapter1Data];
     else if (chapterId === 2) currentQuestions = [...chapter2Data];
     else if (chapterId === 3) currentQuestions = [...chapter3Data];
@@ -941,7 +941,7 @@ function startQuiz(chapterId) {
     else if (chapterId === 8) currentQuestions = [...chapter8Data];
     else if (chapterId === 9) currentQuestions = [...chapter9Data];
     else if (chapterId === 10) currentQuestions = [...chapter10Data];
-    else if (chapterId === 11) currentQuestions = [...chapter11Data];
+    else if (chapterId === 11) currentQuestions = [...chapter11Data];         
     else if (chapterId === 12) currentQuestions = [...chapter12Data];
     else if (chapterId === 13) currentQuestions = [...chapter13Data];
     else if (chapterId === 14) currentQuestions = [...chapter14Data];
@@ -986,7 +986,7 @@ function startQuiz(chapterId) {
           ];
           currentChapterId = 'all';
     }
-}
+    
     currentIndex = 0;
     loadCard();
 }
