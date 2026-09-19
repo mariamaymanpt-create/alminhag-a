@@ -2756,18 +2756,40 @@ function submitExam(score, totalQuestions) {
         let currentActiveExamId = null; // متغير لحفظ رقم أو مسمى النموذج الحالي
 
         // دالة إظهار قائمة الاختبارات الشاملة
-        function showExamsMenu() {
-            const homeView = document.getElementById("home-view");
-            const chaptersMenuView = document.getElementById("chapters-menu-view");
-            const examsMenuView = document.getElementById("exams-menu-view");
-            const examView = document.getElementById("exam-view");
-
-            if (homeView) homeView.style.display = "none";
-            if (chaptersMenuView) chaptersMenuView.style.display = "none";
-            if (examView) examView.style.display = "none";
-            if (examsMenuView) examsMenuView.style.display = "block";
+      function showExamsMenu() {
+    hideAllViews();
+    const examsEl = document.getElementById("exams-menu-view");
+    if (examsEl) {
+        examsEl.style.display = "block";
+        
+        // استهداف الصندوق الفارغ وتوليد الأزرار تلقائياً
+        const container = document.getElementById("exams-buttons-container");
+        if (container) {
+            container.innerHTML = "";
+            
+            // التحقق من اسم متغير النماذج المتاح في الكود لديكِ
+            let examsSource = window.examsData || window.exams || window.allExams || window.tests || null;
+            
+            if (examsSource) {
+                for (let examId in examsSource) {
+                    let examTitle = examsSource[examId].title || `النموذج رقم ${examId}`;
+                    container.innerHTML += `
+                        <button class="sub-btn" style="border-color: var(--accent-orange); color: var(--accent-orange); margin-bottom: 15px; width: 100%;" onclick="startExam(${examId})">
+                            ${examTitle}
+                        </button>
+                    `;
+                }
+            } else {
+                // افتراضي مؤقت في حال لم يتم تعريف متغير النماذج بعد، لضمان ظهور الأزرار وعدم بقاء الصفحة فارغة
+                container.innerHTML = `
+                    <button class="sub-btn" style="border-color: var(--accent-orange); color: var(--accent-orange); margin-bottom: 15px; width: 100%;" onclick="startQuiz('exam1')">
+                        النموذج الشامل الأول
+                    </button>
+                `;
+            }
         }
-
+    }
+}
         // دالة بدء نموذج اختبار معين
         function startExamModel(modelId) {
             const exam = comprehensiveExams[modelId];
