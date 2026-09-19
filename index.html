@@ -1143,19 +1143,26 @@ function startQuiz(chapterId) {
         if (streakElem) streakElem.innerText = `🔥 ${streak}`;
     }
 
-  function saveExamRecord(modelId, percentage) {
+ function saveExamRecord(modelId, percentage) {
     let completedExams = JSON.parse(localStorage.getItem("alminhagCompletedExams")) || {};
-    let id = modelId || (typeof currentExamId !== 'undefined' ? currentExamId : 'exam_1');
+    
+    // لو مفيش ID محدد، بنديه اسم افتراضي مضمون زي exam_1 أو بنستخدم الـ modelId المتاح
+    let id = modelId || (typeof currentExamId !== 'undefined' && currentExamId ? currentExamId : 'exam_1');
+    
     completedExams[id] = percentage; 
     
+    // حفظ مباشر في الـ localStorage
     localStorage.setItem("alminhagCompletedExams", JSON.stringify(completedExams));
+    
+    // تحديث الداشبورد فوراً
     updateDashboard();
 }
 
 function submitExam(score, totalQuestions) {
     const percentage = Math.round((score / totalQuestions) * 100);
-    let currentId = (typeof currentExamId !== 'undefined' ? currentExamId : 'exam_1');
-    saveExamRecord(currentId, percentage);
+    
+    // تسجيل النتيجة فوراً وتحديث العداد
+    saveExamRecord(null, percentage);
     
     const examView = document.getElementById("exam-view");
     if (examView) {
@@ -1165,7 +1172,7 @@ function submitExam(score, totalQuestions) {
                 <p style="font-size: 18px; color: #555; margin-bottom: 20px;">تم تسجيل نتيجتك في لوحة التحكم بنجاح</p>
                 <div style="font-size: 28px; font-weight: bold; color: #d84315; margin-bottom: 25px;">نتيجتك: ${percentage}% (${score} من ${totalQuestions})</div>
                 
-                <button onclick="showExamsMenu()" style="padding: 12px 25px; background: #2e7d32; color: #fff; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">العودة لقائمة الاختبارات الشاملة</button>
+                <button onclick="showExamsMenu(); updateDashboard();" style="padding: 12px 25px; background: #2e7d32; color: #fff; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">العودة لقائمة الاختبارات الشاملة</button>
             </div>
         `;
     }
@@ -1950,9 +1957,10 @@ function submitExam(score, totalQuestions) {
                 ]
             }
         };
-        let currentExamQuestions = [];
+       let currentExamQuestions = [];
         let currentExamIndex = 0;
         let currentExamScore = 0;
+        let currentActiveExamId = null; // متغير لحفظ رقم أو مسمى النموذج الحالي
 
         // دالة إظهار قائمة الاختبارات الشاملة
         function showExamsMenu() {
@@ -1968,15 +1976,18 @@ function submitExam(score, totalQuestions) {
         }
 
         // دالة بدء نموذج اختبار معين
-       function startExamModel(modelId) {
+        function startExamModel(modelId) {
             const exam = comprehensiveExams[modelId];
             if (!exam || !exam.questions || exam.questions.length === 0) {
                 alert("عذراً يا دكتورة، الأسئلة الخاصة بهذا النموذج لم تُضاف بعد.");
                 return;
             }
 
+            // حفظ معرّف الاختبار الحالي
+            currentActiveExamId = modelId;
+
             // إخفاء قوائم الاختيار الرئيسية
-           hideAllViews();
+            hideAllViews();
 
             // إظهار منطقة الاختبار ببطء وبشكل صحيح
             const examView = document.getElementById("exam-view");
@@ -2005,7 +2016,12 @@ function submitExam(score, totalQuestions) {
             const qObj = currentExamQuestions[currentExamIndex];
             
             let html = `
-                <div style="background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: right;">
+                <div style="background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: right;">
+                    <!-- زر الرجوع لقائمة الاختبارات أثناء الحل -->
+                    <button onclick="showExamsMenu(); updateDashboard();" style="background: #f1f8f6; border: 1px solid #c8e6c9; color: #2e7d32; padding: 6px 14px; border-radius: 6px; font-size: 14px; cursor: pointer; margin-bottom: 15px; font-weight: bold;">
+                        ← العودة لقائمة الاختبارات
+                    </button>
+
                     <div style="font-size: 14px; color: #2e7d32; margin-bottom: 10px; font-weight: bold;">السؤال ${currentExamIndex + 1} من ${currentExamQuestions.length}</div>
                     <h3 style="font-size: 18px; color: #333; margin-bottom: 20px; line-height: 1.5;">${qObj.question}</h3>
                     <div style="display: flex; flex-direction: column; gap: 12px;">
@@ -2041,16 +2057,17 @@ function submitExam(score, totalQuestions) {
             const total = currentExamQuestions.length;
             const percentage = total > 0 ? Math.round((currentExamScore / total) * 100) : 0;
             
+            // حفظ النتيجة بالـ modelId الصحيح عشان تسمع في الداشبورد وتتغير النسبة فوراً
             if (typeof saveExamRecord === 'function') {
-                saveExamRecord(percentage);
+                saveExamRecord(currentActiveExamId, percentage);
             }
 
             examView.innerHTML = `
                 <div style="background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center;">
                     <h2 style="color: #2e7d32; margin-bottom: 15px;">🎉 انتهى الاختبار بنجاح!</h2>
-                    <p style="font-size: 18px; color: #555; margin-bottom: 20px;">لقد أتممت الاختبار الشامل</p>
+                    <p style="font-size: 18px; color: #555; margin-bottom: 20px;">لقد أتممت الاختبار الشامل بنجاح وتم تحديث لوحة التحكم</p>
                     <div style="font-size: 28px; font-weight: bold; color: #d84315; margin-bottom: 25px;">نتيجتك: ${percentage}% (${currentExamScore} من ${total})</div>
-                    <button onclick="location.reload()" style="padding: 12px 25px; background: #2e7d32; color: #fff; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">العودة للرئيسية</button>
+                    <button onclick="showExamsMenu(); updateDashboard();" style="padding: 12px 25px; background: #2e7d32; color: #fff; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">العودة لقائمة الاختبارات الشاملة</button>
                 </div>
             `;
         }
