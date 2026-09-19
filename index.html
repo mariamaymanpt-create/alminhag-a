@@ -265,25 +265,13 @@
     <div class="main-container">
         <div class="content-box">
             
-            <!-- 1. الواجهة الرئيسية -->
+        <!-- 1. الواجهة الرئيسية -->
             <div id="home-view">
                 <h1>مرحباً بكِ في مراجعة كتاب المنهاج من ميراث النبوة</h1>
                 <p class="description">منصتك التفاعلية الشاملة لحفظ المتون، مراجعة الأبواب، الرواة، التخريج، وإتمام الأحاديث بدقة وعناية.</p>
      
- <!-- لوحة التحكم الاحترافية (Dashboard) -->
-            <div style="background: #fff; padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); margin-bottom: 20px; display: flex; flex-direction: column; align-items: center;">
-                <div style="font-size: 15px; font-weight: bold; color: #444; margin-bottom: 15px; align-self: flex-start;">معدل الإنجاز والتقدم العام</div>
-                
-                <!-- تصميم الدائرة التفاعلية -->
-                <div id="donut-chart" style="position: relative; width: 160px; height: 160px; border-radius: 50%; background: conic-gradient(var(--primary-green) 0% 27%, #e9ecef 27% 100%); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; transition: background 0.5s ease;">
-                    <div style="position: absolute; width: 120px; height: 120px; background: #fff; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                        <span id="dashboard-percent" style="font-size: 26px; font-weight: bold; color: var(--primary-green);">27%</span>
-                        <span style="font-size: 12px; color: #777;">المتوسط العام</span>
-                    </div>
-                </div>
-
-                <!-- خانات الإحصائيات الثلاث المطلوبة -->
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; margin-top: 10px; border-top: 1px solid #f0f0f0; padding-top: 15px; text-align: center;">
+                <!-- خانات الإحصائيات الثلاث المطلوبة بدقة -->
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; margin-top: 15px; border-top: 1px solid #f0f0f0; padding-top: 15px; text-align: center;">
                     
                     <!-- 1. الاستمرارية -->
                     <div style="background: #f8f9fa; padding: 10px 5px; border-radius: 12px; border: 1px solid #e9ecef;">
@@ -291,22 +279,20 @@
                         <span style="font-size: 0.75rem; color: #666;">الاستمرارية</span>
                     </div>
 
-                    <!-- 2. نتائج واختبارات (المنجزة من الكل) -->
+                    <!-- 2. معدل إنجاز الاختبارات الشاملة -->
                     <div style="background: #f8f9fa; padding: 10px 5px; border-radius: 12px; border: 1px solid #e9ecef;">
-                        <span style="display: block; font-size: 1.1rem; font-weight: bold; color: var(--accent-orange);" id="dash-tests-progress">0 / ع</span>
-                        <span style="font-size: 0.75rem; color: #666;">الاختبارات المنجزة</span>
+                        <span style="display: block; font-size: 1.1rem; font-weight: bold; color: var(--accent-orange);" id="dash-exams-progress">0%</span>
+                        <span style="font-size: 0.75rem; color: #666;">الاختبارات الشاملة</span>
                     </div>
 
-                    <!-- 3. مراجعة الأبواب -->
+                    <!-- 3. معدل إنجاز مراجعة الأبواب (37 باباً) -->
                     <div style="background: #f8f9fa; padding: 10px 5px; border-radius: 12px; border: 1px solid #e9ecef;">
-                        <span style="display: block; font-size: 1.1rem; font-weight: bold; color: #2563eb;" id="dash-chapters-revised">0</span>
+                        <span style="display: block; font-size: 1.1rem; font-weight: bold; color: #2563eb;" id="dash-chapters-progress">0%</span>
                         <span style="font-size: 0.75rem; color: #666;">مراجعة الأبواب</span>
                     </div>
 
                 </div>
             </div>
-   
-
          
                 <button class="action-btn btn-chapters" onclick="showChaptersMenu()">
                     <span>📚 أبواب المنهاج </span>
@@ -1041,32 +1027,46 @@
             checkStreak();
         });
 
-  function updateDashboard() {
+ function updateDashboard() {
+            // نظام التصفير الأسبوعي (كل 7 أيام)
+            const now = new Date().getTime();
+            let weeklyResetTime = localStorage.getItem("alminhagWeeklyReset");
+            const oneWeekMs = 7 * 24 * 60 * 60 * 1000;
+
+            if (!weeklyResetTime) {
+                localStorage.setItem("alminhagWeeklyReset", now);
+            } else if (now - parseInt(weeklyResetTime) > oneWeekMs) {
+                // مر أكثر من أسبوع، يتم تصفير نتائج الإنجاز الأسبوعية فقط (مع الاحتفاظ بالاستمرارية Streak)
+                localStorage.removeItem("alminhagExams");
+                localStorage.removeItem("alminhagCompletedChapters");
+                localStorage.setItem("alminhagWeeklyReset", now);
+            }
+
+            // 1. حساب إنجاز الاختبارات الشاملة
             let history = JSON.parse(localStorage.getItem("alminhagExams")) || [];
+            const totalExamsModelCount = 5; // عدد النماذج الشاملة الإجمالي المتاح
+            const examsPercent = Math.min(100, Math.round((history.length / totalExamsModelCount) * 100));
             
-            // تحديث عدد الاختبارات المنجزة من إجمالي (مثلاً 5 نماذج أو حسب رغبتك)
-            const totalAvailableExams = 5; 
-            const testsProgressElem = document.getElementById("dash-tests-progress");
-            if (testsProgressElem) {
-                testsProgressElem.innerText = `${history.length} / ${totalAvailableExams}`;
-            }
+            const examsElem = document.getElementById("dash-exams-progress");
+            if (examsElem) examsElem.innerText = examsPercent + "% (" + history.length + "/" + totalExamsModelCount + ")";
 
-            // تحديث متوسط الدرجات والدائرة
-            const avgElem = document.getElementById("dash-avg");
-            let currentAvg = 0;
-            if (history.length > 0) {
-                const total = history.reduce((sum, item) => sum + item.score, 0);
-                currentAvg = Math.round(total / history.length);
-            }
+            // 2. حساب إنجاز مراجعة الأبواب (الـ 37 باباً)
+            let completedChapters = JSON.parse(localStorage.getItem("alminhagCompletedChapters")) || [];
+            const totalChapters = 37;
+            const chaptersPercent = Math.min(100, Math.round((completedChapters.length / totalChapters) * 100));
 
-            const donutChart = document.getElementById("donut-chart");
+            const chaptersElem = document.getElementById("dash-chapters-progress");
+            if (chaptersElem) chaptersElem.innerText = chaptersPercent + "%";
+
+            // 3. حساب المتوسط العام للدائرة الكبرى
+            const avgChaptersAndExams = Math.round((examsPercent + chaptersPercent) / 2);
             const dashboardPercent = document.getElementById("dashboard-percent");
-            if (donutChart && dashboardPercent) {
-                dashboardPercent.innerText = currentAvg + "%";
-                donutChart.style.background = `conic-gradient(var(--primary-green) 0% ${currentAvg}%, #e9ecef ${currentAvg}% 100%)`;
+            const donutChart = document.getElementById("donut-chart");
+            
+            if (dashboardPercent && donutChart) {
+                dashboardPercent.innerText = avgChaptersAndExams + "%";
+                donutChart.style.background = `conic-gradient(var(--primary-green) 0% ${avgChaptersAndExams}%, #e9ecef ${avgChaptersAndExams}% 100%)`;
             }
-        }
-
         function checkStreak() {
             let lastVisit = localStorage.getItem("alminhagLastVisit");
             let streak = parseInt(localStorage.getItem("alminhagStreak")) || 0;
