@@ -1082,18 +1082,25 @@ function startQuiz(chapterId) {
             localStorage.setItem("alminhagWeeklyReset", now);
         }
 
-        // 1. حساب إنجاز الاختبارات الشاملة ديناميكياً (باستخدام مفتاح الاختبارات الصحيح)
+        // 1. حساب إنجاز الاختبارات الشاملة ديناميكياً بناءً على النماذج المتاحة والمنجزة
         let completedExamsObj = JSON.parse(localStorage.getItem("alminhagCompletedExams")) || {};
         let uniqueExamsCount = Object.keys(completedExamsObj).length;
         
-        // عدد الاختبارات الكلي يتحدث تلقائياً (بحد أدنى 5 أو عدد الاختبارات المتاحة)
-        const totalExamsModelCount = Math.max(5, uniqueExamsCount, (typeof examsData !== 'undefined' ? examsData.length : 5));
+        // العدد الكلي للاختبارات يُحسب تلقائياً من كائن الاختبارات المتاح لديكِ (comprehensiveExams أو examsData)
+        // فلو ضفتِ اختبارات جديدة، العدد الكلي هيزيد لوحده فورا!
+        let totalExamsModelCount = 0;
+        if (typeof comprehensiveExams !== 'undefined' && comprehensiveExams !== null) {
+            totalExamsModelCount = Object.keys(comprehensiveExams).length;
+        } else if (typeof examsData !== 'undefined' && examsData !== null) {
+            totalExamsModelCount = examsData.length;
+        } else {
+            totalExamsModelCount = Math.max(1, uniqueExamsCount); // كاحتياطي لو المصفوفة مش معرفة
+        }
         
         const examsPercent = totalExamsModelCount > 0 ? Math.min(100, Math.round((uniqueExamsCount / totalExamsModelCount) * 100)) : 0;
 
         const examsElem = document.getElementById("dash-exams-progress");
         if (examsElem) examsElem.innerText = examsPercent + "% (" + uniqueExamsCount + "/" + totalExamsModelCount + ")";
-
         // 2. حساب إنجاز مراجعة الأبواب (الـ 37 باباً - فلاش كاردز)
         let completedChapters = JSON.parse(localStorage.getItem("alminhagCompletedChapters")) || [];
         const totalChapters = 37;
