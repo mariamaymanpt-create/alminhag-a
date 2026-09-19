@@ -882,46 +882,57 @@
         const examsMenuView = document.getElementById("exams-menu-view");
         const quizView = document.getElementById("quiz-view");
 
-      function hideAllViews() {
-   const homeView = document.getElementById("home-view") || document.getElementById("home_view") || document.getElementById("home view") || document.querySelector(".dashboard-card") || document.querySelector("div[style*='background']");
-    if (homeView) homeView.style.display = "none";
+    // متغيرات التحكم في التطبيق
+let currentChapterId = null; 
+let currentQuestions = [];
+let currentIndex = 0;
+let isAnswerShown = false;
+
+function hideAllViews() {
+    const homeEl = document.getElementById("home-view") || document.getElementById("home");
+    if (homeEl) homeEl.style.display = "none";
     
-    const chaptersMenu = document.getElementById("chapters-menu-view") || document.getElementById("chapters menu view");
+    const chaptersMenu = document.getElementById("chapters-menu-view");
     if (chaptersMenu) chaptersMenu.style.display = "none";
     
-    const examsMenu = document.getElementById("exams-menu-view") || document.getElementById("exams menu view");
+    const examsMenu = document.getElementById("exams-menu-view");
     if (examsMenu) examsMenu.style.display = "none";
     
-    const quiz = document.getElementById("quiz-view") || document.getElementById("quiz view");
+    const quiz = document.getElementById("quiz-view");
     if (quiz) quiz.style.display = "none";
 
-    const examView = document.getElementById("exam-view") || document.getElementById("exam view");
+    const examView = document.getElementById("exam-view");
     if (examView) examView.style.display = "none";
-        }
+}
 
-        function goHome() {
-            hideAllViews();
-            homeView.style.display = "block";
-        }
+function goHome() {
+    hideAllViews();
+    const homeEl = document.getElementById("home-view") || document.getElementById("home");
+    if (homeEl) homeEl.style.display = "block";
+}
 
-        function showChaptersMenu() {
-            hideAllViews();
-            chaptersMenuView.style.display = "block";
-        }
-       function showExamsMenu() {
-           hideAllViews();
-           examsMenuView.style.display = "block";
-        }
-       function startQuiz(chapterId) {
-           hideAllViews();
-           const homeView = document.getElementById("home-view");
-           if (homeView) homeView.style.display = "none"; // إجبار إخفاء الواجهة الرئيسية
-        }
-    quizView.style.display = "block";
-    currentChapterId = chapterId; // حفظ رقم الباب الحالي هنا
+function showChaptersMenu() {
+    hideAllViews();
+    const chaptersEl = document.getElementById("chapters-menu-view");
+    if (chaptersEl) chaptersEl.style.display = "block";
+}
 
-    // ... باقي الشروط if (chapterId === 1) وما بعدها ...
+function showExamsMenu() {
+    hideAllViews();
+    const examsEl = document.getElementById("exams-menu-view");
+    if (examsEl) examsEl.style.display = "block";
+}
 
+function startQuiz(chapterId) {
+    hideAllViews();
+    
+    // إظهار واجهة الاختبار بأسلوب آمن وصحيح
+    const quiz = document.getElementById("quiz-view");
+    if (quiz) quiz.style.display = "block";
+    
+    currentChapterId = chapterId; // حفظ رقم الباب الحالي
+    
+    // باقي الشروط الخاصة بالأسئلة...
     if (chapterId === 1) currentQuestions = [...chapter1Data];
     else if (chapterId === 2) currentQuestions = [...chapter2Data];
     else if (chapterId === 3) currentQuestions = [...chapter3Data];
@@ -977,7 +988,7 @@
           ];
           currentChapterId = 'all';
     }
-
+}
     currentIndex = 0;
     loadCard();
 }
