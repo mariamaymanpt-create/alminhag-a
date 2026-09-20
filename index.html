@@ -115,13 +115,13 @@
             background-color: var(--accent-orange);
         }
 
-        .sub-menu-view, .quiz-view {
+        .sub-menu-view, .exam-view {
             display: none;
             width: 100%;
+            max-width: 700px; /* أو العرض المناسب للبطاقة */
+            margin: 0 auto;   /* هذه هي السحر الذي سيضعها في المنتصف تماماً! */
             text-align: right;
-            max-height: 75vh;
-            overflow-y: auto;
-            padding-left: 5px;
+            box-sizing: border-box;
         }
 
         .sub-btn {
