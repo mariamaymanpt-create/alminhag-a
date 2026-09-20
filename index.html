@@ -4322,13 +4322,19 @@ function submitExam(score, totalQuestions) {
         }
 
         // دالة بدء نموذج اختبار معين
-       function startExamModel(modelId) {
-    // التأكد من أن رقم النموذج ضمن الـ 4 نماذج الموجودة (من 0 إلى 3) أو حسب الـ id
-   const exam = comprehensiveExams[modelId];
+      function startExamModel(modelId) {
+    // البحث عن النموذج الذي يحمل نفس الـ id الذي اخترتهِ تماماً
+    const exam = comprehensiveExams.find(e => e.id === modelId);
+    
     if (!exam || !exam.questions || exam.questions.length === 0) {
-        alert("عذرا ، الأسئلة الخاصة بهذا النموذج لم تُضاف بعد.");
+        alert("عذراً يا دكتورة، الأسئلة الخاصة بهذا النموذج لم تُضاف بعد.");
         return;
     }
+    
+    currentActiveExamId = modelId;
+    hideAllViews();
+    // باقي الكود كما هو...
+}
     
     currentActiveExamId = modelId;
     hideAllViews();
