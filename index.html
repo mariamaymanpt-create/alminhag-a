@@ -4320,26 +4320,17 @@ function submitExam(score, totalQuestions) {
             if (examView) examView.style.display = "none";
             if (examsMenuView) examsMenuView.style.display = "block";
         }
-
-        // دالة بدء نموذج اختبار معين
-      function startExamModel(modelId) {
-    // البحث عن النموذج الذي يحمل نفس الـ id الذي اخترتهِ تماماً
-    const exam = comprehensiveExams.find(e => e.id === modelId);
-    
-    if (!exam || !exam.questions || exam.questions.length === 0) {
-        alert("عذراً يا دكتورة، الأسئلة الخاصة بهذا النموذج لم تُضاف بعد.");
-        return;
-    }
-    
-    currentActiveExamId = modelId;
-    hideAllViews();
-    // باقي الكود كما هو...
-}
-    
-    currentActiveExamId = modelId;
-    hideAllViews();
-    // ... باقي الكود كما هو
-
+// دالة بدء نموذج اختبار معين
+       // دالة بدء نموذج اختبار معين
+        function startExamModel(modelId) {
+            // البحث عن النموذج الذي يحمل نفس الـ id الذي اخترتهِ تماماً
+            const exam = comprehensiveExams.find(e => e.id === modelId);
+            
+            if (!exam || !exam.questions || exam.questions.length === 0) {
+                alert("عذراً يا دكتورة، الأسئلة الخاصة بهذا النموذج لم تُضاف بعد.");
+                return;
+            }
+            
             // حفظ معرّف الاختبار الحالي
             currentActiveExamId = modelId;
 
@@ -4353,12 +4344,13 @@ function submitExam(score, totalQuestions) {
                 examView.style.width = "100%";
                 examView.style.maxWidth = "700px";
                 examView.style.margin = "20px auto";
+            }
 
             currentExamQuestions = [...exam.questions];
             currentExamIndex = 0;
             currentExamScore = 0;
             loadExamQuestion();
-
+        }
         function loadExamQuestion() {
             const examView = document.getElementById("exam-view");
             if (!examView) return;
