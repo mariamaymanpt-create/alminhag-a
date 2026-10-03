@@ -1080,8 +1080,14 @@
         const chaptersMenuView = document.getElementById("chapters-menu-view");
         const examsMenuView = document.getElementById("exams-menu-view");
         const quizView = document.getElementById("quiz-view");
+       if (quizView) {
+    quizView.style.display = "block";
+    quizView.style.width = "100%";
+    quizView.style.maxWidth = "700px";
+    quizView.style.margin = "20px auto";
+}
 
-function hideAllViews() {
+        function hideAllViews() {
     const homeEl = document.getElementById("home-view") || document.getElementById("home");
     if (homeEl) homeEl.style.display = "none";
     
