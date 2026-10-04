@@ -290,14 +290,7 @@ const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 window.loginWithGoogle = async function() {
     try {
-        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-        if (isMobile) {
-            await signInWithRedirect(auth, googleProvider);
-        } else {
-            await signInWithPopup(auth, googleProvider);
-        }
-
+        await signInWithPopup(auth, googleProvider);
     } catch (error) {
         console.error("Google Login Error:", error);
         alert("حدث خطأ أثناء تسجيل الدخول بحساب Google.");
