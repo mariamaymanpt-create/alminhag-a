@@ -1081,12 +1081,6 @@
         const examsMenuView = document.getElementById("exams-menu-view");
        const quizView = document.getElementById("quiz-view");
 
-if (quizView) {
-    quizView.style.display = "block";
-    quizView.style.width = "100%";
-    quizView.style.maxWidth = "700px";
-    quizView.style.margin = "20px auto";
-}
 
         function hideAllViews() {
     const homeEl = document.getElementById("home-view") || document.getElementById("home");
@@ -1129,6 +1123,10 @@ function startQuiz(chapterId) {
     // إظهار واجهة الاختبار بأسلوب آمن وصحيح
     const quiz = document.getElementById("quiz-view");
     if (quiz) quiz.style.display = "block";
+        quiz.style.width = "100%";
+        quiz.style.maxWidth = "700px";
+        quiz.style.margin = "20px auto";
+    }
     
     currentChapterId = chapterId; // حفظ رقم الباب الحالي
     
