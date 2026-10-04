@@ -1118,17 +1118,19 @@ function showExamsMenu() {
 }
 
 function startQuiz(chapterId) {
-    hideAllViews();
+    hideAllviews();
     
-    // إظهار واجهة الاختبار بأسلوب آمن وصحيح
+    // إظهار واجهة الاختبار بأسلوب آمن وصحيح //
     const quiz = document.getElementById("quiz-view");
-    if (quiz) quiz.style.display = "block";
+    if (quiz) {
+        quiz.style.display = "block";
         quiz.style.width = "100%";
         quiz.style.maxWidth = "700px";
         quiz.style.margin = "20px auto";
     }
-    
-    currentChapterId = chapterId; // حفظ رقم الباب الحالي
+
+    currentChapterId = chapterId; // حفظ رقم الباب الحالي //
+ 
     
     // الشروط الخاصة بالأسئلة
     if (chapterId === 1) currentQuestions = [...chapter1Data];
