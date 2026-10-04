@@ -1258,8 +1258,18 @@ function startQuiz(chapterId) {
                     updateDashboard(); // تحديث لوحة التحكم فوراً
                 }
             }
-            alert(`ما شاء الله! أتممتِ الباب ${chapIdNum} بنجاح 🌿`);
-            showChaptersMenu();
+           const quizView = document.getElementById("quiz-view");
+
+quizView.innerHTML = `
+    <div style="background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center;">
+        <h2 style="color: #2e7d32; margin-bottom: 15px;">🎉 أحسنت! أتممت الباب بنجاح!</h2>
+       
+        <button onclick="showChaptersMenu(); updateDashboard();" 
+                style="padding: 12px 25px; background: #2e7d32; color: #fff; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">
+            العودة لقائمة أبواب المنهاج
+        </button>
+    </div>
+`;
         } else {
             backToMenu();
         }
