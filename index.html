@@ -270,8 +270,8 @@
 <script type="module">
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-    // TODO: Add SDKs for Firebase products that you want to use
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";  // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
 
   // Your web app's Firebase configuration
@@ -287,19 +287,183 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRe
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
+
+window.firebaseAuth = auth;
+window.firebaseDb = db;
+window.firebaseDoc = doc;
+window.firebaseGetDoc = getDoc;
+window.firebaseSetDoc = setDoc;
+
 window.loginWithGoogle = async function() {
-    try {
-        await signInWithPopup(auth, googleProvider);
+    try {    
+   await signInWithPopup(auth, googleProvider);
     } catch (error) {
         console.error("Google Login Error:", error);
         alert("حدث خطأ أثناء تسجيل الدخول بحساب Google.");
     }
 };
+
+async function loadProgressFromCloud() {
+    const user = window.firebaseAuth.currentUser;
+    if (!user) return;
+
+    try {
+        const userRef = window.firebaseDoc(
+            window.firebaseDb,
+            "users",
+            user.uid
+        );
+
+        const userSnap = await window.firebaseGetDoc(userRef);
+
+        const localChapters =
+            JSON.parse(localStorage.getItem("alminhagCompletedChapters")) || [];
+
+        const localExams =
+            JSON.parse(localStorage.getItem("alminhagCompletedExams")) || {};
+
+        if (!userSnap.exists()) {
+            await saveProgressToCloud();
+            console.log("لا يوجد سجل سحابي، تم حفظ بيانات الجهاز.");
+            return;
+        }
+
+        const cloudData = userSnap.data();
+
+        const cloudChapters = cloudData.completedChapters || [];
+
+        const mergedChapters = [
+            ...new Set([
+                ...localChapters,
+                ...cloudChapters
+            ])
+        ];
+
+        const cloudExams = cloudData.completedExams || {};
+
+        const mergedExams = {
+            ...cloudExams,
+            ...localExams
+        };
+
+        const localStreak =
+            parseInt(localStorage.getItem("alminhagStreak")) || 0;
+
+        const cloudStreak = cloudData.streak || 0;
+        const mergedStreak = Math.max(localStreak, cloudStreak);
+
+        localStorage.setItem(
+            "alminhagCompletedChapters",
+            JSON.stringify(mergedChapters)
+        );
+
+        localStorage.setItem(
+            "alminhagCompletedExams",
+            JSON.stringify(mergedExams)
+        );
+
+        localStorage.setItem("alminhagStreak", mergedStreak);
+
+        if (cloudData.lastVisit) {
+            localStorage.setItem("alminhagLastVisit", cloudData.lastVisit);
+        }
+
+        if (cloudData.weeklyReset) {
+            localStorage.setItem("alminhagWeeklyReset", cloudData.weeklyReset);
+        }
+
+        await window.firebaseSetDoc(userRef, {
+            streak: mergedStreak,
+            lastVisit: localStorage.getItem("alminhagLastVisit") || null,
+            completedChapters: mergedChapters,
+            completedExams: mergedExams,
+            weeklyReset: localStorage.getItem("alminhagWeeklyReset") || null
+        }, { merge: true });
+
+        if (typeof updateDashboard === "function") {
+            updateDashboard();
+        }
+
+        console.log("تم دمج واسترجاع التقدم بنجاح");
+
+    } catch (error) {
+        console.error("خطأ في تحميل التقدم من السحابة:", error);
+    }
+}onAuthStateChanged(auth, async (user) => {
+    const loginScreen = document.getElementById("login-screen");
+    const platformHeader = document.querySelector(".top-header");
+    const platformContent = document.querySelector(".main-container");
+
+    if (user) {
+        console.log("تم تسجيل الدخول:", user.email);
+
+await loadProgressFromCloud();
+
+        if (loginScreen) {
+            loginScreen.style.display = "none";
+        }
+
+const homeLoginButton = document.getElementById("home-login-button");
+if (homeLoginButton) {
+    homeLoginButton.style.display = "none";
+}
+
+        if (platformHeader) {
+            platformHeader.style.display = "";
+        }
+
+        if (platformContent) {
+            platformContent.style.display = "";
+        }
+
+    } else {
+        console.log("لا يوجد مستخدم مسجل الدخول");
+
+        console.log("HEADER:", platformHeader);
+        console.log("CONTENT:", platformContent);
+
+        if (loginScreen) {
+            loginScreen.style.display = "flex";
+        }
+
+const homeLoginButton = document.getElementById("home-login-button");
+if (homeLoginButton) {
+    homeLoginButton.style.display = "block";
+}
+
+        if (platformHeader) {
+            platformHeader.style.display = "none";
+        }
+
+        if (platformContent) {
+            platformContent.style.display = "none";
+        }
+    }
+});
 </script>
+<meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin-allow-popups">
 </head>
 <body>
+<div id="login-screen" style="display: none; min-height: 100vh; align-items: center; justify-content: center; text-align: center; padding: 30px; box-sizing: border-box;">
+    <div style="background: #fff; padding: 40px 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); max-width: 500px; width: 100%;">
+        
+        <h1 style="color: #2e7d32; margin-bottom: 15px;">
+            🌿 المنهاج من ميراث النبوة
+        </h1>
 
+        <p style="font-size: 18px; color: #555; margin-bottom: 30px;">
+            منصة المراجعة التفاعلية
+        </p>
+
+        <button onclick="loginWithGoogle()" 
+                style="padding: 13px 28px; background: #fff; color: #333; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.08);">
+            🔐 تسجيل الدخول بحساب Google
+        </button>
+
+    </div>
+</div>
     <header class="top-header">
         <div class="header-badge">منصة المراجعة</div>
         <div class="header-title">المنهاج من ميراث النبوة 🌿</div>
@@ -311,8 +475,8 @@ window.loginWithGoogle = async function() {
        <!-- 1. الواجهة الرئيسية -->
             <div id="home-view">
                 <h1>مرحباً بكِ في مراجعة كتاب المنهاج من ميراث النبوة</h1>
-                <p class="description">منصتك التفاعلية الشاملة لحفظ المتون، مراجعة الأبواب، الرواة، التخريج، وإتمام الأحاديث بدقة وعناية.</p>
-     <div style="text-align: center; margin: 20px 0;">
+                <p class="description">منصتك التفاعلية ، لمراجعة الأبواب، الرواة، التخريج، وإتمام الأحاديث بدقة وعناية.</p>
+    <div id="home-login-button" style="text-align: center; margin: 20px 0;">
     <button onclick="loginWithGoogle()" 
             style="padding: 12px 25px; background: #fff; color: #333; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.08);">
         🔐 تسجيل الدخول بحساب Google
@@ -1288,7 +1452,7 @@ function startQuiz(chapterId) {
             if (!completedChapters.includes(chapIdNum)) {
                 completedChapters.push(chapIdNum);
                 localStorage.setItem("alminhagCompletedChapters", JSON.stringify(completedChapters));
-                
+             saveProgressToCloud();   
                 if (typeof updateDashboard === 'function') {
                     updateDashboard(); // تحديث لوحة التحكم فوراً
                 }
@@ -1400,6 +1564,72 @@ quizView.innerHTML = `
         if (streakElem) streakElem.innerText = `🔥 ${streak}`;
     }
 
+async function saveProgressToCloud() {
+    const user = window.firebaseAuth.currentUser;
+    if (!user) return;
+
+    const progressData = {
+        streak: parseInt(localStorage.getItem("alminhagStreak")) || 0,
+        lastVisit: localStorage.getItem("alminhagLastVisit") || null,
+        completedChapters:
+            JSON.parse(localStorage.getItem("alminhagCompletedChapters")) || [],
+        completedExams:
+            JSON.parse(localStorage.getItem("alminhagCompletedExams")) || {},
+        weeklyReset: localStorage.getItem("alminhagWeeklyReset") || null
+    };
+
+    try {
+        const userRef = window.firebaseDoc(
+            window.firebaseDb,
+            "users",
+            user.uid
+        );
+
+        const userSnap = await window.firebaseGetDoc(userRef);
+
+        if (!userSnap.exists()) {
+            await window.firebaseSetDoc(userRef, progressData);
+            console.log("تم إنشاء سجل التقدم في السحابة");
+            return;
+        }
+
+        const cloudData = userSnap.data();
+
+        const mergedChapters = [
+            ...new Set([
+                ...(cloudData.completedChapters || []),
+                ...progressData.completedChapters
+            ])
+        ];
+
+        const mergedExams = {
+            ...(cloudData.completedExams || {}),
+            ...progressData.completedExams
+        };
+
+        await window.firebaseSetDoc(
+            userRef,
+            {
+                streak: Math.max(
+                    cloudData.streak || 0,
+                    progressData.streak
+                ),
+                lastVisit:
+                    progressData.lastVisit || cloudData.lastVisit || null,
+                completedChapters: mergedChapters,
+                completedExams: mergedExams,
+                weeklyReset:
+                    progressData.weeklyReset || cloudData.weeklyReset || null
+            },
+            { merge: true }
+        );
+
+        console.log("تم دمج وحفظ التقدم في السحابة بنجاح");
+
+    } catch (error) {
+        console.error("خطأ في حفظ التقدم في السحابة:", error);
+    }
+}
  function saveExamRecord(modelId, percentage) {
     let completedExams = JSON.parse(localStorage.getItem("alminhagCompletedExams")) || {};
     
@@ -1410,7 +1640,9 @@ quizView.innerHTML = `
     
     // حفظ مباشر في الـ localStorage
     localStorage.setItem("alminhagCompletedExams", JSON.stringify(completedExams));
-    
+ 
+saveProgressToCloud();    
+
     // تحديث الداشبورد فوراً
     updateDashboard();
 }
